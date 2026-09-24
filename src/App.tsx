@@ -46,7 +46,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#040711] text-slate-100 font-sans relative selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-[#0a1124] text-slate-100 font-sans relative selection:bg-cyan-500/30 selection:text-cyan-200">
       {/* Interactive Cyber Cursor */}
       <CustomCursor />
 

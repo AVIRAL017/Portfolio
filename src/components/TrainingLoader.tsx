@@ -50,14 +50,14 @@ export const TrainingLoader: React.FC<TrainingLoaderProps> = ({ onComplete }) =>
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#040711] blueprint-grid overflow-hidden select-none"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0a1124] blueprint-grid overflow-hidden select-none"
         >
           {/* Ambient glow pulses */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-violet-600/10 blur-[100px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-cyan-500/20 blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-violet-600/20 blur-[100px] pointer-events-none" />
 
           {/* Holographic Loader Terminal Box */}
-          <div className="relative w-[90%] max-w-lg p-6 sm:p-8 rounded-xl hud-panel border border-cyan-500/30 text-slate-200">
+          <div className="relative w-[90%] max-w-lg p-6 sm:p-8 rounded-2xl hud-panel border border-cyan-400/40 text-slate-100 shadow-2xl">
             {/* Header HUD bar */}
             <div className="flex items-center justify-between pb-4 border-b border-cyan-500/20 mb-6">
               <div className="flex items-center space-x-2">

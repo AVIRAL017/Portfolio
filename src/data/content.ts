@@ -14,11 +14,44 @@ export interface Project {
   tags: string[];
 }
 
+export type SkillIconType =
+  | 'python'
+  | 'c'
+  | 'cpp'
+  | 'html5'
+  | 'css3'
+  | 'decision-tree'
+  | 'random-forest'
+  | 'gradient-boost'
+  | 'xgboost'
+  | 'catboost'
+  | 'supervised-learning'
+  | 'computer-vision'
+  | 'deep-learning'
+  | 'generative-ai'
+  | 'rag'
+  | 'object-detection'
+  | 'change-detection'
+  | 'pytorch'
+  | 'yolo'
+  | 'flask'
+  | 'nodejs'
+  | 'mongodb'
+  | 'git'
+  | 'dsa';
+
+export interface SkillItem {
+  name: string;
+  iconType: SkillIconType;
+  tag: string;
+  highlights: string;
+}
+
 export interface SkillCategory {
   name: string;
   categoryKey: 'languages' | 'ml' | 'ai' | 'tools' | 'core';
   description: string;
-  skills: { name: string; level: number; highlights?: string }[];
+  skills: SkillItem[];
 }
 
 export interface Certification {
@@ -74,9 +107,9 @@ export const portfolioContent: PortfolioContent = {
     name: "Aviral",
     tagline: "Computer Vision & Generative AI Engineer",
     focus: "Autonomous Geospatial AI • Conjunction Assessment • Chemical Dispersion Modeling",
-    status: "B.Tech CSE (AI & ML) @ PSIT Kanpur",
+    status: "3rd Year B.Tech CSE (AI & ML) @ PSIT Kanpur",
     summary:
-      "Second-year B.Tech Computer Science (AI & ML) student (CGPA: 8.03/10) with experience in Machine Learning, Deep Learning, and AI-powered web applications. Skilled in developing predictive models using Python and Flask with a strong interest in Computer Vision and Generative AI.",
+      "Third-year B.Tech Computer Science (AI & ML) student (CGPA: 8.03/10) with experience in Machine Learning, Deep Learning, and AI-powered web applications. Skilled in developing predictive models using Python and Flask with a strong interest in Computer Vision and Generative AI.",
     email: "aviralrajput17@gmail.com",
     phone: "+91 9528725448",
     linkedin: "https://linkedin.com/in/aviral-692407312",
@@ -268,60 +301,60 @@ export const portfolioContent: PortfolioContent = {
     {
       name: "Programming Languages",
       categoryKey: "languages",
-      description: "Core software engineering and system languages",
+      description: "Systems programming, mathematical modeling, and standards-compliant web foundations",
       skills: [
-        { name: "Python", level: 95, highlights: "PyTorch, FastAPI, Scientific Computing" },
-        { name: "C", level: 85, highlights: "Systems, Memory & Pointers" },
-        { name: "C++", level: 88, highlights: "Algorithms, STL, Performance" },
-        { name: "HTML5", level: 92, highlights: "Semantic Structure & Web Standards" },
-        { name: "CSS3", level: 90, highlights: "Modern Layouts, Glassmorphism, Animations" }
+        { name: "Python", iconType: "python", tag: "Primary Language", highlights: "PyTorch, FastAPI, Scientific Stack (NumPy, SciPy)" },
+        { name: "C", iconType: "c", tag: "Systems", highlights: "Low-level Memory Architecture & Pointer Mechanics" },
+        { name: "C++", iconType: "cpp", tag: "Algorithms", highlights: "High-Performance Data Structures & Modern STL" },
+        { name: "HTML5", iconType: "html5", tag: "Web Standards", highlights: "Semantic Architecture, WebGL & Canvas API" },
+        { name: "CSS3", iconType: "css3", tag: "Styling Engine", highlights: "Modern Layouts, Glassmorphism & GPU Accelerated Animations" }
       ]
     },
     {
       name: "Machine Learning",
       categoryKey: "ml",
-      description: "Supervised and ensemble predictive algorithms",
+      description: "Supervised and ensemble predictive algorithms with mathematical rigor",
       skills: [
-        { name: "Decision Trees", level: 92, highlights: "Splitting criteria & tree pruning" },
-        { name: "Random Forest", level: 90, highlights: "Bagging & feature importance" },
-        { name: "Gradient Boosting", level: 94, highlights: "Loss functions & boosting theory" },
-        { name: "XGBoost", level: 92, highlights: "Extreme gradient boosting optimization" },
-        { name: "CatBoost", level: 86, highlights: "Categorical feature handling" },
-        { name: "Supervised Learning", level: 95, highlights: "Classification & regression mastery" }
+        { name: "Decision Trees", iconType: "decision-tree", tag: "Ensemble Core", highlights: "Entropy/Gini impurity optimization and recursive partitioning" },
+        { name: "Random Forest", iconType: "random-forest", tag: "Bagging", highlights: "Bootstrap aggregation, feature subsampling, and out-of-bag scoring" },
+        { name: "Gradient Boosting", iconType: "gradient-boost", tag: "Boosting", highlights: "Sequential residual reduction and customized loss optimization" },
+        { name: "XGBoost", iconType: "xgboost", tag: "SOTA Boosting", highlights: "Second-order Taylor expansion, regularization, and tree pruning" },
+        { name: "CatBoost", iconType: "catboost", tag: "Categorical ML", highlights: "Ordered target encoding and symmetric decision trees" },
+        { name: "Supervised Learning", iconType: "supervised-learning", tag: "Theory & Practice", highlights: "Classification, regression, cross-validation, and bias-variance tradeoff" }
       ]
     },
     {
       name: "Artificial Intelligence",
       categoryKey: "ai",
-      description: "Deep neural networks, computer vision, and generative models",
+      description: "Deep neural networks, computer vision, and generative foundation models",
       skills: [
-        { name: "Computer Vision", level: 94, highlights: "Siamese networks, feature maps, SSIM" },
-        { name: "Deep Learning", level: 93, highlights: "CNNs, Backprop, PyTorch tensors" },
-        { name: "Generative AI", level: 90, highlights: "LLM synthesis & multi-modal prompting" },
-        { name: "RAG Systems", level: 92, highlights: "Grounding, embeddings & vector retrieval" },
-        { name: "Object Detection", level: 95, highlights: "YOLOv8, OBB, VisDrone, DOTA" },
-        { name: "Change Detection", level: 92, highlights: "Siamese ResNet, xBD damage mapping" }
+        { name: "Computer Vision", iconType: "computer-vision", tag: "Perception", highlights: "Siamese networks, structural similarity index (SSIM), feature pyramids" },
+        { name: "Deep Learning", iconType: "deep-learning", tag: "Neural Networks", highlights: "Backpropagation, convolutional layers, activation dynamics, tensor computation" },
+        { name: "Generative AI", iconType: "generative-ai", tag: "LLMs & Multimodal", highlights: "Mistral integration, structured synthesis, prompt orchestration" },
+        { name: "RAG Systems", iconType: "rag", tag: "Retrieval", highlights: "Evidence grounding, vector embedding search, context windows" },
+        { name: "Object Detection", iconType: "object-detection", tag: "Detection", highlights: "YOLOv8s, YOLOv8n OBB, VisDrone, DOTA v1.5 benchmark datasets" },
+        { name: "Change Detection", iconType: "change-detection", tag: "Spatial Intelligence", highlights: "Siamese ResNet18, xBD/xView2 damage grading, pre/post alignment" }
       ]
     },
     {
       name: "Tools & Frameworks",
       categoryKey: "tools",
-      description: "Development stack, deep learning engines, and databases",
+      description: "Deep learning frameworks, backend microservices, and databases",
       skills: [
-        { name: "PyTorch", level: 94, highlights: "Neural architectures, autograd, GPU acceleration" },
-        { name: "Ultralytics YOLO", level: 95, highlights: "v8 detection, segmentation, OBB" },
-        { name: "Flask", level: 90, highlights: "Microservice APIs & predictive web backends" },
-        { name: "Node.js", level: 88, highlights: "Async backends & microservices" },
-        { name: "MongoDB", level: 86, highlights: "NoSQL document storage & aggregations" },
-        { name: "Git & GitHub", level: 92, highlights: "Version control, PRs & workflows" }
+        { name: "PyTorch", iconType: "pytorch", tag: "DL Framework", highlights: "Autograd, tensor computation, custom architectures, GPU acceleration" },
+        { name: "Ultralytics YOLO", iconType: "yolo", tag: "Vision Framework", highlights: "v8 detection, Oriented Bounding Boxes (OBB), ByteTrack tracking" },
+        { name: "Flask", iconType: "flask", tag: "Microservices", highlights: "Lightweight inference APIs, telemetry endpoints, micro-services" },
+        { name: "Node.js", iconType: "nodejs", tag: "Runtime", highlights: "Asynchronous I/O pipelines, event loops, REST API design" },
+        { name: "MongoDB", iconType: "mongodb", tag: "NoSQL DB", highlights: "Document collections, spatial geospatial queries, aggregation pipelines" },
+        { name: "Git & GitHub", iconType: "git", tag: "Version Control", highlights: "Git workflows, branch architecture, CI/CD, collaborative engineering" }
       ]
     },
     {
       name: "Core Computer Science",
       categoryKey: "core",
-      description: "Fundamental computer science foundations",
+      description: "Algorithmic thinking, complexity analysis, and discrete foundations",
       skills: [
-        { name: "Data Structures & Algorithms", level: 94, highlights: "Trees, graphs, dynamic programming, sorting" }
+        { name: "Data Structures & Algorithms", iconType: "dsa", tag: "Core CS", highlights: "Graph algorithms (BFS/DFS, Dijkstra, A*), dynamic programming, tree traversals" }
       ]
     }
   ],
@@ -396,6 +429,6 @@ export const portfolioContent: PortfolioContent = {
     institution: "Pranveer Singh Institute of Technology (PSIT)",
     duration: "2024 – 2028",
     cgpa: "8.03 / 10",
-    status: "Second Year Undergraduate"
+    status: "Third Year Undergraduate"
   }
 };
