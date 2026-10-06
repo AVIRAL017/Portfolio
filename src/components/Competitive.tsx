@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { portfolioContent } from '../data/content';
-import { Terminal, Award, Code, ExternalLink, Zap } from 'lucide-react';
+import { Award, Code, ExternalLink, Zap, Star } from 'lucide-react';
 
 export const Competitive: React.FC = () => {
   const [leetcodeCount, setLeetcodeCount] = useState(0);
@@ -29,17 +28,17 @@ export const Competitive: React.FC = () => {
     <section id="competitive" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center mb-16 text-center">
-        <div className="flex items-center gap-2 px-3 py-1 rounded bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 font-mono text-xs mb-3">
-          <Award className="w-3.5 h-3.5" />
-          <span>SECTION_04 // ALGORITHMIC_METRICS</span>
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-400 font-mono text-xs mb-3 shadow-md shadow-amber-950/20">
+          <Award className="w-3.5 h-3.5 text-amber-400" />
+          <span>LAYER_04 // ALGORITHMIC_BENCHMARKS</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
           Competitive Programming &amp; Problem Solving
         </h2>
         <p className="max-w-2xl text-slate-400 text-sm sm:text-base mt-3">
-          Continuous algorithmic optimization across data structures, graph theory, dynamic programming, and complexity reduction.
+          Continuous algorithmic optimization across data structures, graph theory, dynamic programming, and computational complexity reduction.
         </p>
-        <div className="h-0.5 w-20 bg-gradient-to-r from-cyan-400 to-violet-500 mt-4" />
+        <div className="h-1 w-20 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full mt-4" />
       </div>
 
       {/* Competitive Cards Grid */}
@@ -50,50 +49,50 @@ export const Competitive: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-amber-500/30 relative overflow-hidden group hover:border-amber-400/60 transition-all"
+          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-amber-500/30 relative overflow-hidden group hover:border-amber-400 bg-[#121826]/85 shadow-lg transition-all"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400">
+              <div className="flex items-center space-x-3">
+                <div className="p-2.5 rounded-xl bg-amber-950/50 text-amber-400 border border-amber-500/30 shadow-sm">
                   <Code className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-lg text-white">LeetCode</h3>
-                  <span className="font-mono text-xs text-amber-400/90 font-semibold">@AVIRAL_17</span>
+                  <span className="font-mono text-xs text-amber-400 font-semibold">@AVIRAL_17</span>
                 </div>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold">
-                RANK ACTIVE
+              <span className="px-2.5 py-1 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-300 font-mono text-xs font-bold shadow-sm">
+                ACTIVE
               </span>
             </div>
 
             {/* Counter */}
             <div className="py-4">
-              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-yellow-200">
+              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400">
                 {leetcodeCount}+
               </div>
-              <div className="font-mono text-xs text-slate-300 uppercase tracking-widest mt-1">
+              <div className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-1 font-semibold">
                 Problems Solved (DSA Mastery)
               </div>
             </div>
 
-            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-black/30 p-3 rounded-lg border border-amber-900/30">
-              Proficient in graph traversals (BFS/DFS), dynamic programming, binary search, tree manipulations, and backtracking.
+            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-slate-900/80 p-3.5 rounded-xl border border-white/10">
+              Extensive focus on graph traversals (BFS/DFS), dynamic programming, binary search, tree manipulation, and algorithmic optimization.
             </p>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-amber-500/20 flex items-center justify-between">
-            <span className="font-mono text-xs text-slate-400">VERIFIED PROFILE</span>
+          <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span className="font-mono text-xs text-slate-400 font-semibold">VERIFIED PROFILE</span>
             <a
               href="https://leetcode.com/u/AVIRAL_17/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500 hover:text-black font-mono text-xs font-bold text-amber-300 transition-all shadow-[0_0_12px_rgba(245,158,11,0.3)]"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 font-mono text-xs font-bold text-white transition-all shadow-md shadow-amber-500/20"
             >
               <span>VIEW LEETCODE</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -106,51 +105,51 @@ export const Competitive: React.FC = () => {
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-emerald-500/30 relative overflow-hidden group hover:border-emerald-400/60 transition-all"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-emerald-500/30 relative overflow-hidden group hover:border-emerald-400 bg-[#121826]/85 shadow-lg transition-all"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                  <Award className="w-5 h-5" />
+              <div className="flex items-center space-x-3">
+                <div className="p-2.5 rounded-xl bg-emerald-950/50 text-emerald-400 border border-emerald-500/30 shadow-sm">
+                  <Star className="w-5 h-5 fill-emerald-400/20" />
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-lg text-white">HackerRank</h3>
-                  <span className="font-mono text-xs text-emerald-400/90 font-semibold">@AIML1B_059</span>
+                  <span className="font-mono text-xs text-emerald-400 font-semibold">@AIML1B_059</span>
                 </div>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-bold">
-                VERIFIED BADGE
+              <span className="px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 font-mono text-xs font-bold shadow-sm">
+                4-STAR CODER
               </span>
             </div>
 
-            {/* Stars */}
+            {/* Counter */}
             <div className="py-4">
-              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-400 to-green-300">
-                3-Star ★★★
+              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-green-400">
+                ★★★★
               </div>
-              <div className="font-mono text-xs text-slate-300 uppercase tracking-widest mt-1">
-                Problem Solving Badge
+              <div className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-1 font-semibold">
+                Problem Solving &amp; Algorithms Badge
               </div>
             </div>
 
-            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-black/30 p-3 rounded-lg border border-emerald-900/30">
-              Verified algorithmic foundations in arrays, linked lists, sorting, modular arithmetic, and computational efficiency.
+            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-slate-900/80 p-3.5 rounded-xl border border-white/10">
+              Verified Gold Badge in Problem Solving &amp; Algorithms across advanced data structures, sorting algorithms, and computational complexity.
             </p>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-emerald-500/20 flex items-center justify-between">
-            <span className="font-mono text-xs text-slate-400">VERIFIED PROFILE</span>
+          <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span className="font-mono text-xs text-slate-400 font-semibold">VERIFIED PROFILE</span>
             <a
               href="https://www.hackerrank.com/profile/AIML1B_059"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500 hover:text-black font-mono text-xs font-bold text-emerald-300 transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)]"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 font-mono text-xs font-bold text-white transition-all shadow-md shadow-emerald-500/20"
             >
               <span>VIEW HACKERRANK</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -158,12 +157,8 @@ export const Competitive: React.FC = () => {
           </div>
         </motion.div>
       </div>
-
-      {/* Terminal Footer Indicator */}
-      <div className="mt-12 text-center font-mono text-xs text-slate-500 flex items-center justify-center gap-2">
-        <Zap className="w-3.5 h-3.5 text-cyan-400" />
-        <span>CODEFORCES &amp; COMPETITIVE TELEMETRY CONTINUOUSLY UPDATED</span>
-      </div>
     </section>
   );
 };
+
+export default Competitive;

@@ -13,23 +13,23 @@ export const SectionDivider: React.FC<SectionDividerProps> = ({
   return (
     <div className="relative w-full py-8 overflow-hidden select-none pointer-events-none">
       {/* CAD Axis Ticks */}
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between text-[10px] font-mono text-cyan-500/40 mb-2">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between text-[10px] font-mono text-rose-400/80 mb-2 font-semibold">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-cyan-400 rounded-sm" />
+          <span className="w-1.5 h-1.5 bg-rose-500 rounded-sm" />
           <span>{label}</span>
         </div>
-        <div className="hidden sm:flex items-center gap-4 text-slate-600">
+        <div className="hidden sm:flex items-center gap-4 text-slate-500 font-normal">
           <span>LEARNING_RATE: 0.0003</span>
           <span>WEIGHT_DECAY: 1e-4</span>
           <span>MOMENTUM: 0.98</span>
         </div>
-        <div className="text-violet-400/60 font-semibold">{step}</div>
+        <div className="text-rose-400 font-bold">{step}</div>
       </div>
 
       {/* Animated Loss Curve Canvas/SVG */}
       <div className="relative h-8 w-full">
         {/* Baseline */}
-        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         {/* Sinusoidal Loss Curve */}
         <svg
@@ -40,16 +40,16 @@ export const SectionDivider: React.FC<SectionDividerProps> = ({
           <path
             d="M0,20 Q150,5 300,20 T600,20 T900,20 T1200,20"
             fill="none"
-            stroke="url(#lossGrad)"
-            strokeWidth="1.5"
+            stroke="url(#lossGradDark)"
+            strokeWidth="1.8"
             strokeDasharray="4 2"
           />
           <defs>
-            <linearGradient id="lossGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#00f0ff" stopOpacity="0.8" />
-              <stop offset="80%" stopColor="#a855f7" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#ec4899" stopOpacity="0.1" />
+            <linearGradient id="lossGradDark" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
+              <stop offset="50%" stopColor="#ff3b5c" stopOpacity="0.9" />
+              <stop offset="80%" stopColor="#ff758f" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
             </linearGradient>
           </defs>
         </svg>
@@ -64,9 +64,11 @@ export const SectionDivider: React.FC<SectionDividerProps> = ({
             x: { repeat: Infinity, duration: 6, ease: 'linear' },
             y: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
           }}
-          className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_12px_#00f0ff]"
+          className="absolute top-0 left-0 w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_12px_rgba(255,59,92,0.9)]"
         />
       </div>
     </div>
   );
 };
+
+export default SectionDivider;

@@ -7,23 +7,40 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0a1124',
-        'background-alt': '#0f1c38',
-        panel: 'rgba(16, 29, 58, 0.78)',
-        'panel-border': 'rgba(0, 240, 255, 0.28)',
+        background: '#f8fafc',
+        'background-alt': '#ffffff',
+        panel: 'rgba(255, 255, 255, 0.88)',
+        'panel-border': 'rgba(203, 213, 225, 0.7)',
         cyan: {
-          glow: '#00f0ff',
-          dim: '#0284c7',
+          glow: '#0284c7',
+          dim: '#0369a1',
+          bright: '#00b4d8',
+          light: '#e0f2fe',
+        },
+        indigo: {
+          glow: '#6366f1',
+          dim: '#4f46e5',
+          light: '#e0e7ff',
         },
         violet: {
-          glow: '#a855f7',
+          glow: '#8b5cf6',
           dim: '#7c3aed',
+          light: '#ede9fe',
         },
         emerald: {
-          glow: '#34d399',
+          glow: '#059669',
+          dim: '#047857',
+          light: '#d1fae5',
         },
         amber: {
-          glow: '#fbbf24',
+          glow: '#d97706',
+          dim: '#b45309',
+          light: '#fef3c7',
+        },
+        rose: {
+          glow: '#e11d48',
+          dim: '#be123c',
+          light: '#ffe4e6',
         }
       },
       fontFamily: {

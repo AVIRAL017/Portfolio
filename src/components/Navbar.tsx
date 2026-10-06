@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'py-3 bg-[#040711]/90 backdrop-blur-md border-b border-cyan-500/20 shadow-lg shadow-cyan-950/20'
+          ? 'py-3 bg-[#0b0e14]/85 backdrop-blur-xl border-b border-white/10 shadow-xl shadow-black/60'
           : 'py-5 bg-transparent'
       }`}
     >
@@ -50,24 +50,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-md"
+            className="flex items-center space-x-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 rounded-lg"
             aria-label="Aviral Home"
           >
-            <div className="w-8 h-8 rounded-lg bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center text-cyan-400 group-hover:border-cyan-400 group-hover:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition-all">
+            <div className="w-8 h-8 rounded-lg bg-rose-950/40 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:border-rose-400 group-hover:shadow-[0_0_15px_rgba(255,59,92,0.4)] transition-all">
               <Terminal className="w-4 h-4" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display font-bold text-sm tracking-wider text-white group-hover:text-cyan-300 transition-colors">
-                AVIRAL<span className="text-cyan-400">.AI</span>
+              <span className="font-display font-bold text-sm tracking-wider text-white group-hover:text-rose-400 transition-colors">
+                AVIRAL<span className="text-rose-500">.AI</span>
               </span>
               <span className="font-mono text-[9px] text-slate-400 tracking-widest hidden sm:inline">
-                SYS: V2.4_READY
+                SYS: 3D_PIPELINE
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 font-mono text-xs">
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 font-mono text-xs">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -75,17 +75,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-3 py-1.5 rounded transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                  className={`relative px-3 py-1.5 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 ${
                     isActive
-                      ? 'text-cyan-300 font-bold bg-cyan-500/10'
-                      : 'text-slate-300 hover:text-cyan-200 hover:bg-slate-800/40'
+                      ? 'text-rose-400 font-bold bg-rose-500/10'
+                      : 'text-slate-300 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {item.label}
                   {isActive && (
                     <motion.div
                       layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-cyan-400 to-violet-400 shadow-[0_0_8px_#00f0ff]"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-rose-500 shadow-[0_0_8px_rgba(255,59,92,0.8)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -95,13 +95,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
           </nav>
 
           {/* External Social / Resume Actions */}
-          <div className="hidden lg:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-2.5">
             <a
               href={portfolioContent.personal.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="p-2 rounded-lg bg-slate-900/60 border border-slate-700/50 hover:border-cyan-400/60 hover:text-cyan-300 text-slate-300 transition-colors"
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-white/20 transition-colors"
             >
               <Github className="w-4 h-4" />
             </a>
@@ -111,37 +111,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="p-2 rounded-lg bg-slate-900/60 border border-slate-700/50 hover:border-cyan-400/60 hover:text-cyan-300 text-slate-300 transition-colors"
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-sky-400 hover:border-sky-500/30 transition-colors"
             >
               <Linkedin className="w-4 h-4" />
             </a>
 
             <a
-              href="/Resume.pdf"
-              download="Aviral_Resume.pdf"
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-mono text-xs text-black font-semibold bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-white shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all"
+              href={portfolioContent.personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-mono text-xs font-bold transition-all shadow-md shadow-rose-600/30 border border-rose-400/30"
             >
-              <FileText className="w-3.5 h-3.5 text-black" />
-              <span>Resume</span>
-              <ArrowUpRight className="w-3 h-3 text-black" />
+              <FileText className="w-3.5 h-3.5" />
+              <span>Resume (PDF)</span>
+              <ArrowUpRight className="w-3 h-3" />
             </a>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Hamburger Toggle */}
           <div className="flex md:hidden items-center space-x-2">
             <a
-              href="/Resume.pdf"
-              download="Aviral_Resume.pdf"
-              aria-label="Download Resume"
-              className="px-2.5 py-1 text-xs font-mono font-semibold bg-cyan-400 text-black rounded"
+              href={portfolioContent.personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg bg-rose-600 text-white text-xs font-mono font-bold"
+              aria-label="Resume"
             >
-              Resume
+              <FileText className="w-4 h-4" />
             </a>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-expanded={mobileMenuOpen}
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-200 hover:text-white"
               aria-label="Toggle Navigation Menu"
-              className="p-2 rounded-lg bg-slate-900/80 border border-cyan-500/30 text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -156,55 +158,49 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#040711]/95 backdrop-blur-xl border-b border-cyan-500/30 px-6 py-6"
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-[#0b0e14]/95 backdrop-blur-2xl border-b border-white/10 px-4 pt-3 pb-6 space-y-2 font-mono text-sm shadow-2xl"
           >
-            <div className="flex flex-col space-y-3 font-mono text-sm">
-              {NAV_ITEMS.map((item) => {
-                const isActive = activeSection === item.href.slice(1);
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    className={`py-2 px-3 rounded flex items-center justify-between ${
-                      isActive
-                        ? 'bg-cyan-500/10 text-cyan-300 font-bold border-l-2 border-cyan-400'
-                        : 'text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-[10px] text-slate-500">{item.href}</span>
-                  </a>
-                );
-              })}
-              <div className="pt-4 border-t border-slate-800 flex items-center justify-around">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="block px-3 py-2 rounded-lg text-slate-200 hover:text-rose-400 hover:bg-white/5 transition-colors"
+              >
+                › {item.label}
+              </a>
+            ))}
+
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+              <div className="flex space-x-3">
                 <a
                   href={portfolioContent.personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-cyan-300"
+                  className="p-2 rounded-lg bg-white/5 text-slate-300"
                 >
                   <Github className="w-4 h-4" />
-                  <span>GitHub</span>
                 </a>
                 <a
                   href={portfolioContent.personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-cyan-300"
+                  className="p-2 rounded-lg bg-white/5 text-slate-300"
                 >
                   <Linkedin className="w-4 h-4" />
-                  <span>LinkedIn</span>
-                </a>
-                <a
-                  href={portfolioContent.personal.leetcode}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-amber-400 font-bold hover:underline"
-                >
-                  LeetCode
                 </a>
               </div>
+
+              <a
+                href={portfolioContent.personal.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-rose-600/30"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Resume (PDF)</span>
+              </a>
             </div>
           </motion.div>
         )}
@@ -212,3 +208,5 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
     </header>
   );
 };
+
+export default Navbar;

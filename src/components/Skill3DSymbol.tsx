@@ -25,7 +25,7 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
     let angleY = 0;
     let angleZ = 0;
 
-    // Define 3D vertices and edges based on type
+    // Define 3D vertices and edges based on type with rich bright-mode colors
     const getGeometry = (): {
       vertices: [number, number, number][];
       edges: [number, number][];
@@ -48,8 +48,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 6],
               [0, 6], [2, 8], [4, 10]
             ],
-            primaryColor: '#00f0ff',
-            secondaryColor: '#fbbf24',
+            primaryColor: '#0284c7',
+            secondaryColor: '#d97706',
           };
         }
 
@@ -67,8 +67,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [0, 4], [1, 4], [2, 4], [3, 4],
               [0, 5], [1, 5], [2, 5], [3, 5]
             ],
-            primaryColor: '#38bdf8',
-            secondaryColor: '#a855f7',
+            primaryColor: '#0284c7',
+            secondaryColor: '#7c3aed',
           };
         }
 
@@ -86,8 +86,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [4, 5], [5, 6], [6, 7], [7, 4],
               [0, 4], [1, 5], [2, 6], [3, 7]
             ],
-            primaryColor: type === 'html5' ? '#f97316' : '#3b82f6',
-            secondaryColor: '#00f0ff',
+            primaryColor: type === 'html5' ? '#ea580c' : '#2563eb',
+            secondaryColor: '#0284c7',
           };
         }
 
@@ -105,8 +105,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [1, 3], [1, 4],
               [2, 5], [2, 6]
             ],
-            primaryColor: '#34d399',
-            secondaryColor: '#00f0ff',
+            primaryColor: '#059669',
+            secondaryColor: '#0284c7',
           };
         }
 
@@ -126,8 +126,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [0, 1], [1, 2], [3, 4], [4, 5], [6, 7], [7, 8],
               [0, 3], [3, 6], [1, 4], [4, 7], [2, 5], [5, 8]
             ],
-            primaryColor: '#fbbf24',
-            secondaryColor: '#f43f5e',
+            primaryColor: '#d97706',
+            secondaryColor: '#e11d48',
           };
         }
 
@@ -150,8 +150,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [0, 4], [1, 5], [2, 6], [3, 7],
               [8, 9]
             ],
-            primaryColor: '#00f0ff',
-            secondaryColor: '#10b981',
+            primaryColor: '#0284c7',
+            secondaryColor: '#059669',
           };
         }
 
@@ -171,8 +171,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [2, 5], [3, 5], [4, 5],
               [2, 6], [3, 6], [4, 6]
             ],
-            primaryColor: '#a855f7',
-            secondaryColor: '#ec4899',
+            primaryColor: '#7c3aed',
+            secondaryColor: '#db2777',
           };
         }
 
@@ -193,8 +193,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [2, 6], [2, 9], [2, 10], [2, 13],
               [3, 7], [3, 8], [3, 11], [3, 12]
             ],
-            primaryColor: '#ec4899',
-            secondaryColor: '#00f0ff',
+            primaryColor: '#db2777',
+            secondaryColor: '#0284c7',
           };
         }
 
@@ -210,12 +210,12 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [0, 1], [1, 2], [2, 3], [3, 0],
               [0, 4], [1, 4], [2, 5], [3, 6], [4, 5], [5, 6], [6, 4]
             ],
-            primaryColor: '#ef4444',
-            secondaryColor: '#f97316',
+            primaryColor: '#dc2626',
+            secondaryColor: '#ea580c',
           };
         }
 
-        // Flask / Node.js / MongoDB / Git / DSA: 3D Isometric Crystal / Prism
+        // Default: 3D Isometric Crystal / Prism
         default: {
           const s = 14;
           return {
@@ -228,8 +228,8 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
               [0, 1], [1, 2], [2, 3], [3, 0],
               [0, 4], [1, 4], [2, 5], [3, 5], [4, 5]
             ],
-            primaryColor: '#34d399',
-            secondaryColor: '#00f0ff',
+            primaryColor: '#059669',
+            secondaryColor: '#0284c7',
           };
         }
       }
@@ -252,19 +252,16 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
 
       // Project vertices with 3D rotation matrix
       const projected = geom.vertices.map(([x, y, z]) => {
-        // Rotate Y
         const cosY = Math.cos(angleY);
         const sinY = Math.sin(angleY);
         const x1 = x * cosY - z * sinY;
         const z1 = z * cosY + x * sinY;
 
-        // Rotate X
         const cosX = Math.cos(angleX);
         const sinX = Math.sin(angleX);
         const y2 = y * cosX - z1 * sinX;
         const z2 = z1 * cosX + y * sinX;
 
-        // Perspective division
         const distance = fov + z2;
         const scale = fov / (distance > 10 ? distance : 10);
         return {
@@ -274,7 +271,7 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
         };
       });
 
-      // Draw Edges with glow
+      // Draw Edges with rich color
       geom.edges.forEach(([i, j]) => {
         const p1 = projected[i];
         const p2 = projected[j];
@@ -283,19 +280,19 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
         ctx.strokeStyle = geom.primaryColor;
-        ctx.lineWidth = isHovered ? 2.2 : 1.5;
+        ctx.lineWidth = isHovered ? 2.2 : 1.6;
         ctx.shadowColor = geom.primaryColor;
-        ctx.shadowBlur = isHovered ? 12 : 6;
+        ctx.shadowBlur = isHovered ? 8 : 3;
         ctx.stroke();
       });
 
       // Draw Glowing Vertices
       projected.forEach((p) => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, isHovered ? 2.5 : 1.8, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, isHovered ? 2.6 : 1.8, 0, Math.PI * 2);
         ctx.fillStyle = geom.secondaryColor;
         ctx.shadowColor = geom.secondaryColor;
-        ctx.shadowBlur = isHovered ? 10 : 4;
+        ctx.shadowBlur = isHovered ? 6 : 2;
         ctx.fill();
       });
 
@@ -311,11 +308,11 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
   }, [type, isHovered]);
 
   return (
-    <div className="relative w-14 h-14 rounded-xl bg-slate-900/80 border border-cyan-400/30 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-cyan-300 group-hover:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all">
+    <div className="relative w-14 h-14 rounded-xl bg-[#0e131d] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-rose-500/50 group-hover:shadow-lg group-hover:shadow-rose-950/40 transition-all">
       <canvas ref={canvasRef} className="w-14 h-14 block" />
-      {/* Corner cyan accent */}
-      <div className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l border-cyan-400" />
-      <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-violet-400" />
+      {/* Corner subtle color accents */}
+      <div className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l border-rose-500/40" />
+      <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-sky-400/40" />
     </div>
   );
 };

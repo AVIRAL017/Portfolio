@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aviral-portfolio.vercel.app/sitemap.xml
+Sitemap: https://portfolio.aviral17.me/sitemap.xml

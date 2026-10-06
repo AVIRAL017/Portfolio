@@ -22,7 +22,6 @@ export const Contact: React.FC = () => {
     const formspreeKey = import.meta.env.VITE_FORMSPREE_KEY;
 
     if (formspreeKey) {
-      // Send via Formspree API
       fetch(`https://formspree.io/f/${formspreeKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,17 +56,17 @@ export const Contact: React.FC = () => {
     <section id="contact" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center mb-16 text-center">
-        <div className="flex items-center gap-2 px-3 py-1 rounded bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 font-mono text-xs mb-3">
-          <Terminal className="w-3.5 h-3.5" />
-          <span>SECTION_07 // INITIATE_COMMUNICATION</span>
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-500/30 text-rose-400 font-mono text-xs mb-3 shadow-md shadow-rose-950/20">
+          <Terminal className="w-3.5 h-3.5 text-rose-400" />
+          <span>OUTPUT_LAYER // INITIATE_COMMUNICATION</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
           Get In Touch &amp; Collaborate
         </h2>
         <p className="max-w-2xl text-slate-400 text-sm sm:text-base mt-3">
-          Available for innovative AI/ML engineering roles, computer vision research, and technical collaborations.
+          Available for innovative AI/ML engineering roles, computer vision research, and high-performance technical collaborations.
         </p>
-        <div className="h-0.5 w-20 bg-gradient-to-r from-cyan-400 to-violet-500 mt-4" />
+        <div className="h-1 w-20 bg-gradient-to-r from-rose-500 to-red-600 rounded-full mt-4" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -80,16 +79,16 @@ export const Contact: React.FC = () => {
           className="lg:col-span-5 space-y-4"
         >
           {/* Email Card */}
-          <div className="hud-panel rounded-2xl p-6 border-slate-800 hover:border-cyan-400/40 transition-all flex items-center justify-between">
+          <div className="hud-panel rounded-2xl p-6 border-white/10 hover:border-rose-500/40 bg-[#121826]/85 shadow-lg transition-all flex items-center justify-between">
             <div className="flex items-center space-x-3.5">
-              <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-400">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[10px] font-mono text-slate-400 uppercase">DIRECT EMAIL</div>
+                <div className="text-[10px] font-mono text-slate-400 uppercase font-semibold">DIRECT EMAIL</div>
                 <a
                   href={`mailto:${portfolioContent.personal.email}`}
-                  className="text-sm sm:text-base font-mono font-semibold text-white hover:text-cyan-300 transition-colors"
+                  className="text-sm sm:text-base font-mono font-bold text-white hover:text-rose-400 transition-colors"
                 >
                   {portfolioContent.personal.email}
                 </a>
@@ -98,24 +97,24 @@ export const Contact: React.FC = () => {
 
             <button
               onClick={() => copyToClipboard(portfolioContent.personal.email, 'email')}
-              aria-label="Copy Email address"
-              className="p-2 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-400 hover:text-cyan-300 transition-colors"
+              aria-label="Copy Email"
+              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
             >
               {copied === 'email' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
             </button>
           </div>
 
           {/* Phone Card */}
-          <div className="hud-panel rounded-2xl p-6 border-slate-800 hover:border-cyan-400/40 transition-all flex items-center justify-between">
+          <div className="hud-panel rounded-2xl p-6 border-white/10 hover:border-rose-500/40 bg-[#121826]/85 shadow-lg transition-all flex items-center justify-between">
             <div className="flex items-center space-x-3.5">
-              <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
+              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-400">
                 <Phone className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[10px] font-mono text-slate-400 uppercase">VOICE / TELEPHONE</div>
+                <div className="text-[10px] font-mono text-slate-400 uppercase font-semibold">PHONE TELEMETRY</div>
                 <a
-                  href={`tel:${portfolioContent.personal.phone.replace(/\s+/g, '')}`}
-                  className="text-sm sm:text-base font-mono font-semibold text-white hover:text-violet-300 transition-colors"
+                  href={`tel:${portfolioContent.personal.phone}`}
+                  className="text-sm sm:text-base font-mono font-bold text-white hover:text-rose-400 transition-colors"
                 >
                   {portfolioContent.personal.phone}
                 </a>
@@ -124,182 +123,147 @@ export const Contact: React.FC = () => {
 
             <button
               onClick={() => copyToClipboard(portfolioContent.personal.phone, 'phone')}
-              aria-label="Copy Phone number"
-              className="p-2 rounded-lg bg-slate-900 border border-slate-700 hover:border-violet-400 text-slate-400 hover:text-violet-300 transition-colors"
+              aria-label="Copy Phone"
+              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
             >
               {copied === 'phone' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
             </button>
           </div>
 
           {/* Social Profiles Grid */}
-          <div className="hud-panel rounded-2xl p-6 border-slate-800 space-y-4">
-            <div className="font-mono text-xs text-slate-400 uppercase tracking-wider">
-              SYSTEM PROFILES &amp; REPOSITORIES:
-            </div>
+          <div className="grid grid-cols-2 gap-4">
+            <a
+              href={portfolioContent.personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hud-panel rounded-2xl p-5 border-white/10 hover:border-white/20 bg-[#121826]/85 shadow-md flex items-center justify-between group"
+            >
+              <div className="flex items-center space-x-3">
+                <Github className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+                <span className="font-mono text-xs font-bold text-white">GitHub</span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+            </a>
 
-            <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-              <a
-                href={portfolioContent.personal.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-black/40 border border-slate-800 hover:border-cyan-400 text-slate-200 hover:text-cyan-300 transition-all flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <Github className="w-4 h-4 text-cyan-400" />
-                  <span>GitHub</span>
-                </div>
-                <ExternalLink className="w-3 h-3 text-slate-500" />
-              </a>
-
-              <a
-                href={portfolioContent.personal.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-black/40 border border-slate-800 hover:border-cyan-400 text-slate-200 hover:text-cyan-300 transition-all flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <Linkedin className="w-4 h-4 text-cyan-400" />
-                  <span>LinkedIn</span>
-                </div>
-                <ExternalLink className="w-3 h-3 text-slate-500" />
-              </a>
-
-              <a
-                href={portfolioContent.personal.leetcode}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-black/40 border border-slate-800 hover:border-amber-400 text-slate-200 hover:text-amber-300 transition-all flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 font-bold">LC</span>
-                  <span>LeetCode</span>
-                </div>
-                <ExternalLink className="w-3 h-3 text-slate-500" />
-              </a>
-
-              <a
-                href={portfolioContent.personal.hackerrank}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-black/40 border border-slate-800 hover:border-emerald-400 text-slate-200 hover:text-emerald-300 transition-all flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-emerald-400 font-bold">HR</span>
-                  <span>HackerRank</span>
-                </div>
-                <ExternalLink className="w-3 h-3 text-slate-500" />
-              </a>
-            </div>
+            <a
+              href={portfolioContent.personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hud-panel rounded-2xl p-5 border-white/10 hover:border-sky-500/30 bg-[#121826]/85 shadow-md flex items-center justify-between group"
+            >
+              <div className="flex items-center space-x-3">
+                <Linkedin className="w-5 h-5 text-sky-400 group-hover:text-sky-300 transition-colors" />
+                <span className="font-mono text-xs font-bold text-white">LinkedIn</span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
+            </a>
           </div>
         </motion.div>
 
-        {/* Right Side: Working Contact Message Form */}
+        {/* Right Side: Interactive Transmission Form */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="lg:col-span-7 hud-panel rounded-2xl p-6 sm:p-8 border-cyan-500/30"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="lg:col-span-7 hud-panel rounded-2xl p-6 sm:p-8 border-white/10 bg-[#121826]/85 shadow-xl"
         >
-          <div className="flex items-center justify-between pb-4 border-b border-cyan-500/20 mb-6">
-            <h3 className="font-display font-bold text-xl text-white">
-              Transmit Encrypted Message
-            </h3>
-            <span className="font-mono text-[10px] text-cyan-400/80">
-              SOCKET // ACTIVE
-            </span>
+          <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+            <div className="flex items-center space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
+              <span className="font-mono text-xs text-rose-400 font-bold uppercase tracking-wider">
+                MESSAGE_TRANSMISSION // ENCRYPTED
+              </span>
+            </div>
+            <span className="font-mono text-[10px] text-slate-500">FORMAT: JSON_PAYLOAD</span>
           </div>
 
           {submitted ? (
-            <div className="p-8 text-center space-y-4 rounded-xl bg-cyan-950/20 border border-cyan-400/40">
-              <div className="w-12 h-12 rounded-full bg-cyan-400/20 text-cyan-300 flex items-center justify-center mx-auto">
-                <Check className="w-6 h-6" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="py-12 text-center space-y-4"
+            >
+              <div className="w-16 h-16 rounded-full bg-emerald-950/40 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
+                <Check className="w-8 h-8" />
               </div>
-              <h4 className="text-xl font-display font-bold text-white">
-                Transmission Dispatched
-              </h4>
-              <p className="text-sm font-sans text-slate-300">
-                Thank you! Your inquiry packet has been received or queued in the mail pipeline. I will respond promptly.
+              <h3 className="font-display font-bold text-2xl text-white">Payload Transmitted</h3>
+              <p className="text-slate-400 text-sm max-w-md mx-auto">
+                Thank you for initiating contact. Your message has been dispatched and I will respond promptly.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="px-4 py-2 rounded-lg bg-cyan-400 text-black font-mono text-xs font-bold"
+                className="mt-4 px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono font-bold text-white hover:bg-white/10"
               >
-                Send Another Message
+                Send Another Transmission
               </button>
-            </div>
+            </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-mono text-xs text-slate-400 mb-1.5">
-                    YOUR NAME *
+                  <label className="block text-slate-400 text-[11px] mb-1.5 uppercase font-semibold">
+                    IDENTITY_NAME *
                   </label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Ada Lovelace"
-                    className="w-full px-4 py-2.5 rounded-lg bg-black/50 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 font-sans text-sm transition-colors"
+                    placeholder="e.g. Dr. Alex Vance"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors font-sans text-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs text-slate-400 mb-1.5">
-                    YOUR EMAIL *
+                  <label className="block text-slate-400 text-[11px] mb-1.5 uppercase font-semibold">
+                    RETURN_EMAIL *
                   </label>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="ada@domain.org"
-                    className="w-full px-4 py-2.5 rounded-lg bg-black/50 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 font-sans text-sm transition-colors"
+                    placeholder="alex@domain.com"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors font-sans text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-mono text-xs text-slate-400 mb-1.5">
-                  SUBJECT
+                <label className="block text-slate-400 text-[11px] mb-1.5 uppercase font-semibold">
+                  TOPIC_SUBJECT
                 </label>
                 <input
                   type="text"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder="AI Engineering Opportunity / Research Collaboration"
-                  className="w-full px-4 py-2.5 rounded-lg bg-black/50 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 font-sans text-sm transition-colors"
+                  placeholder="e.g. AI Research / Machine Learning Engineer Opportunity"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors font-sans text-sm"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-xs text-slate-400 mb-1.5">
-                  MESSAGE PACKET *
+                <label className="block text-slate-400 text-[11px] mb-1.5 uppercase font-semibold">
+                  PAYLOAD_MESSAGE *
                 </label>
                 <textarea
                   required
                   rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Describe project requirements, timeline, or technical inquiry..."
-                  className="w-full px-4 py-2.5 rounded-lg bg-black/50 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 font-sans text-sm transition-colors resize-none"
+                  placeholder="Enter your message details or project scope..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors font-sans text-sm resize-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full py-3.5 rounded-lg bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 hover:from-cyan-300 hover:to-violet-400 text-black font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)] flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold tracking-wide transition-all shadow-xl shadow-rose-600/25 flex items-center justify-center gap-2 border border-rose-400/30 disabled:opacity-50"
               >
-                {sending ? (
-                  <span>TRANSMITTING...</span>
-                ) : (
-                  <>
-                    <span>DISPATCH PACKET</span>
-                    <Send className="w-4 h-4" />
-                  </>
-                )}
+                <Send className="w-4 h-4" />
+                <span>{sending ? 'TRANSMITTING PAYLOAD...' : 'TRANSMIT MESSAGE'}</span>
               </button>
             </form>
           )}
@@ -308,3 +272,5 @@ export const Contact: React.FC = () => {
     </section>
   );
 };
+
+export default Contact;
