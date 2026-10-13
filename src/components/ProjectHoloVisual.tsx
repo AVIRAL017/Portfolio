@@ -27,9 +27,17 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
     };
     window.addEventListener('resize', handleResize, { passive: true });
 
+    let lastTime = 0;
     let frame = 0;
+    const fpsInterval = 1000 / 30; // 30 FPS throttle for secondary telemetry visuals
 
-    const render = () => {
+    const render = (time: number) => {
+      if (!isVisible) return;
+      animId = requestAnimationFrame(render);
+
+      if (time - lastTime < fpsInterval) return;
+      lastTime = time;
+
       frame++;
       ctx.fillStyle = '#f8fafc';
       ctx.fillRect(0, 0, width, height);
@@ -271,10 +279,6 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         ctx.font = 'bold 9px monospace';
         ctx.fillStyle = '#0284c7';
         ctx.fillText('CIVIC TELEMETRY: REAL-TIME GRIEVANCE PIPELINE', 12, 18);
-      }
-
-      if (isVisible) {
-        animId = requestAnimationFrame(render);
       }
     };
 

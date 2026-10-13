@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { SkillIconType } from '../data/content';
 
 interface Skill3DSymbolProps {
@@ -7,341 +7,247 @@ interface Skill3DSymbolProps {
 }
 
 export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = false }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    let animId: number = 0;
-    let isVisible = false;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const size = 56;
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
-
-    let angleX = 0.4;
-    let angleY = 0;
-    let angleZ = 0;
-
-    // Define 3D vertices and edges based on type with rich bright-mode colors
-    const getGeometry = (): {
-      vertices: [number, number, number][];
-      edges: [number, number][];
-      primaryColor: string;
-      secondaryColor: string;
-    } => {
-      switch (type) {
-        // Python: Dual Interlocking 3D Hexagon loops
-        case 'python': {
-          const s = 14;
-          return {
-            vertices: [
-              [-s, -s * 0.5, -4], [0, -s, -4], [s, -s * 0.5, -4],
-              [s, s * 0.5, -4], [0, s, -4], [-s, s * 0.5, -4],
-              [-s * 0.7, -s * 0.35, 4], [0, -s * 0.7, 4], [s * 0.7, -s * 0.35, 4],
-              [s * 0.7, s * 0.35, 4], [0, s * 0.7, 4], [-s * 0.7, s * 0.35, 4],
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-              [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 6],
-              [0, 6], [2, 8], [4, 10]
-            ],
-            primaryColor: '#0284c7',
-            secondaryColor: '#d97706',
-          };
-        }
-
-        // C / C++: 3D Wireframe Octahedron
-        case 'c':
-        case 'cpp': {
-          const s = 16;
-          return {
-            vertices: [
-              [0, -s, 0], [s, 0, 0], [0, s, 0], [-s, 0, 0],
-              [0, 0, s], [0, 0, -s]
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 0],
-              [0, 4], [1, 4], [2, 4], [3, 4],
-              [0, 5], [1, 5], [2, 5], [3, 5]
-            ],
-            primaryColor: '#0284c7',
-            secondaryColor: '#7c3aed',
-          };
-        }
-
-        // Web Standards (HTML5 / CSS3): 3D Truncated Cube
-        case 'html5':
-        case 'css3': {
-          const s = 13;
-          return {
-            vertices: [
-              [-s, -s, -s], [s, -s, -s], [s, s, -s], [-s, s, -s],
-              [-s, -s, s], [s, -s, s], [s, s, s], [-s, s, s],
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 0],
-              [4, 5], [5, 6], [6, 7], [7, 4],
-              [0, 4], [1, 5], [2, 6], [3, 7]
-            ],
-            primaryColor: type === 'html5' ? '#ea580c' : '#2563eb',
-            secondaryColor: '#0284c7',
-          };
-        }
-
-        // Decision Tree / Random Forest: 3D Fractal Branching Tree
-        case 'decision-tree':
-        case 'random-forest': {
-          return {
-            vertices: [
-              [0, -16, 0],
-              [-10, -4, -6], [10, -4, 6],
-              [-15, 10, -10], [-5, 10, -2], [5, 10, 2], [15, 10, 10]
-            ],
-            edges: [
-              [0, 1], [0, 2],
-              [1, 3], [1, 4],
-              [2, 5], [2, 6]
-            ],
-            primaryColor: '#059669',
-            secondaryColor: '#0284c7',
-          };
-        }
-
-        // Gradient Boosting / XGBoost / CatBoost: 3D Loss Manifold
-        case 'gradient-boost':
-        case 'xgboost':
-        case 'catboost':
-        case 'supervised-learning': {
-          const s = 14;
-          return {
-            vertices: [
-              [-s, -s * 0.7, 0], [0, -s, 8], [s, -s * 0.7, 0],
-              [-s * 0.7, 0, -8], [0, 0, 0], [s * 0.7, 0, -8],
-              [-s, s * 0.7, 0], [0, s, 8], [s, s * 0.7, 0]
-            ],
-            edges: [
-              [0, 1], [1, 2], [3, 4], [4, 5], [6, 7], [7, 8],
-              [0, 3], [3, 6], [1, 4], [4, 7], [2, 5], [5, 8]
-            ],
-            primaryColor: '#d97706',
-            secondaryColor: '#e11d48',
-          };
-        }
-
-        // Computer Vision / Object Detection / YOLO: 3D Oriented Bounding Prism
-        case 'computer-vision':
-        case 'object-detection':
-        case 'yolo': {
-          const w = 15;
-          const h = 11;
-          const d = 11;
-          return {
-            vertices: [
-              [-w, -h, -d], [w, -h, -d], [w, h, -d], [-w, h, -d],
-              [-w, -h, d], [w, -h, d], [w, h, d], [-w, h, d],
-              [0, 0, 0], [0, -h * 1.5, 0]
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 0],
-              [4, 5], [5, 6], [6, 7], [7, 4],
-              [0, 4], [1, 5], [2, 6], [3, 7],
-              [8, 9]
-            ],
-            primaryColor: '#0284c7',
-            secondaryColor: '#059669',
-          };
-        }
-
-        // Deep Learning / Neural Network: 3D Synaptic Polytope
-        case 'deep-learning':
-        case 'change-detection': {
-          const s = 14;
-          return {
-            vertices: [
-              [-s, -s * 0.6, 0], [-s, s * 0.6, 0],
-              [0, -s, -s * 0.5], [0, s, -s * 0.5], [0, 0, s * 0.8],
-              [s, -s * 0.6, 0], [s, s * 0.6, 0]
-            ],
-            edges: [
-              [0, 2], [0, 3], [0, 4],
-              [1, 2], [1, 3], [1, 4],
-              [2, 5], [3, 5], [4, 5],
-              [2, 6], [3, 6], [4, 6]
-            ],
-            primaryColor: '#7c3aed',
-            secondaryColor: '#db2777',
-          };
-        }
-
-        // Generative AI / RAG: 3D Radiant Stellated Octahedron
-        case 'generative-ai':
-        case 'rag': {
-          const s = 14;
-          const r = 8;
-          return {
-            vertices: [
-              [0, -s, 0], [0, s, 0], [-s, 0, 0], [s, 0, 0], [0, 0, -s], [0, 0, s],
-              [-r, -r, -r], [r, -r, -r], [r, r, -r], [-r, r, -r],
-              [-r, -r, r], [r, -r, r], [r, r, r], [-r, r, r]
-            ],
-            edges: [
-              [0, 6], [0, 7], [0, 10], [0, 11],
-              [1, 8], [1, 9], [1, 12], [1, 13],
-              [2, 6], [2, 9], [2, 10], [2, 13],
-              [3, 7], [3, 8], [3, 11], [3, 12]
-            ],
-            primaryColor: '#db2777',
-            secondaryColor: '#0284c7',
-          };
-        }
-
-        // PyTorch: 3D Tensor Prism with Flame Matrix
-        case 'pytorch': {
-          const s = 14;
-          return {
-            vertices: [
-              [-s, -s, -s * 0.5], [s, -s, -s * 0.5], [s, s, -s * 0.5], [-s, s, -s * 0.5],
-              [0, -s * 1.5, s], [s * 0.8, s, s], [-s * 0.8, s, s]
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 0],
-              [0, 4], [1, 4], [2, 5], [3, 6], [4, 5], [5, 6], [6, 4]
-            ],
-            primaryColor: '#dc2626',
-            secondaryColor: '#ea580c',
-          };
-        }
-
-        // Default: 3D Isometric Crystal / Prism
-        default: {
-          const s = 14;
-          return {
-            vertices: [
-              [-s, -s * 0.6, -s * 0.6], [s, -s * 0.6, -s * 0.6],
-              [s, s * 0.6, -s * 0.6], [-s, s * 0.6, -s * 0.6],
-              [0, -s * 1.2, s * 0.8], [0, s * 1.2, s * 0.8]
-            ],
-            edges: [
-              [0, 1], [1, 2], [2, 3], [3, 0],
-              [0, 4], [1, 4], [2, 5], [3, 5], [4, 5]
-            ],
-            primaryColor: '#059669',
-            secondaryColor: '#0284c7',
-          };
-        }
-      }
-    };
-
-    const geom = getGeometry();
-
-    const render = () => {
-      // Rotation speed accelerates smoothly on hover
-      const speed = isHovered ? 0.045 : 0.02;
-      angleY += speed;
-      angleX += speed * 0.6;
-      angleZ += speed * 0.3;
-
-      ctx.clearRect(0, 0, size, size);
-
-      const cx = size / 2;
-      const cy = size / 2;
-      const fov = 80;
-
-      // Project vertices with 3D rotation matrix
-      const projected = geom.vertices.map(([x, y, z]) => {
-        const cosY = Math.cos(angleY);
-        const sinY = Math.sin(angleY);
-        const x1 = x * cosY - z * sinY;
-        const z1 = z * cosY + x * sinY;
-
-        const cosX = Math.cos(angleX);
-        const sinX = Math.sin(angleX);
-        const y2 = y * cosX - z1 * sinX;
-        const z2 = z1 * cosX + y * sinX;
-
-        const distance = fov + z2;
-        const scale = fov / (distance > 10 ? distance : 10);
+  // Define geometric visual and color scheme for each skill type
+  const getSymbolConfig = () => {
+    switch (type) {
+      case 'python':
         return {
-          x: cx + x1 * scale,
-          y: cy + y2 * scale,
-          z: z2,
+          color: '#0284c7',
+          accent: '#d97706',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8">
+              <path
+                d="M19 6 C13 6 13 9 13 9 L13 12 L20 12 L20 13 L10 13 C10 13 6 13 6 19 C6 25 10 25 10 25 L12 25 L12 22 C12 22 12 18 16 18 L23 18 C23 18 27 18 27 14 L27 9 C27 9 27 6 19 6 Z"
+                fill="#0284c7"
+                opacity="0.9"
+              />
+              <circle cx="15" cy="9" r="1.2" fill="#ffffff" />
+              <path
+                d="M21 34 C27 34 27 31 27 31 L27 28 L20 28 L20 27 L30 27 C30 27 34 27 34 21 C34 15 30 15 30 15 L28 15 L28 18 C28 18 28 22 24 22 L17 22 C17 22 13 22 13 26 L13 31 C13 31 13 34 21 34 Z"
+                fill="#d97706"
+                opacity="0.9"
+              />
+              <circle cx="25" cy="31" r="1.2" fill="#ffffff" />
+            </svg>
+          ),
         };
-      });
+      case 'c':
+      case 'cpp':
+        return {
+          color: '#0284c7',
+          accent: '#6366f1',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <polygon points="20,5 34,13 34,27 20,35 6,27 6,13" className="stroke-indigo-600" fill="rgba(99,102,241,0.06)" />
+              <line x1="20" y1="5" x2="20" y2="35" className="stroke-sky-500" strokeDasharray="2 2" />
+              <line x1="6" y1="13" x2="34" y2="27" className="stroke-sky-500" strokeDasharray="2 2" />
+              <circle cx="20" cy="20" r="3" className="fill-indigo-600 stroke-none" />
+            </svg>
+          ),
+        };
+      case 'html5':
+      case 'css3':
+        return {
+          color: type === 'html5' ? '#ea580c' : '#2563eb',
+          accent: '#f43f5e',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="2">
+              <polygon points="8,6 32,6 29,32 20,36 11,32" className={type === 'html5' ? 'stroke-orange-500' : 'stroke-blue-500'} fill={type === 'html5' ? 'rgba(234,88,12,0.08)' : 'rgba(37,99,235,0.08)'} />
+              <path d="M14 14 L26 14 L25 24 L20 26 L15 24" className="stroke-slate-700" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ),
+        };
+      case 'decision-tree':
+      case 'random-forest':
+        return {
+          color: '#059669',
+          accent: '#10b981',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="2">
+              <circle cx="20" cy="8" r="3.5" className="fill-emerald-600 stroke-none" />
+              <line x1="20" y1="11.5" x2="12" y2="20" className="stroke-emerald-500" />
+              <line x1="20" y1="11.5" x2="28" y2="20" className="stroke-emerald-500" />
+              <circle cx="12" cy="22" r="3" className="fill-teal-600 stroke-none" />
+              <circle cx="28" cy="22" r="3" className="fill-teal-600 stroke-none" />
+              <line x1="12" y1="25" x2="7" y2="33" className="stroke-teal-400" />
+              <line x1="12" y1="25" x2="17" y2="33" className="stroke-teal-400" />
+              <line x1="28" y1="25" x2="23" y2="33" className="stroke-teal-400" />
+              <line x1="28" y1="25" x2="33" y2="33" className="stroke-teal-400" />
+            </svg>
+          ),
+        };
+      case 'gradient-boost':
+      case 'xgboost':
+      case 'catboost':
+      case 'supervised-learning':
+        return {
+          color: '#d97706',
+          accent: '#e11d48',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="2">
+              <path d="M6 32 Q 14 10, 20 24 T 34 8" className="stroke-amber-500" strokeLinecap="round" />
+              <circle cx="14" cy="18" r="2.5" className="fill-rose-500 stroke-none" />
+              <circle cx="20" cy="24" r="2.5" className="fill-amber-600 stroke-none" />
+              <circle cx="27" cy="14" r="2.5" className="fill-rose-500 stroke-none" />
+              <line x1="6" y1="34" x2="34" y2="34" className="stroke-slate-300" strokeWidth="1" />
+            </svg>
+          ),
+        };
+      case 'computer-vision':
+      case 'object-detection':
+      case 'change-detection':
+        return {
+          color: '#e11d48',
+          accent: '#0284c7',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <rect x="7" y="7" width="26" height="26" rx="4" className="stroke-rose-500" strokeDasharray="3 3" />
+              <circle cx="20" cy="20" r="6" className="stroke-rose-600" />
+              <circle cx="20" cy="20" r="2" className="fill-rose-600 stroke-none" />
+              <line x1="20" y1="5" x2="20" y2="9" className="stroke-sky-500" strokeWidth="2" />
+              <line x1="20" y1="31" x2="20" y2="35" className="stroke-sky-500" strokeWidth="2" />
+              <line x1="5" y1="20" x2="9" y2="20" className="stroke-sky-500" strokeWidth="2" />
+              <line x1="31" y1="20" x2="35" y2="20" className="stroke-sky-500" strokeWidth="2" />
+            </svg>
+          ),
+        };
+      case 'deep-learning':
+      case 'pytorch':
+        return {
+          color: '#f43f5e',
+          accent: '#8b5cf6',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <circle cx="10" cy="14" r="3" className="fill-rose-500 stroke-none" />
+              <circle cx="10" cy="26" r="3" className="fill-rose-500 stroke-none" />
+              <circle cx="20" cy="10" r="3" className="fill-purple-500 stroke-none" />
+              <circle cx="20" cy="20" r="3" className="fill-purple-500 stroke-none" />
+              <circle cx="20" cy="30" r="3" className="fill-purple-500 stroke-none" />
+              <circle cx="30" cy="20" r="3" className="fill-indigo-600 stroke-none" />
+              <line x1="10" y1="14" x2="20" y2="10" className="stroke-rose-300" />
+              <line x1="10" y1="14" x2="20" y2="20" className="stroke-rose-300" />
+              <line x1="10" y1="26" x2="20" y2="20" className="stroke-rose-300" />
+              <line x1="10" y1="26" x2="20" y2="30" className="stroke-rose-300" />
+              <line x1="20" y1="10" x2="30" y2="20" className="stroke-purple-300" />
+              <line x1="20" y1="20" x2="30" y2="20" className="stroke-purple-300" />
+              <line x1="20" y1="30" x2="30" y2="20" className="stroke-purple-300" />
+            </svg>
+          ),
+        };
+      case 'generative-ai':
+      case 'rag':
+        return {
+          color: '#8b5cf6',
+          accent: '#06b6d4',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <path d="M20 6 L23 15 L32 17 L25 23 L27 32 L20 27 L13 32 L15 23 L8 17 L17 15 Z" className="stroke-violet-500 fill-violet-500/10" />
+              <circle cx="20" cy="19" r="2.5" className="fill-cyan-500 stroke-none" />
+            </svg>
+          ),
+        };
+      case 'yolo':
+        return {
+          color: '#0284c7',
+          accent: '#f43f5e',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="2">
+              <rect x="8" y="10" width="24" height="20" rx="3" className="stroke-sky-600" fill="rgba(2,132,199,0.06)" />
+              <polygon points="12,18 20,13 28,18 28,26 20,29 12,26" className="stroke-rose-500" strokeDasharray="2 2" />
+              <circle cx="20" cy="21" r="2" className="fill-rose-600 stroke-none" />
+            </svg>
+          ),
+        };
+      case 'flask':
+      case 'nodejs':
+        return {
+          color: '#10b981',
+          accent: '#059669',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <path d="M16 8 L24 8 L24 14 L30 28 C31 31 29 33 26 33 L14 33 C11 33 9 31 10 28 L16 14 Z" className="stroke-emerald-600" fill="rgba(16,185,129,0.08)" />
+              <circle cx="20" cy="24" r="2" className="fill-emerald-500 stroke-none" />
+              <circle cx="16" cy="28" r="1.5" className="fill-teal-400 stroke-none" />
+            </svg>
+          ),
+        };
+      case 'mongodb':
+        return {
+          color: '#059669',
+          accent: '#10b981',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <path d="M20 6 C20 6 12 14 12 22 C12 28 16 32 20 34 C24 32 28 28 28 22 C28 14 20 6 20 6 Z" className="stroke-emerald-600 fill-emerald-500/10" />
+              <line x1="20" y1="6" x2="20" y2="34" className="stroke-emerald-500" />
+            </svg>
+          ),
+        };
+      case 'git':
+        return {
+          color: '#f97316',
+          accent: '#ef4444',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="2">
+              <circle cx="14" cy="14" r="3.5" className="fill-orange-500 stroke-none" />
+              <circle cx="14" cy="28" r="3.5" className="fill-orange-500 stroke-none" />
+              <circle cx="26" cy="20" r="3.5" className="fill-rose-500 stroke-none" />
+              <line x1="14" y1="17.5" x2="14" y2="24.5" className="stroke-orange-500" />
+              <path d="M14 21 Q 20 21, 23 20" className="stroke-rose-400" />
+            </svg>
+          ),
+        };
+      case 'dsa':
+      default:
+        return {
+          color: '#6366f1',
+          accent: '#a855f7',
+          svg: (
+            <svg viewBox="0 0 40 40" className="w-8 h-8 stroke-current fill-none" strokeWidth="1.8">
+              <rect x="8" y="8" width="10" height="10" rx="2" className="stroke-indigo-600 fill-indigo-50" />
+              <rect x="22" y="8" width="10" height="10" rx="2" className="stroke-indigo-600 fill-indigo-50" />
+              <rect x="15" y="22" width="10" height="10" rx="2" className="stroke-purple-600 fill-purple-50" />
+              <line x1="13" y1="18" x2="17" y2="22" className="stroke-indigo-400" />
+              <line x1="27" y1="18" x2="23" y2="22" className="stroke-purple-400" />
+            </svg>
+          ),
+        };
+    }
+  };
 
-      // Draw Edges with crisp GPU-ready lines (no CPU shadowBlur)
-      ctx.strokeStyle = geom.primaryColor;
-      ctx.lineWidth = isHovered ? 2.0 : 1.5;
-      geom.edges.forEach(([i, j]) => {
-        const p1 = projected[i];
-        const p2 = projected[j];
-        ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.stroke();
-      });
-
-      // Draw Glowing Vertices
-      ctx.fillStyle = geom.secondaryColor;
-      const pointRadius = isHovered ? 2.4 : 1.8;
-      projected.forEach((p) => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, pointRadius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      if (isVisible) {
-        animId = requestAnimationFrame(render);
-      }
-    };
-
-    // Only animate when visible in the viewport
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-        if (isVisible) {
-          cancelAnimationFrame(animId);
-          animId = requestAnimationFrame(render);
-        } else {
-          cancelAnimationFrame(animId);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(container);
-
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(animId);
-    };
-  }, [type, isHovered]);
+  const config = getSymbolConfig();
 
   return (
     <div
-      ref={containerRef}
-      className="relative w-14 h-14 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-rose-500/60 group-hover:shadow-md group-hover:shadow-rose-500/20 shadow-sm transition-all"
+      className="relative w-12 h-12 rounded-xl bg-slate-50/90 border border-slate-200/90 flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 ease-out"
+      style={{
+        transform: isHovered
+          ? 'perspective(400px) rotateX(12deg) rotateY(-15deg) scale(1.08)'
+          : 'perspective(400px) rotateX(0deg) rotateY(0deg) scale(1)',
+        borderColor: isHovered ? config.color : 'rgba(226, 232, 240, 0.9)',
+        boxShadow: isHovered
+          ? `0 8px 20px -4px ${config.color}35`
+          : '0 2px 6px -1px rgba(0,0,0,0.03)',
+      }}
     >
-      <canvas
-        ref={canvasRef}
-        className="w-14 h-14 block"
+      <div
+        className="transition-transform duration-300 ease-out"
         style={{
-          filter: isHovered
-            ? 'drop-shadow(0 0 6px rgba(244, 63, 94, 0.6))'
-            : 'drop-shadow(0 0 2px rgba(99, 102, 241, 0.25))',
-          transform: 'translateZ(0)',
-          willChange: 'filter',
+          transform: isHovered ? 'scale(1.06)' : 'scale(1)',
         }}
+      >
+        {config.svg}
+      </div>
+      {/* Corner subtle color tick */}
+      <div
+        className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l rounded-tl-sm transition-colors"
+        style={{ borderColor: isHovered ? config.color : 'rgba(148, 163, 184, 0.4)' }}
       />
-      {/* Corner subtle color accents */}
-      <div className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l border-rose-500/50" />
-      <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-sky-500/50" />
+      <div
+        className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r rounded-br-sm transition-colors"
+        style={{ borderColor: isHovered ? config.accent : 'rgba(148, 163, 184, 0.4)' }}
+      />
     </div>
   );
 };
+
+export default Skill3DSymbol;

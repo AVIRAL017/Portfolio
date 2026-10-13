@@ -108,10 +108,10 @@ export const portfolioContent: PortfolioContent = {
   personal: {
     name: "Aviral",
     tagline: "Machine Learning & Software Engineer",
-    focus: "Computer Vision • Physics-Informed ML • High-Performance Systems • Astrodynamics",
+    focus: "Computer Vision • Deep Learning • Systems Programming",
     status: "B.Tech CSE (AI & ML) @ PSIT Kanpur (2024–2028)",
     summary:
-      "Machine Learning & Software Engineer specializing in Computer Vision, Physics-Informed ML, and High-Performance Backend Systems. Proven track record architecting multi-mode aerial surveillance pipelines (Siamese Networks, YOLOv8-OBB, ByteTrack) and astrodynamic collision forecasting systems aligned with NASA CARA research guidelines. Proficient in PyTorch, FastAPI, React/TypeScript, and scalable spatial intelligence full-stack deployments.",
+      "Machine Learning & Software Engineer specializing in Computer Vision, Deep Learning, and Systems Programming. Experienced in architecting aerial surveillance pipelines with Siamese Networks and YOLOv8, astrodynamic collision forecasting systems, and full-stack machine learning deployments with PyTorch, Flask, and React.",
     email: "aviralrajput17@gmail.com",
     phone: "+91 9528725448",
     linkedin: "https://linkedin.com/in/aviral-692407312",
@@ -130,134 +130,127 @@ export const portfolioContent: PortfolioContent = {
       description:
         "Comprehensive dual-mode aerial intelligence platform engineering real-time change detection and tactical situational awareness from high-resolution satellite and drone telemetry.",
       architectureDetails: [
-        "Engineered an end-to-end aerial intelligence platform with dual operational modes: post-disaster building structural damage assessment and autonomous border/perimeter tactical surveillance.",
-        "Trained a Siamese ResNet-18 on benchmark xBD and xView2 datasets, combining hybrid feature-difference maps with SSIM to classify damage across 4 severity tiers (No Damage, Minor, Major, Destroyed).",
-        "Fine-tuned YOLOv8s on VisDrone for small aerial targets and YOLOv8n-OBB on DOTA v1.5 for arbitrary-angle orientation without overlap ambiguity; integrated ByteTrack for persistent multi-object tracking across flight paths.",
-        "Architected a 3-tier operational triage engine (CRITICAL, HIGH, MEDIUM) preserving raw coordinate provenance, coupled with Mistral RAG synthesis to generate structured tactical intelligence briefs."
+        "Dual operational modes: post-disaster building structural damage assessment and autonomous border/perimeter tactical surveillance.",
+        "Siamese ResNet-18 on benchmark xBD and xView2 datasets, combining feature-difference maps with SSIM to classify damage across severity tiers.",
+        "Fine-tuned YOLOv8 on VisDrone for small aerial targets and YOLOv8-OBB for arbitrary-angle orientation; integrated ByteTrack for multi-object tracking.",
+        "Triage categorization preserving coordinate provenance, coupled with synthesis for structured intelligence briefs."
       ],
       techStack: [
         "PyTorch",
         "YOLOv8-OBB",
         "OpenCV",
         "FastAPI",
-        "Azure",
-        "Mistral AI",
         "Siamese ResNet",
         "ByteTrack",
         "React",
-        "Vite"
+        "TypeScript"
       ],
       githubUrl: "https://github.com/AVIRAL017/AERION",
-      liveUrl: "https://aerion.aviral17.me",
+      liveUrl: "https://github.com/AVIRAL017/AERION",
       metrics: [
-        { label: "Target Framework", value: "YOLOv8-OBB + Siamese" },
-        { label: "Geospatial Triage", value: "3-Tier Priority" },
-        { label: "Synthesis Layer", value: "Mistral RAG" }
+        { label: "Vision Models", value: "YOLOv8 + Siamese" },
+        { label: "Benchmarks", value: "xBD • VisDrone" },
+        { label: "Tracking", value: "ByteTrack Persistent" }
       ],
       visualType: "aerion",
-      tags: ["Computer Vision", "Satellite Imagery", "PyTorch", "Geospatial AI", "RAG"]
+      tags: ["Computer Vision", "PyTorch", "YOLOv8", "Deep Learning"]
     },
     {
       id: "perigee",
-      title: "Perigee",
-      subtitle: "Explainable AI Satellite Conjunction & Collision Assessment",
+      title: "PERIGEE",
+      subtitle: "LEO Conjunction Assessment & Satellite Maneuver Platform",
       priority: 2,
-      featured: false,
+      featured: true,
       description:
-        "An explainable AI platform forecasting Low Earth Orbit (LEO) satellite collision risks, directly aligned with research priorities established by NASA’s Conjunction Assessment Risk Analysis (CARA) initiative.",
+        "Physics-informed astrodynamic collision avoidance forecasting platform processing Conjunction Data Messages (CDMs) and Two-Line Element sets (TLEs).",
       architectureDetails: [
-        "Developed an explainable astrodynamics AI platform forecasting Low Earth Orbit (LEO) satellite collision risks, directly aligned with research priorities established by NASA’s Conjunction Assessment Risk Analysis (CARA) initiative.",
-        "Constructed a self-throttled ingestion pipeline caching live Conjunction Data Messages (CDMs) and TLEs from Space-Track.org into SQLite with rate-limit exponential backoff, preventing service interruptions.",
-        "Propagated 3D orbital state vectors via SGP4 mechanics to extract 9 astrodynamic features (closing velocity, miss distance, covariance scaling, radar cross-section, radial/in-track/cross-track deltas ΔU, ΔV, ΔW).",
-        "Tuned an XGBoost classifier achieving 79% accuracy across hazard tiers; implemented SHAP feature attributions, automated Mistral maneuver briefings, and an interactive Three.js 3D orbital trajectory viewer."
+        "SGP4 state propagation engine propagating TLEs into 3D orbital cartesian coordinates to compute Miss Distance (km) and relative velocity vectors.",
+        "XGBoost classification model predicting collision probability tiers aligned with NASA CARA conjunction assessment guidelines.",
+        "Explainable AI integration computing feature attribution to identify orbital geometry factors driving collision risk.",
+        "Automated collision mitigation synthesis generating maneuver suggestions and alternative orbital slots."
       ],
       techStack: [
-        "Python",
-        "SGP4 Astrodynamics",
+        "PyTorch",
         "XGBoost",
-        "SHAP",
-        "Mistral AI",
+        "SGP4",
+        "Python",
+        "Scikit-Learn",
         "Three.js",
-        "FastAPI",
-        "SQLite",
-        "Space-Track API"
+        "React"
       ],
-      githubUrl: "https://github.com/AVIRAL017/Perigee",
-      liveUrl: "https://github.com/AVIRAL017/Perigee",
+      githubUrl: "https://github.com/AVIRAL017/PERIGEE",
+      liveUrl: "https://github.com/AVIRAL017/PERIGEE",
       metrics: [
-        { label: "Classification Accuracy", value: "79%" },
-        { label: "Physics Features", value: "9 Derived (ΔU, ΔV, ΔW)" },
-        { label: "Explainability", value: "SHAP + Mistral" }
+        { label: "Orbital Engine", value: "SGP4 Propagation" },
+        { label: "Predictor", value: "XGBoost Classifier" },
+        { label: "Standards", value: "NASA CARA Guidelines" }
       ],
       visualType: "perigee",
-      tags: ["Orbital Mechanics", "XGBoost", "Explainable AI", "SGP4", "FastAPI"]
+      tags: ["Machine Learning", "Astrodynamics", "XGBoost", "Python"]
     },
     {
       id: "rakshak",
       title: "RAKSHAK",
-      subtitle: "Predictive Safety & Emergency Dispatch Platform",
+      subtitle: "AI Emergency Disaster Dispatch & Rapid Evacuation Routing",
       priority: 3,
-      featured: false,
+      featured: true,
       description:
-        "Predictive safety platform leveraging dual Gradient Boosting classifiers to forecast accident probability and severity hotspots across 149 Indian cities.",
+        "Dual-model machine learning disaster triage platform predicting multi-hazard severity across 149 Indian cities and computing optimal hospital dispatch routes.",
       architectureDetails: [
-        "Developed a predictive safety platform leveraging dual Gradient Boosting classifiers to forecast accident probability and severity hotspots across 149 Indian cities.",
-        "Integrated real-time weather, traffic density, and regional seismic telemetry into a multi-factor sensor fusion engine to drive intelligent, proactive ambulance pre-positioning and minimize first-responder transit latency."
+        "Dual Gradient Boosting classifiers predicting disaster severity score (0–100) and casualty impact tiers from meteorological telemetry.",
+        "Dynamic routing engine calculating fastest paths between affected locations and operational emergency hospitals.",
+        "REST API microservices with Flask serving real-time predictions and spatial coordination dashboards."
       ],
       techStack: [
         "Python",
         "Flask",
-        "Scikit-Learn",
         "Gradient Boosting",
-        "Open-Meteo",
-        "Leaflet",
-        "REST APIs"
+        "Scikit-Learn",
+        "Pandas",
+        "NumPy",
+        "React"
       ],
-      githubUrl: "https://github.com/AVIRAL017/RAKSHAK",
-      liveUrl: "https://github.com/AVIRAL017/RAKSHAK",
+      githubUrl: "https://github.com/AVIRAL017/RAKSHAK-MAIN",
+      liveUrl: "https://github.com/AVIRAL017/RAKSHAK-MAIN",
       metrics: [
         { label: "Covered Regions", value: "149 Indian Cities" },
         { label: "ML Classifiers", value: "Dual Gradient Boost" },
-        { label: "Sensor Fusion", value: "Weather + Traffic + Seismic" }
+        { label: "Routing", value: "Emergency Dispatch" }
       ],
       visualType: "rakshak",
-      tags: ["Machine Learning", "Flask", "Gradient Boosting", "Emergency Dispatch"]
+      tags: ["Machine Learning", "Flask", "Gradient Boosting", "Python"]
     },
     {
       id: "hazard-ai",
-      title: "HazardAI",
-      subtitle: "Atmospheric Chemical Dispersion & Evacuation Risk System (SIH1505)",
+      title: "Hazard_AI",
+      subtitle: "Chemical Airborne Dispersion & Evacuation Platform",
       priority: 4,
       featured: false,
       description:
-        "Full-stack operational prototype predicting how airborne hazardous chemical releases disperse through industrial environments, scoring risks to real civilian infrastructure and computing safe evacuation routes.",
+        "Physics-based dispersion modeling predicting airborne hazardous chemical spread through industrial zones and computing civilian evacuation routes.",
       architectureDetails: [
-        "Gaussian Plume Dispersion Engine: Physics-based steady-state ground-level neutral gas dispersion modeling incorporating atmospheric turbulence stability classes.",
-        "Chemical Database: Integrates 10 toxic industrial compounds with verified toxicology thresholds from NOAA CAMEO Chemicals.",
-        "Geospatial Infrastructure Intersection: Real-time spatial queries against OpenStreetMap via Overpass API (hospitals, schools, road networks, parks) intersecting Shapely hazard polygons.",
-        "Hazard-Avoiding Evacuation: A* graph search over live OSM road networks routing populations to safe green-zone assembly points away from downwind plumes."
+        "Gaussian Plume dispersion modeling incorporating atmospheric stability classes and wind telemetry.",
+        "Chemical database integration with verified toxicology thresholds for hazardous industrial compounds.",
+        "Geospatial infrastructure intersection mapping affected civilian areas and computing evacuation paths."
       ],
       techStack: [
         "Python",
         "FastAPI",
         "NumPy",
         "SciPy",
-        "GeoPandas",
-        "Shapely",
-        "scikit-learn",
+        "Scikit-Learn",
         "React",
-        "TypeScript",
-        "Leaflet"
+        "TypeScript"
       ],
       githubUrl: "https://github.com/AVIRAL017/Hazard_AI",
       liveUrl: "https://github.com/AVIRAL017/Hazard_AI",
       metrics: [
-        { label: "Passing Tests", value: "234+ Tests" },
         { label: "Dispersion Model", value: "Gaussian Plume" },
-        { label: "Evacuation Routing", value: "OSM A* Graph" }
+        { label: "Evacuation Routing", value: "A* Graph Search" },
+        { label: "Tests Passed", value: "234+ Passing" }
       ],
       visualType: "hazard",
-      tags: ["GIS / Spatial AI", "FastAPI", "Scientific Computing", "Disaster Tech"]
+      tags: ["Python", "FastAPI", "Scientific Computing", "GIS"]
     },
     {
       id: "civic-portal",
@@ -266,26 +259,25 @@ export const portfolioContent: PortfolioContent = {
       priority: 5,
       featured: false,
       description:
-        "Smart civic governance platform enabling citizens to report municipal infractions, submit official FIRs, and schedule hospital appointments with live geo-tracking.",
+        "Smart civic governance platform enabling citizens to report municipal infractions, track grievances, and schedule appointments.",
       architectureDetails: [
-        "Full-Stack Microservices: Architected with Node.js and MongoDB with structured schema validations for high-concurrency municipal issue filing.",
-        "Real-Time Tracking: Live complaint status tracking pipeline with interactive spatial maps and department triage dashboards.",
-        "Civic Services Integration: Unified portal for municipal grievance resolution, police FIR tracking, and healthcare scheduling."
+        "Full-Stack architecture built with Node.js, Express, and MongoDB with schema validations.",
+        "Complaint status tracking pipeline with interactive maps and departmental triage workflows.",
+        "Integrated services for grievance resolution, public safety, and municipal service scheduling."
       ],
       techStack: [
         "Node.js",
         "Express.js",
         "MongoDB",
         "JavaScript",
-        "Interactive Maps",
         "REST APIs"
       ],
       githubUrl: "https://github.com/AVIRAL017/CIVIC-MANAGEMENT-PORTAL-MAIN",
       liveUrl: "https://github.com/AVIRAL017/CIVIC-MANAGEMENT-PORTAL-MAIN",
       metrics: [
-        { label: "Architecture", value: "Node.js + MongoDB" },
-        { label: "Mapping", value: "Interactive Spatial" },
-        { label: "Workflows", value: "Grievance + FIR + Health" }
+        { label: "Backend", value: "Node.js + Express" },
+        { label: "Database", value: "MongoDB" },
+        { label: "Portal", value: "Kanpur Municipal" }
       ],
       visualType: "civic",
       tags: ["Node.js", "MongoDB", "Civic Tech", "Full-Stack"]
@@ -293,64 +285,62 @@ export const portfolioContent: PortfolioContent = {
   ],
   skills: [
     {
-      name: "Languages",
+      name: "Programming Languages",
       categoryKey: "languages",
       description: "Systems programming, mathematical modeling, and standards-compliant web foundations",
       skills: [
-        { name: "Python", iconType: "python", tag: "Primary Language", highlights: "PyTorch, FastAPI, Scientific Stack (NumPy, SciPy)" },
-        { name: "C++", iconType: "cpp", tag: "Algorithms", highlights: "High-Performance Data Structures & Modern STL" },
-        { name: "C", iconType: "c", tag: "Systems", highlights: "Low-level Memory Architecture & Pointer Mechanics" },
-        { name: "JavaScript", iconType: "nodejs", tag: "Modern Web", highlights: "ESNext, Three.js, Interactive Async Pipelines" },
-        { name: "SQL", iconType: "mongodb", tag: "Databases", highlights: "Relational Queries, Schema Optimization & Indexing" },
-        { name: "HTML5 & CSS3", iconType: "html5", tag: "Web Standards", highlights: "Modern Semantic Layouts & GPU Accelerated Styling" }
+        { name: "Python", iconType: "python", tag: "Primary", highlights: "PyTorch, Scikit-Learn, Scientific Stack (NumPy, SciPy)" },
+        { name: "C", iconType: "c", tag: "Systems", highlights: "Low-level memory architecture, pointers, and performance" },
+        { name: "C++", iconType: "cpp", tag: "Algorithms", highlights: "Data structures, modern STL, and algorithmic problem solving" },
+        { name: "HTML5", iconType: "html5", tag: "Web", highlights: "Semantic structure, responsive layouts, and accessibility" },
+        { name: "CSS3", iconType: "css3", tag: "Styling", highlights: "Modern responsive styling, CSS Grid, Flexbox, and UI design" }
       ]
     },
     {
-      name: "AI & Deep Learning",
-      categoryKey: "ai",
-      description: "Deep neural networks, state-of-the-art vision models, and ensemble predictive algorithms",
-      skills: [
-        { name: "PyTorch", iconType: "pytorch", tag: "DL Framework", highlights: "Autograd, tensor computation, custom architectures, GPU acceleration" },
-        { name: "Ultralytics YOLOv8", iconType: "yolo", tag: "Standard & OBB", highlights: "v8 detection, Oriented Bounding Boxes, VisDrone & DOTA benchmarks" },
-        { name: "XGBoost", iconType: "xgboost", tag: "SOTA Boosting", highlights: "Second-order Taylor expansion, regularization, and tree pruning" },
-        { name: "Siamese Networks", iconType: "change-detection", tag: "Metric Learning", highlights: "ResNet-18 feature difference mapping for xBD / xView2 damage grading" },
-        { name: "ByteTrack", iconType: "computer-vision", tag: "Object Tracking", highlights: "Persistent multi-object tracking across flight telemetry paths" },
-        { name: "Scikit-Learn", iconType: "supervised-learning", tag: "ML Toolkit", highlights: "Ensembles, pipelines, cross-validation & dimensionality reduction" }
-      ]
-    },
-    {
-      name: "Vision & Astrodynamics",
+      name: "Machine Learning",
       categoryKey: "ml",
-      description: "Computer vision benchmarks, remote sensing, and physics-informed orbital mechanics",
+      description: "Supervised predictive modeling, tree ensembles, and regression algorithms",
       skills: [
-        { name: "OpenCV", iconType: "computer-vision", tag: "Vision Engine", highlights: "Image transformations, spatial kernels, feature extraction & morphology" },
-        { name: "SSIM", iconType: "change-detection", tag: "Structural Metrics", highlights: "Structural Similarity Index metric analysis for structural damage detection" },
-        { name: "Remote Sensing", iconType: "change-detection", tag: "Aerial Benchmark", highlights: "xBD, xView2, DOTA v1.5, and VisDrone satellite and drone datasets" },
-        { name: "SGP4 Orbital Mechanics", iconType: "deep-learning", tag: "Astrodynamics", highlights: "3D state vector propagation from CDMs and TLEs (Space-Track.org)" }
+        { name: "Supervised Learning", iconType: "supervised-learning", tag: "Core ML", highlights: "Classification, regression, cross-validation, and hyperparameter tuning" },
+        { name: "Decision Trees", iconType: "decision-tree", tag: "Ensemble", highlights: "Splitting criteria, tree pruning, and decision boundaries" },
+        { name: "Random Forest", iconType: "random-forest", tag: "Bagging", highlights: "Bootstrap aggregating, feature importance, and variance reduction" },
+        { name: "Gradient Boosting", iconType: "gradient-boost", tag: "Boosting", highlights: "Sequential residual fitting, shrinkage rates, and loss minimization" },
+        { name: "XGBoost", iconType: "xgboost", tag: "SOTA", highlights: "Extreme gradient boosting, regularized objective functions, and pruning" },
+        { name: "CatBoost", iconType: "catboost", tag: "Categorical", highlights: "Ordered boosting and symmetric tree optimization" }
       ]
     },
     {
-      name: "GenAI & Explainability",
-      categoryKey: "core",
-      description: "Generative foundation models, evidence grounding, and feature attribution",
+      name: "Artificial Intelligence & Vision",
+      categoryKey: "ai",
+      description: "Computer vision architectures, deep learning neural networks, and generative models",
       skills: [
-        { name: "SHAP", iconType: "supervised-learning", tag: "Feature Attribution", highlights: "Shapley additive explanations for orbital hazard classification models" },
-        { name: "RAG Systems", iconType: "rag", tag: "Retrieval", highlights: "Evidence grounding, vector embedding search, and context windows" },
-        { name: "Mistral LLM", iconType: "generative-ai", tag: "Synthesis Engine", highlights: "Operational tactical briefing synthesis and maneuver recommendations" },
-        { name: "Operational Triage", iconType: "gradient-boost", tag: "Decision Pipeline", highlights: "3-tier priority categorization preserving raw coordinate heatmaps" }
+        { name: "Computer Vision", iconType: "computer-vision", tag: "Vision", highlights: "Image processing, spatial convolutions, and aerial image analysis" },
+        { name: "Deep Learning", iconType: "deep-learning", tag: "Neural Nets", highlights: "Convolutional Neural Networks, backpropagation, and PyTorch tensors" },
+        { name: "Generative AI", iconType: "generative-ai", tag: "GenAI", highlights: "Foundation models, prompt engineering, and contextual synthesis" },
+        { name: "RAG Systems", iconType: "rag", tag: "Retrieval", highlights: "Retrieval-Augmented Generation, document grounding, and embeddings" },
+        { name: "Object Detection", iconType: "object-detection", tag: "Detection", highlights: "YOLOv8, Oriented Bounding Boxes (OBB), and target localization" },
+        { name: "Change Detection", iconType: "change-detection", tag: "Remote Sensing", highlights: "Siamese neural networks and pre/post disaster feature differences" }
       ]
     },
     {
-      name: "Backend, Web & Cloud",
+      name: "Tools & Frameworks",
       categoryKey: "tools",
-      description: "Scalable API services, real-time 3D web interfaces, and containerized deployments",
+      description: "Machine learning engines, backend APIs, databases, and version control",
       skills: [
-        { name: "FastAPI", iconType: "flask", tag: "High-Perf API", highlights: "Asynchronous Python endpoints, Pydantic schemas, high-throughput inference" },
-        { name: "React & Vite", iconType: "html5", tag: "Frontend Stack", highlights: "Reactive state, custom hooks, performant component trees" },
-        { name: "Three.js", iconType: "css3", tag: "3D Web Graphics", highlights: "WebGL orbital trajectories, interactive shaders, and scene graphs" },
-        { name: "REST APIs & SQLite", iconType: "mongodb", tag: "Data Ingestion", highlights: "Self-throttled CDM/TLE caching with rate-limit exponential backoff" },
-        { name: "MongoDB & Azure", iconType: "mongodb", tag: "Cloud & Storage", highlights: "Cloud infrastructure provisioning, geospatial indexing & scalable storage" },
-        { name: "Docker & Git", iconType: "git", tag: "DevOps & CI/CD", highlights: "Containerization, microservice orchestration, and version-controlled pipelines" }
+        { name: "PyTorch", iconType: "pytorch", tag: "Framework", highlights: "Model architectures, autograd, custom training loops, and GPU acceleration" },
+        { name: "Ultralytics YOLO", iconType: "yolo", tag: "Vision", highlights: "YOLOv8 detection, segmentation, and oriented bounding boxes" },
+        { name: "Flask", iconType: "flask", tag: "Backend", highlights: "RESTful microservice APIs and predictive model serving" },
+        { name: "Node.js", iconType: "nodejs", tag: "Full-Stack", highlights: "JavaScript server runtimes and asynchronous API workflows" },
+        { name: "MongoDB", iconType: "mongodb", tag: "Database", highlights: "NoSQL document storage, schemas, and query optimization" },
+        { name: "Git & GitHub", iconType: "git", tag: "DevOps", highlights: "Version control, branching workflows, and open-source collaboration" }
+      ]
+    },
+    {
+      name: "Core Computer Science",
+      categoryKey: "core",
+      description: "Foundational computer science concepts and algorithmic complexity",
+      skills: [
+        { name: "Data Structures & Algorithms", iconType: "dsa", tag: "Core CS", highlights: "Trees, graphs, dynamic programming, sorting, and time/space complexity" }
       ]
     }
   ],
@@ -360,44 +350,32 @@ export const portfolioContent: PortfolioContent = {
       score: "210+",
       subtitle: "Problems Solved",
       profileUrl: "https://leetcode.com/u/AVIRAL_17/",
-      detail: "Handle: AVIRAL_17 • Comprehensive focus on graph theory, dynamic programming, trees, and algorithmic optimization.",
+      detail: "Handle: AVIRAL_17 • Active problem solving across dynamic programming, trees, graph traversal, and arrays.",
       badge: "210+ Solved"
     },
     {
       platform: "HackerRank",
-      score: "4-Star",
-      subtitle: "Problem Solving Badge",
+      score: "Problem Solving",
+      subtitle: "Algorithms & Data Structures",
       profileUrl: "https://www.hackerrank.com/profile/AIML1B_059",
-      detail: "Profile: AIML1B_059 • 4-Star Coder in Problem Solving & Algorithms across data structures, sorting, and computational complexity.",
-      badge: "★★★★ Problem Solving"
+      detail: "Profile: AIML1B_059 • Verified problem solver in C++ and algorithmic complexity.",
+      badge: "Problem Solving"
     }
   ],
   achievements: [
     {
-      title: "ISRO Certification: Participated in ISRO Hackathon",
-      issuer: "ISRO (Indian Space Research Organisation) — Bharatiya Antariksh Hackathon",
+      title: "Bharatiya Antariksh Hackathon 2026",
+      issuer: "ISRO (Indian Space Research Organisation)",
       date: "2026",
       credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/AviralHLP-Certificate1743928473.pdf",
       category: "Hackathon"
     },
     {
-      title: "Coursera Specializations (DeepLearning.AI)",
-      issuer: "Verified in Neural Networks & Deep Learning, Advanced Learning Algorithms, and Generative AI",
-      credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/1-bb0eea3b-1533-420e-bbb0-3ff902f5730d%20(1).pdf",
-      category: "Course"
-    },
-    {
       title: "Hack with Uttar Pradesh 2025 Participant",
-      issuer: "Chandigarh University Hackathon (State-level competitive hackathon)",
+      issuer: "Chandigarh University Hackathon (State-Level Competition)",
       date: "2025",
       credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/WhatsApp%20Image%202025-11-27%20at%2023.03.59_5d84796b.jpg",
       category: "Hackathon"
-    },
-    {
-      title: "HackerRank Problem Solving: 4-Star Coder",
-      issuer: "HackerRank Verified Gold Badge in Problem Solving & Algorithms (Profile: AIML1B_059)",
-      credentialUrl: "https://www.hackerrank.com/profile/AIML1B_059",
-      category: "Course"
     },
     {
       title: "Finalist at PROTECH 2025 Project Exhibition",
@@ -405,28 +383,42 @@ export const portfolioContent: PortfolioContent = {
       date: "2025",
       credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/PSITKNP23062549.pdf",
       category: "Exhibition"
+    },
+    {
+      title: "Supervised Machine Learning: Regression and Classification",
+      issuer: "DeepLearning.AI & Stanford University (Coursera)",
+      credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/1-3b20e916-67e6-4bee-b435-c56da0f22cc7%20(3).pdf",
+      category: "Course"
+    },
+    {
+      title: "Advanced Learning Algorithms",
+      issuer: "DeepLearning.AI & Stanford University (Coursera)",
+      credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/1-7e0e32ba-906e-438d-a876-de72ee660d69.pdf",
+      category: "Course"
+    },
+    {
+      title: "Neural Networks and Deep Learning",
+      issuer: "DeepLearning.AI (Coursera)",
+      credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/1-bb0eea3b-1533-420e-bbb0-3ff902f5730d%20(1).pdf",
+      category: "Course"
+    },
+    {
+      title: "Generative AI for Everyone",
+      issuer: "DeepLearning.AI (Coursera)",
+      credentialUrl: "https://github.com/AVIRAL017/CERTIFICATES/blob/main/1-3b20e916-67e6-4bee-b435-c56da0f22cc7%20(3).pdf",
+      category: "Course"
     }
   ],
   education: [
     {
-      degree: "Bachelor of Technology in Computer Science & Engineering",
-      specialization: "Artificial Intelligence & Machine Learning (AI & ML)",
+      degree: "Bachelor of Technology (B.Tech)",
+      specialization: "Computer Science & Engineering (AI & ML)",
       institution: "Pranveer Singh Institute of Technology (PSIT)",
       location: "Kanpur, India",
       duration: "2024 – 2028",
-      score: "8.034 / 10.0",
-      scoreLabel: "Cumulative CGPA",
-      status: "Currently Enrolled"
-    },
-    {
-      degree: "Higher Secondary Certificate (Class XII - PCM)",
-      specialization: "Physics, Chemistry, Mathematics (PCM)",
-      institution: "Mount Litera Zee School",
-      location: "Etawah, India",
-      duration: "2024",
-      score: "80.0%",
-      scoreLabel: "Aggregate Score",
-      status: "Completed"
+      score: "8.03 / 10.0",
+      scoreLabel: "Current CGPA",
+      status: "Currently Enrolled (2nd Year)"
     }
   ]
 };

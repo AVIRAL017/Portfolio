@@ -57,6 +57,7 @@ export const About: React.FC = () => {
             </div>
 
             {/* Core Domain Badges */}
+            {/* Core Domain Badges */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="p-3.5 rounded-xl bg-gradient-to-br from-rose-50 to-pink-50/50 border border-rose-200/80 shadow-sm flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-rose-100 text-rose-600">
@@ -64,7 +65,7 @@ export const About: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-xs font-bold text-slate-900">Computer Vision</div>
-                  <div className="text-[10px] font-mono text-slate-500 font-medium">YOLOv8-OBB • Siamese ResNet</div>
+                  <div className="text-[10px] font-mono text-slate-500 font-medium">YOLOv8 • Siamese Networks</div>
                 </div>
               </div>
 
@@ -73,8 +74,8 @@ export const About: React.FC = () => {
                   <Binary className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-900">Astrodynamics &amp; ML</div>
-                  <div className="text-[10px] font-mono text-slate-500 font-medium">SGP4 Mechanics • NASA CARA</div>
+                  <div className="text-xs font-bold text-slate-900">Deep Learning &amp; ML</div>
+                  <div className="text-[10px] font-mono text-slate-500 font-medium">PyTorch • Ensembles &amp; Boosting</div>
                 </div>
               </div>
 
@@ -83,8 +84,8 @@ export const About: React.FC = () => {
                   <Sparkles className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-900">GenAI &amp; Triage</div>
-                  <div className="text-[10px] font-mono text-slate-500 font-medium">Mistral RAG • SHAP Analytics</div>
+                  <div className="text-xs font-bold text-slate-900">Systems &amp; Algorithms</div>
+                  <div className="text-[10px] font-mono text-slate-500 font-medium">C++ • 210+ LeetCode DSA</div>
                 </div>
               </div>
             </div>

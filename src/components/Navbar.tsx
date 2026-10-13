@@ -1,55 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Github, Linkedin, FileText, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Terminal, Github, Linkedin, FileText, Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
 import { portfolioContent } from '../data/content';
 
-interface NavbarProps {
-  onNavigate: (id: string) => void;
-  activeSection: string;
-}
-
 const NAV_ITEMS = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Metrics', href: '#competitive' },
-  { label: 'Certificates', href: '#achievements' },
-  { label: 'Education', href: '#education' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Overview', path: '/' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Credentials', path: '/credentials' },
+  { label: 'Contact', path: '/contact' },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => {
+export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 25);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  // Close mobile drawer on route change
+  useEffect(() => {
     setMobileMenuOpen(false);
-    onNavigate(href);
-  };
+  }, [location.pathname]);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'py-3 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-sm'
+          ? 'py-3 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-md shadow-slate-200/50'
           : 'py-5 bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo / Brand Callout */}
-          <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, '#hero')}
+          <Link
+            to="/"
             className="flex items-center space-x-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg"
             aria-label="Aviral Home"
           >
@@ -64,21 +57,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                 SYS: 3D_PIPELINE
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 font-mono text-xs">
             {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.href.slice(1);
+              const isActive = location.pathname === item.path;
               return (
-                <a
+                <NavLink
                   key={item.label}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-3 py-1.5 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+                  to={item.path}
+                  className={`relative px-3.5 py-1.5 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                     isActive
-                      ? 'text-indigo-700 font-bold bg-indigo-50 border border-indigo-200/60 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                      ? 'text-indigo-700 font-bold bg-indigo-50 border border-indigo-200/70 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 font-medium'
                   }`}
                 >
                   {item.label}
@@ -89,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </a>
+                </NavLink>
               );
             })}
           </nav>
@@ -142,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-slate-900 shadow-xs"
+              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors focus:outline-none"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -151,7 +143,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -159,48 +151,57 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden bg-white/95 backdrop-blur-2xl border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 font-mono text-sm shadow-xl"
+            className="md:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl overflow-hidden"
           >
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className="block px-3 py-2 rounded-lg text-slate-700 hover:text-indigo-600 hover:bg-slate-50 transition-colors"
-              >
-                › {item.label}
-              </a>
-            ))}
+            <div className="px-4 py-5 space-y-2 font-mono text-xs">
+              {NAV_ITEMS.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <NavLink
+                    key={item.label}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block px-4 py-2.5 rounded-xl transition-all ${
+                      isActive
+                        ? 'bg-indigo-50 text-indigo-700 font-bold border border-indigo-200'
+                        : 'text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    › {item.label}
+                  </NavLink>
+                );
+              })}
 
-            <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-              <div className="flex space-x-3">
+              <div className="pt-3 border-t border-slate-200/80 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={portfolioContent.personal.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-700"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={portfolioContent.personal.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg bg-slate-100 text-slate-700"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
+
                 <a
-                  href={portfolioContent.personal.github}
+                  href={portfolioContent.personal.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600"
+                  className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-bold"
                 >
-                  <Github className="w-4 h-4" />
-                </a>
-                <a
-                  href={portfolioContent.personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600"
-                >
-                  <Linkedin className="w-4 h-4" />
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Resume (PDF)</span>
                 </a>
               </div>
-
-              <a
-                href={portfolioContent.personal.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-600/20"
-              >
-                <FileText className="w-3.5 h-3.5" />
-                <span>Resume (PDF)</span>
-              </a>
             </div>
           </motion.div>
         )}

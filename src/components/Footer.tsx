@@ -1,22 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { portfolioContent } from '../data/content';
 import { Terminal, Github, Linkedin, ArrowUp } from 'lucide-react';
 
-interface FooterProps {
-  onNavigate: (id: string) => void;
-}
-
 const NAV_ITEMS = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Metrics', href: '#competitive' },
-  { label: 'Certificates', href: '#achievements' },
-  { label: 'Education', href: '#education' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Overview', path: '/' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Credentials', path: '/credentials' },
+  { label: 'Contact', path: '/contact' },
 ];
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="relative border-t border-slate-200/80 bg-white/90 backdrop-blur-lg pt-16 pb-12 px-4 sm:px-6 lg:px-8 shadow-sm">
       <div className="max-w-7xl mx-auto">
@@ -65,17 +64,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
             <div className="grid grid-cols-2 gap-2 font-mono text-xs">
               {NAV_ITEMS.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(item.href);
-                  }}
+                  to={item.path}
                   className="text-slate-600 hover:text-rose-600 transition-colors py-1 font-medium"
                 >
                   › {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -84,12 +79,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="md:col-span-3 space-y-3 flex flex-col justify-between items-start md:items-end">
             <div className="text-left md:text-right font-mono text-xs text-slate-600 space-y-1 font-medium">
               <div>HOST: VERCEL_EDGE</div>
-              <div>GRAPHICS: THREE.JS // BISS_SPEC</div>
+              <div>GRAPHICS: THREE.JS // 3D_SPATIAL</div>
               <div className="text-emerald-600 font-bold">STATUS: 100% OPERATIONAL</div>
             </div>
 
             <button
-              onClick={() => onNavigate('#hero')}
+              onClick={scrollToTop}
               className="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 hover:border-rose-400 text-xs font-mono font-bold text-slate-700 hover:text-rose-600 flex items-center gap-1.5 shadow-sm transition-all"
             >
               <span>Back To Top</span>
@@ -104,7 +99,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             © {new Date().getFullYear()} Aviral Rajput. All technical architecture rights reserved.
           </div>
           <div className="text-slate-500 font-semibold">
-            ENGINEERED WITH REACT, THREE.JS &amp; TAILWIND CSS
+            ENGINEERED WITH REACT, THREE.JS, FRAMER MOTION &amp; TAILWIND CSS
           </div>
         </div>
       </div>
