@@ -1,190 +1,196 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { PageTransition } from '../components/PageTransition';
 import { About } from '../components/About';
 import { portfolioContent } from '../data/content';
 import {
-  Terminal,
-  ArrowRight,
-  Cpu,
-  Award,
-  Send,
-  Download,
-  Sparkles,
-  Binary,
-  Radio
+  ChevronRight,
+  Activity,
+  FileText,
+  Github,
+  Linkedin,
+  ArrowDown
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
+  const [pulseActive, setPulseActive] = useState(false);
+
+  const handleTriggerPulse = () => {
+    setPulseActive(true);
+    window.dispatchEvent(new CustomEvent('pipeline-pulse'));
+    setTimeout(() => setPulseActive(false), 2400);
+  };
+
+  const scrollToAbout = () => {
+    const el = document.getElementById('about');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <PageTransition>
-      <div className="relative min-h-screen pb-20">
-        {/* Upper 3D Spatial Theater Stage (Clear zone for 3D Recon Drone) */}
-        <section className="relative pt-24 pb-6 min-h-[220px] sm:min-h-[260px] flex flex-col items-center justify-end px-4 text-center pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-md text-slate-800 font-mono text-xs font-semibold pointer-events-auto"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-500/50" />
-            <Radio className="w-3.5 h-3.5 text-rose-600" />
-            <span>3D SPATIAL TELEMETRY // AUTONOMOUS RECON DRONE</span>
-          </motion.div>
-          <span className="text-[10px] font-mono text-slate-500 mt-2 font-medium">
-            QUAD-ROTOR GIMBAL TELEMETRY • LIVE SPATIAL FLIGHT CONTROLLER
-          </span>
-        </section>
-
-        {/* Lower Content Stage: Positioned safely BELOW 3D model with 100% Contrast */}
-        <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Left Column: Executive Bio Card with Frosted White Backdrop */}
+      <div className="relative min-h-screen">
+        {/* Full 3D Hero Section - 100% Open & Visible */}
+        <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Main Hero HUD Content (Transparent wrapper so 3D facility is 100% visible) */}
+          <div className="relative z-10 max-w-5xl mx-auto w-full text-center flex flex-col items-center pointer-events-none">
+            {/* Status Pill */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-8 hud-panel rounded-3xl p-8 sm:p-10 border border-slate-200/90 bg-white/95 backdrop-blur-xl shadow-xl flex flex-col justify-between"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="pointer-events-auto inline-flex items-center gap-2 px-4 py-1.5 rounded-full hud-panel border-indigo-200/80 text-indigo-700 font-mono text-xs mb-6 shadow-sm bg-white/90 backdrop-blur-md"
             >
-              <div className="space-y-6">
-                {/* Live Status Pill */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 font-mono text-xs font-semibold shadow-xs">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>MACHINE LEARNING &amp; SOFTWARE ENGINEER</span>
-                </div>
-
-                {/* Main Headline */}
-                <div className="space-y-3">
-                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-slate-900 leading-[1.1]">
-                    Engineering{' '}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-indigo-600 to-sky-600">
-                      Autonomous Vision
-                    </span>{' '}
-                    &amp; Spatial Systems
-                  </h1>
-                  <p className="text-base sm:text-lg font-sans text-slate-600 max-w-2xl font-normal leading-relaxed">
-                    Hi, I'm <strong className="text-slate-900 font-bold">{portfolioContent.personal.name}</strong>. B.Tech Computer Science (AI &amp; ML) undergraduate at PSIT Kanpur specializing in computer vision pipelines, deep neural networks, and scalable software systems.
-                  </p>
-                </div>
-
-                {/* Primary Action Buttons */}
-                <div className="flex flex-wrap items-center gap-3.5 pt-2">
-                  <Link
-                    to="/projects"
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 hover:opacity-95 text-white font-mono text-xs sm:text-sm font-bold shadow-lg shadow-rose-500/25 transition-all hover:scale-105"
-                  >
-                    <span>EXPLORE DEPLOYMENTS</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-800 font-mono text-xs sm:text-sm font-bold shadow-md transition-all hover:scale-105"
-                  >
-                    <Send className="w-4 h-4 text-rose-600" />
-                    <span>INITIATE TRANSMISSION</span>
-                  </Link>
-
-                  <a
-                    href={portfolioContent.personal.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-mono text-xs font-semibold shadow-xs transition-all"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>RESUME (PDF)</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Quick Metrics Bar Inside Frosted Card */}
-              <div className="pt-8 mt-6 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
-                  <div className="text-xl sm:text-2xl font-black text-rose-600 font-display">210+</div>
-                  <div className="text-[10px] text-slate-500 uppercase font-semibold">DSA Solved</div>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
-                  <div className="text-xl sm:text-2xl font-black text-sky-600 font-display">8.03</div>
-                  <div className="text-[10px] text-slate-500 uppercase font-semibold">B.Tech CGPA</div>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
-                  <div className="text-xl sm:text-2xl font-black text-emerald-600 font-display">★★★★</div>
-                  <div className="text-[10px] text-slate-500 uppercase font-semibold">HackerRank Gold</div>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
-                  <div className="text-xl sm:text-2xl font-black text-indigo-600 font-display">ISRO</div>
-                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Hackathon '26</div>
-                </div>
-              </div>
+              <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping inline-block" />
+              <span className="font-semibold tracking-wide text-slate-700">
+                SYSTEM: ACTIVE // 3D PIPELINE TELEMETRY
+              </span>
+              <span className="text-slate-300">|</span>
+              <span className="text-rose-600 font-bold">PSIT KANPUR (2024–2028)</span>
             </motion.div>
 
-            {/* Right Column: 3D Spatial Navigator Card */}
+            {/* 3D Holographic Name Header */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="lg:col-span-4 hud-panel rounded-3xl p-7 sm:p-8 border border-slate-200/90 bg-white/95 backdrop-blur-xl shadow-xl flex flex-col justify-between"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative mb-5 select-none"
             >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
-                  <div className="flex items-center gap-2 font-mono text-xs text-rose-600 font-bold uppercase tracking-wider">
-                    <Sparkles className="w-4 h-4" />
-                    <span>3D SPATIAL STUDIO</span>
-                  </div>
-                  <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
-                    60–120 FPS
-                  </span>
-                </div>
-
-                <p className="text-xs font-mono text-slate-600 leading-relaxed font-medium">
-                  The persistent Three.js spatial scene glides automatically between engineering figures as you navigate pages:
-                </p>
-
-                <div className="space-y-2.5 font-mono text-xs pt-1">
-                  <Link
-                    to="/projects"
-                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-200/80 hover:border-rose-200 text-slate-800 hover:text-rose-700 transition-all group"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <Cpu className="w-4 h-4 text-rose-600" />
-                      <span className="font-semibold">CAD Turntable Platform</span>
-                    </span>
-                    <span className="text-slate-400 group-hover:text-rose-600 font-bold">→</span>
-                  </Link>
-
-                  <Link
-                    to="/skills"
-                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200/80 hover:border-sky-200 text-slate-800 hover:text-sky-700 transition-all group"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <Binary className="w-4 h-4 text-sky-600" />
-                      <span className="font-semibold">Orbital Satellite CubeSat</span>
-                    </span>
-                    <span className="text-slate-400 group-hover:text-sky-600 font-bold">→</span>
-                  </Link>
-
-                  <Link
-                    to="/credentials"
-                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-emerald-200 text-slate-800 hover:text-emerald-700 transition-all group"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <Award className="w-4 h-4 text-emerald-600" />
-                      <span className="font-semibold">Algorithmic Data Spire</span>
-                    </span>
-                    <span className="text-slate-400 group-hover:text-emerald-600 font-bold">→</span>
-                  </Link>
-                </div>
+              <div className="absolute -top-6 left-0 text-[10px] font-mono text-rose-600 font-bold tracking-widest hidden sm:block">
+                PIPELINE_ORIGIN [0, 0, 0] // 3D_FACILITY_ACTIVE
               </div>
 
-              <div className="pt-4 border-t border-slate-200/80 mt-6 text-[10px] font-mono text-slate-500">
-                STATUS: CONTINUOUS 3D INTERPOLATION ACTIVE
+              <h1 className="text-6xl sm:text-8xl md:text-9xl font-display font-black tracking-tight text-slate-900 drop-shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+                <span className="relative inline-block">
+                  AVIRAL
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-r from-rose-500/25 via-indigo-500/20 to-sky-500/25 blur-3xl pointer-events-none -z-10"
+                  >
+                    AVIRAL
+                  </span>
+                </span>
+              </h1>
+
+              <div className="absolute -bottom-4 right-0 text-[10px] font-mono text-sky-600 font-bold tracking-widest hidden sm:block">
+                LATENT_DIM: 512-D // NASA_CARA_RESEARCH
               </div>
             </motion.div>
+
+            {/* Subtitle / Focus Statement */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="max-w-2xl mx-auto space-y-3 mb-9"
+            >
+              <p className="text-xl sm:text-3xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 via-purple-700 to-rose-600">
+                Machine Learning &amp; Software Engineer
+              </p>
+              <p className="text-sm sm:text-base text-slate-700 font-sans leading-relaxed font-normal bg-white/70 backdrop-blur-sm p-3 rounded-2xl border border-slate-200/60 shadow-xs inline-block">
+                Architecting aerial surveillance pipelines, astrodynamic collision forecasting (NASA CARA research guidelines), and high-performance full-stack deployments.
+              </p>
+            </motion.div>
+
+            {/* Action Buttons: View Projects, Pulse Pipeline, Download Resume */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-mono text-xs sm:text-sm"
+            >
+              {/* Primary View Projects */}
+              <Link
+                to="/projects"
+                className="group relative px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold tracking-wide shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2 hover:scale-[1.02] border border-indigo-400/30"
+              >
+                <span>EXPLORE ARCHITECTURE</span>
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              {/* Interactive Trigger Pipeline Pulse */}
+              <button
+                onClick={handleTriggerPulse}
+                className={`px-5 py-3.5 rounded-xl hud-panel font-bold tracking-wide transition-all flex items-center gap-2 border ${
+                  pulseActive
+                    ? 'border-rose-400 bg-rose-50 text-rose-700 shadow-md shadow-rose-500/20'
+                    : 'border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 bg-white/90 shadow-xs'
+                }`}
+              >
+                <Activity className={`w-4 h-4 ${pulseActive ? 'animate-spin text-rose-500' : 'text-indigo-500'}`} />
+                <span>{pulseActive ? 'PIPELINE PULSING...' : 'TRIGGER PULSE'}</span>
+              </button>
+
+              {/* Download Resume Link with PDF Icon */}
+              <a
+                href={portfolioContent.personal.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3.5 rounded-xl hud-panel border-slate-200 text-slate-700 hover:text-rose-600 hover:border-rose-300 font-bold transition-all flex items-center gap-2 bg-white/90 shadow-xs"
+              >
+                <FileText className="w-4 h-4 text-rose-500" />
+                <span>RESUME (PDF)</span>
+              </a>
+
+              {/* GitHub Action */}
+              <a
+                href={portfolioContent.personal.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                className="p-3.5 rounded-xl hud-panel border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-all bg-white/90 shadow-xs"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+
+              {/* LinkedIn Action */}
+              <a
+                href={portfolioContent.personal.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                className="p-3.5 rounded-xl hud-panel border-slate-200 text-slate-600 hover:text-sky-600 hover:border-sky-300 transition-all bg-white/90 shadow-xs"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </motion.div>
+
+            {/* Live Facility Telemetry Badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="mt-12 flex flex-wrap items-center justify-center gap-5 text-[11px] font-mono text-slate-600 bg-white/80 backdrop-blur-sm px-6 py-2.5 rounded-full border border-slate-200/70 shadow-xs"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                <span>CV: YOLOv8-OBB + SIAMESE RESNET-18</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                <span>ASTRODYNAMICS: SGP4 + NASA CARA</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>DEEP LEARNING: PYTORCH</span>
+              </div>
+            </motion.div>
+
+            {/* Scroll Down Prompt */}
+            <motion.button
+              onClick={scrollToAbout}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              className="pointer-events-auto mt-8 inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-indigo-600 transition-colors animate-bounce"
+            >
+              <span>EXPLORE IDENTITY PROFILE</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </motion.button>
           </div>
         </section>
 
-        {/* Embedded Executive Summary & Profile Section */}
+        {/* Embedded Executive Summary & Profile Section Below the Fold */}
         <About />
       </div>
     </PageTransition>

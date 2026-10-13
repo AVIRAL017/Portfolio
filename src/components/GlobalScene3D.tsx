@@ -1,9 +1,9 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // ---------------------------------------------------------------------------
-// 1. High-Performance Telemetry Canvas Texture (Created ONCE, 0 CPU re-draw lag)
+// 1. High-Performance Telemetry Canvas Texture
 // ---------------------------------------------------------------------------
 function createTelemetryTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
@@ -12,11 +12,9 @@ function createTelemetryTexture(): THREE.CanvasTexture {
   const ctx = canvas.getContext('2d');
 
   if (ctx) {
-    // Crisp studio background
     ctx.fillStyle = '#f8fafc';
     ctx.fillRect(0, 0, 512, 340);
 
-    // Top status header
     ctx.fillStyle = '#e2e8f0';
     ctx.fillRect(0, 0, 512, 36);
 
@@ -27,13 +25,12 @@ function createTelemetryTexture(): THREE.CanvasTexture {
 
     ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 12px monospace';
-    ctx.fillText('SPATIAL_TELEMETRY // LIVE_FEED', 34, 22);
+    ctx.fillText('MISSION_TELEMETRY // CONVERGENCE_LIVE', 34, 22);
 
     ctx.fillStyle = '#10b981';
     ctx.font = 'bold 11px monospace';
     ctx.fillText('ACCURACY: 99.4%', 380, 22);
 
-    // Subtle CAD grid lines
     ctx.strokeStyle = 'rgba(99, 102, 241, 0.08)';
     ctx.lineWidth = 1;
     for (let x = 20; x < 500; x += 30) {
@@ -49,7 +46,6 @@ function createTelemetryTexture(): THREE.CanvasTexture {
       ctx.stroke();
     }
 
-    // Circular gauge display
     const cx = 90;
     const cy = 130;
     const r = 45;
@@ -74,7 +70,6 @@ function createTelemetryTexture(): THREE.CanvasTexture {
     ctx.fillText('INFERENCE', cx, cy + 20);
     ctx.textAlign = 'left';
 
-    // Loss curve graph
     ctx.beginPath();
     ctx.strokeStyle = '#e11d48';
     ctx.lineWidth = 2.5;
@@ -87,7 +82,6 @@ function createTelemetryTexture(): THREE.CanvasTexture {
     }
     ctx.stroke();
 
-    // Data metrics table
     ctx.fillStyle = '#334155';
     ctx.font = '10px monospace';
     ctx.fillText('MODEL: Siamese ResNet-18', 35, 230);
@@ -99,13 +93,12 @@ function createTelemetryTexture(): THREE.CanvasTexture {
     ctx.fillText('TOPOLOGY: 6DOF Spatial', 280, 252);
     ctx.fillText('BANDWIDTH: 10 Gbps Edge', 280, 274);
 
-    // Bottom telemetry strip
     ctx.fillStyle = '#f1f5f9';
     ctx.fillRect(0, 305, 512, 35);
     ctx.fillStyle = '#64748b';
     ctx.font = 'bold 9px monospace';
     ctx.fillText('STATUS: SYNCHRONIZED [VERIFIED]', 20, 326);
-    ctx.fillText('SYSTEM_STATE: OPERATIONAL', 330, 326);
+    ctx.fillText('FACILITY: 100% OPERATIONAL', 320, 326);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -116,220 +109,46 @@ function createTelemetryTexture(): THREE.CanvasTexture {
 }
 
 // ---------------------------------------------------------------------------
-// 2. Autonomous Recon Drone (Overview Focus)
-// ---------------------------------------------------------------------------
-function SurveillanceDrone() {
-  const droneGroupRef = useRef<THREE.Group>(null);
-  const rotorFLRef = useRef<THREE.Group>(null);
-  const rotorFRRef = useRef<THREE.Group>(null);
-  const rotorRLRef = useRef<THREE.Group>(null);
-  const rotorRRRef = useRef<THREE.Group>(null);
-  const gimbalRef = useRef<THREE.Group>(null);
-
-  useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
-    if (droneGroupRef.current) {
-      droneGroupRef.current.position.y = 2.4 + Math.sin(t * 1.6) * 0.12;
-      droneGroupRef.current.rotation.z = Math.sin(t * 1.1) * 0.04;
-      droneGroupRef.current.rotation.x = Math.cos(t * 0.9) * 0.03;
-    }
-
-    const rSpeed = delta * 24;
-    if (rotorFLRef.current) rotorFLRef.current.rotation.y += rSpeed;
-    if (rotorFRRef.current) rotorFRRef.current.rotation.y -= rSpeed;
-    if (rotorRLRef.current) rotorRLRef.current.rotation.y -= rSpeed;
-    if (rotorRRRef.current) rotorRRRef.current.rotation.y += rSpeed;
-
-    if (gimbalRef.current) {
-      gimbalRef.current.rotation.y = Math.sin(t * 0.7) * 0.35;
-      gimbalRef.current.rotation.x = 0.2 + Math.cos(t * 0.5) * 0.15;
-    }
-  });
-
-  return (
-    <group ref={droneGroupRef} position={[-2.8, 2.4, 1.8]}>
-      {/* Central Aerodynamic Fuselage */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[0.9, 0.22, 1.4]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.2} metalness={0.2} />
-      </mesh>
-
-      {/* Top Canopy Shell */}
-      <mesh position={[0, 0.12, 0.05]}>
-        <cylinderGeometry args={[0.32, 0.44, 0.14, 24]} />
-        <meshStandardMaterial color="#f1f5f9" roughness={0.15} metalness={0.35} />
-      </mesh>
-
-      {/* Crimson Carbon Fiber Accent Stripe */}
-      <mesh position={[0, 0.2, 0]}>
-        <boxGeometry args={[0.12, 0.015, 1.3]} />
-        <meshBasicMaterial color="#f43f5e" />
-      </mesh>
-
-      {/* 4 Carbon Fiber Propeller Arms */}
-      {[
-        { pos: [0.75, 0.02, 0.75], angle: Math.PI / 4, ref: rotorFLRef },
-        { pos: [-0.75, 0.02, 0.75], angle: -Math.PI / 4, ref: rotorFRRef },
-        { pos: [0.75, 0.02, -0.75], angle: -Math.PI / 4, ref: rotorRLRef },
-        { pos: [-0.75, 0.02, -0.75], angle: Math.PI / 4, ref: rotorRRRef },
-      ].map((arm, i) => (
-        <group key={i} position={[arm.pos[0] * 0.5, arm.pos[1], arm.pos[2] * 0.5]}>
-          <mesh rotation={[0, arm.angle, 0]}>
-            <boxGeometry args={[0.09, 0.07, 1.05]} />
-            <meshStandardMaterial color="#1e293b" roughness={0.3} metalness={0.8} />
-          </mesh>
-
-          <group position={[arm.pos[0] * 0.5, 0.08, arm.pos[2] * 0.5]}>
-            <mesh>
-              <cylinderGeometry args={[0.11, 0.11, 0.16, 16]} />
-              <meshStandardMaterial color="#0284c7" roughness={0.25} metalness={0.7} />
-            </mesh>
-
-            <group ref={arm.ref} position={[0, 0.1, 0]}>
-              <mesh>
-                <boxGeometry args={[0.9, 0.012, 0.07]} />
-                <meshStandardMaterial color="#0f172a" roughness={0.4} metalness={0.6} />
-              </mesh>
-              <mesh rotation={[0, Math.PI / 2, 0]}>
-                <boxGeometry args={[0.9, 0.012, 0.07]} />
-                <meshStandardMaterial color="#0f172a" roughness={0.4} metalness={0.6} />
-              </mesh>
-            </group>
-          </group>
-        </group>
-      ))}
-
-      {/* Underbelly High-Res Gimbal Camera */}
-      <group ref={gimbalRef} position={[0, -0.16, 0.45]}>
-        <mesh>
-          <sphereGeometry args={[0.18, 20, 20]} />
-          <meshStandardMaterial color="#0f172a" roughness={0.2} metalness={0.8} />
-        </mesh>
-        <mesh position={[0, 0, 0.14]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.1, 0.11, 0.1, 20]} />
-          <meshStandardMaterial color="#334155" metalness={0.9} roughness={0.1} />
-        </mesh>
-        <mesh position={[0, 0, 0.2]}>
-          <circleGeometry args={[0.075, 20]} />
-          <meshBasicMaterial color="#0284c7" />
-        </mesh>
-      </group>
-
-      {/* Drone Navigation Light Glow */}
-      <pointLight position={[0, -0.2, 0.5]} color="#0284c7" intensity={0.8} distance={3.5} />
-    </group>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// 3. Orbital Satellite Node / CubeSat (Skills Focus)
-// ---------------------------------------------------------------------------
-function OrbitalSatelliteNode() {
-  const satRef = useRef<THREE.Group>(null);
-  const dishRef = useRef<THREE.Group>(null);
-
-  useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
-    if (satRef.current) {
-      satRef.current.rotation.y += delta * 0.35;
-      satRef.current.position.y = 3.6 + Math.sin(t * 1.2) * 0.1;
-    }
-    if (dishRef.current) {
-      dishRef.current.rotation.x = Math.sin(t * 0.7) * 0.2;
-    }
-  });
-
-  return (
-    <group ref={satRef} position={[0.2, 3.6, 0.6]}>
-      {/* Gold Multi-Layer Insulation Main Body */}
-      <mesh>
-        <boxGeometry args={[1.0, 1.0, 1.4]} />
-        <meshStandardMaterial color="#f59e0b" metalness={0.85} roughness={0.2} />
-      </mesh>
-
-      {/* Dual Silicon Solar Arrays */}
-      {[-1.35, 1.35].map((xOffset, i) => (
-        <group key={i} position={[xOffset, 0, 0]}>
-          <mesh position={[xOffset > 0 ? -0.4 : 0.4, 0, 0]}>
-            <cylinderGeometry args={[0.03, 0.03, 0.8, 12]} />
-            <meshStandardMaterial color="#475569" metalness={0.9} roughness={0.2} />
-          </mesh>
-
-          <mesh>
-            <boxGeometry args={[1.4, 0.03, 2.2]} />
-            <meshStandardMaterial color="#1e3a8a" roughness={0.15} metalness={0.8} />
-          </mesh>
-
-          <mesh position={[0, 0.018, 0]}>
-            <planeGeometry args={[1.34, 2.14]} />
-            <meshStandardMaterial color="#2563eb" metalness={0.9} roughness={0.1} />
-          </mesh>
-        </group>
-      ))}
-
-      {/* High-Gain Parabolic Telemetry Dish */}
-      <group ref={dishRef} position={[0, 0.75, 0]}>
-        <mesh rotation={[Math.PI / 4, 0, 0]}>
-          <cylinderGeometry args={[0.42, 0.05, 0.18, 24, 1, true]} />
-          <meshStandardMaterial color="#e2e8f0" metalness={0.8} roughness={0.25} side={THREE.DoubleSide} />
-        </mesh>
-        <mesh position={[0, 0.12, 0.12]} rotation={[Math.PI / 4, 0, 0]}>
-          <cylinderGeometry args={[0.02, 0.02, 0.35, 12]} />
-          <meshBasicMaterial color="#e11d48" />
-        </mesh>
-      </group>
-
-      <pointLight position={[0, 0.6, 0]} color="#38bdf8" intensity={0.7} distance={4} />
-    </group>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// 4. CAD Engineering Turntable Tower (Projects Focus)
+// 2. The Sorting Turntable Tower & Slabs
 // ---------------------------------------------------------------------------
 function SortingTurntableTower() {
   const topWheelRef = useRef<THREE.Group>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
 
-  useFrame((_, delta) => {
-    if (topWheelRef.current) {
-      topWheelRef.current.rotation.y += delta * 0.25;
-    }
+  useFrame((state, delta) => {
+    if (topWheelRef.current) topWheelRef.current.rotation.y += delta * 0.25;
+    if (ringRef.current) ringRef.current.rotation.z -= delta * 0.4;
   });
 
   return (
     <group position={[-4.2, 0, -1.2]}>
-      {/* Heavy Machinery Base Plinth */}
       <mesh position={[0, 0.4, 0]}>
         <cylinderGeometry args={[2.0, 2.2, 0.8, 32]} />
         <meshStandardMaterial color="#ffffff" roughness={0.25} metalness={0.25} />
       </mesh>
 
-      {/* Stepped Rim */}
       <mesh position={[0, 0.95, 0]}>
         <cylinderGeometry args={[1.7, 1.9, 0.3, 32]} />
         <meshStandardMaterial color="#f8fafc" roughness={0.3} metalness={0.35} />
       </mesh>
 
-      {/* Glowing Crimson Trim Ring */}
-      <mesh position={[0, 1.15, 0]}>
+      <mesh ref={ringRef} position={[0, 1.15, 0]}>
         <torusGeometry args={[1.72, 0.035, 16, 48]} />
         <meshBasicMaterial color="#f43f5e" />
       </mesh>
 
-      {/* Center Pillar */}
       <mesh position={[0, 2.0, 0]}>
         <cylinderGeometry args={[0.5, 0.6, 1.8, 24]} />
         <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.7} />
       </mesh>
 
-      {/* Top Turntable Platform */}
       <group ref={topWheelRef} position={[0, 3.0, 0]}>
         <mesh>
           <cylinderGeometry args={[2.2, 2.2, 0.25, 32]} />
           <meshStandardMaterial color="#ffffff" roughness={0.2} metalness={0.3} />
         </mesh>
 
-        {/* Floating Holographic Technical Slabs */}
+        {/* Slabs */}
         <group position={[-0.9, 0.8, 0.7]} rotation={[0, 0.3, 0]}>
           <mesh>
             <boxGeometry args={[1.0, 1.3, 0.12]} />
@@ -365,7 +184,119 @@ function SortingTurntableTower() {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Telemetry Workstation & Display Desk (Contact Focus)
+// 3. Conveyor Belt & Traveling 3D Cubes
+// ---------------------------------------------------------------------------
+function ConveyorBeltSystem({ pulseActive }: { pulseActive: boolean }) {
+  const cubesRef = useRef<THREE.Group>(null);
+  const scannerLightRef = useRef<THREE.PointLight>(null);
+
+  useFrame((state, delta) => {
+    const t = state.clock.getElapsedTime();
+    const speed = pulseActive ? 1.6 : 0.8;
+
+    if (cubesRef.current) {
+      cubesRef.current.children.forEach((child, idx) => {
+        const prog = ((t * speed + idx * 1.5) % 6) / 6;
+        const x = THREE.MathUtils.lerp(-2.6, 1.0, prog);
+        const y = THREE.MathUtils.lerp(1.4, 0.28, prog);
+        const z = THREE.MathUtils.lerp(-0.5, 1.8, prog);
+
+        child.position.set(x, y, z);
+        child.rotation.x = 0.15;
+        child.rotation.y = -0.65;
+
+        const meshGroup = child as THREE.Group;
+        const outerShell = meshGroup.children[0] as THREE.Mesh;
+        const innerCore = meshGroup.children[1] as THREE.Mesh;
+
+        if (prog > 0.45 && prog < 0.95) {
+          if (innerCore && innerCore.material) {
+            (innerCore.material as THREE.MeshBasicMaterial).color.set('#f43f5e');
+          }
+          if (outerShell && outerShell.material) {
+            (outerShell.material as THREE.MeshStandardMaterial).emissive.set('#e11d48');
+            (outerShell.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.5;
+          }
+        } else {
+          if (innerCore && innerCore.material) {
+            (innerCore.material as THREE.MeshBasicMaterial).color.set('#0284c7');
+          }
+          if (outerShell && outerShell.material) {
+            (outerShell.material as THREE.MeshStandardMaterial).emissive.set('#000000');
+            (outerShell.material as THREE.MeshStandardMaterial).emissiveIntensity = 0;
+          }
+        }
+      });
+    }
+
+    if (scannerLightRef.current) {
+      scannerLightRef.current.intensity = 1.2 + Math.sin(t * 8) * 0.5 + (pulseActive ? 2.0 : 0);
+    }
+  });
+
+  return (
+    <group>
+      <group position={[-0.8, 0.8, 0.65]} rotation={[0.22, -0.68, 0]}>
+        <mesh>
+          <boxGeometry args={[4.4, 0.18, 0.9]} />
+          <meshStandardMaterial color="#ffffff" roughness={0.25} metalness={0.3} />
+        </mesh>
+        <mesh position={[0, 0.18, 0.42]}>
+          <boxGeometry args={[4.4, 0.22, 0.06]} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.6} />
+        </mesh>
+        <mesh position={[0, 0.18, -0.42]}>
+          <boxGeometry args={[4.4, 0.22, 0.06]} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.6} />
+        </mesh>
+        <mesh position={[0, 0.12, 0]}>
+          <boxGeometry args={[4.2, 0.02, 0.04]} />
+          <meshBasicMaterial color="#0284c7" />
+        </mesh>
+      </group>
+
+      {/* Scanner Chamber Arch */}
+      <group position={[-0.8, 0.9, 0.65]} rotation={[0.22, -0.68, 0]}>
+        <mesh position={[0, 0.6, 0]}>
+          <boxGeometry args={[0.65, 0.16, 1.25]} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
+        </mesh>
+        <mesh position={[0, 0.3, 0.55]}>
+          <boxGeometry args={[0.45, 0.7, 0.14]} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
+        </mesh>
+        <mesh position={[0, 0.3, -0.55]}>
+          <boxGeometry args={[0.45, 0.7, 0.14]} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
+        </mesh>
+        <mesh position={[0, 0.3, 0]}>
+          <planeGeometry args={[0.05, 0.6]} />
+          <meshBasicMaterial color="#f43f5e" transparent opacity={0.6} side={THREE.DoubleSide} />
+        </mesh>
+        <pointLight ref={scannerLightRef} position={[0, 0.5, 0]} color="#f43f5e" distance={3.5} />
+      </group>
+
+      {/* Data Cubes */}
+      <group ref={cubesRef}>
+        {[0, 1, 2, 3].map((_, i) => (
+          <group key={i}>
+            <mesh>
+              <boxGeometry args={[0.42, 0.42, 0.42]} />
+              <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.3} transparent opacity={0.85} />
+            </mesh>
+            <mesh>
+              <boxGeometry args={[0.22, 0.22, 0.22]} />
+              <meshBasicMaterial color="#0284c7" />
+            </mesh>
+          </group>
+        ))}
+      </group>
+    </group>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 4. Command Telemetry Center Workstation
 // ---------------------------------------------------------------------------
 function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.CanvasTexture }) {
   const laptopScreenRef = useRef<THREE.Mesh>(null);
@@ -380,19 +311,16 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
 
   return (
     <group position={[1.4, 0, -0.2]}>
-      {/* Desk Podium */}
       <mesh position={[0, 0.4, 0]}>
         <boxGeometry args={[3.2, 0.8, 2.2]} />
         <meshStandardMaterial color="#f1f5f9" roughness={0.3} metalness={0.4} />
       </mesh>
 
-      {/* Desk Top Trim */}
       <mesh position={[0, 0.82, 0]}>
         <boxGeometry args={[3.3, 0.05, 2.3]} />
         <meshStandardMaterial color="#cbd5e1" roughness={0.2} metalness={0.6} />
       </mesh>
 
-      {/* Vertical Telemetry Monitor */}
       <group position={[-0.4, 0.85, -0.3]} rotation={[0, -0.35, 0]}>
         <mesh position={[0, 0.04, 0]}>
           <cylinderGeometry args={[0.4, 0.45, 0.08, 20]} />
@@ -402,32 +330,26 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
           <cylinderGeometry args={[0.07, 0.07, 1.1, 14]} />
           <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.1} />
         </mesh>
-
         <mesh position={[0, 1.45, 0]}>
           <boxGeometry args={[2.5, 1.7, 0.12]} />
           <meshStandardMaterial color="#1e293b" roughness={0.3} metalness={0.8} />
         </mesh>
-
         <mesh position={[0, 1.45, 0.065]}>
           <planeGeometry args={[2.38, 1.58]} />
           <meshBasicMaterial map={telemetryTexture} toneMapped={false} />
         </mesh>
-
         <pointLight position={[0, 1.5, 0.6]} color="#e11d48" intensity={0.7} distance={3.2} />
       </group>
 
-      {/* Laptop Workstation */}
       <group position={[0.9, 0.85, 0.35]} rotation={[0, -0.55, 0]}>
         <mesh position={[0, 0.02, 0]}>
           <boxGeometry args={[1.1, 0.04, 0.8]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.7} roughness={0.3} />
         </mesh>
-
         <mesh position={[0, 0.045, 0.08]}>
           <boxGeometry args={[0.95, 0.01, 0.45]} />
           <meshStandardMaterial color="#f8fafc" emissive="#e11d48" emissiveIntensity={0.15} roughness={0.3} />
         </mesh>
-
         <group position={[0, 0.04, -0.38]} rotation={[-0.45, 0, 0]}>
           <mesh position={[0, 0.4, 0]}>
             <boxGeometry args={[1.1, 0.8, 0.03]} />
@@ -444,7 +366,7 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
 }
 
 // ---------------------------------------------------------------------------
-// 6. Corporate Data Skyscraper / Algorithmic Tower (Credentials Focus)
+// 5. Corporate Data Skyscraper
 // ---------------------------------------------------------------------------
 function CorporateDataTower() {
   const towerRef = useRef<THREE.Group>(null);
@@ -458,27 +380,20 @@ function CorporateDataTower() {
 
   return (
     <group ref={towerRef} position={[4.0, 0, -3.2]}>
-      {/* Tower Main Glass Volume */}
       <mesh position={[0, 3.2, 0]}>
         <boxGeometry args={[2.2, 6.4, 2.2]} />
         <meshStandardMaterial color="#ffffff" roughness={0.15} metalness={0.3} transparent opacity={0.88} />
       </mesh>
-
-      {/* Internal Core Lattice */}
       <mesh position={[0, 3.2, 0]}>
         <boxGeometry args={[1.4, 6.2, 1.4]} />
         <meshStandardMaterial color="#e2e8f0" roughness={0.4} metalness={0.7} />
       </mesh>
-
-      {/* Accent Floor Lines */}
       {[1.2, 2.4, 3.6, 4.8, 5.8].map((y, idx) => (
         <mesh key={idx} position={[0, y, 0]}>
           <boxGeometry args={[2.25, 0.06, 2.25]} />
           <meshBasicMaterial color={idx % 2 === 0 ? '#e11d48' : '#0284c7'} />
         </mesh>
       ))}
-
-      {/* Top Communications Mast */}
       <group position={[0, 6.4, 0]}>
         <mesh position={[0, 0.8, 0]}>
           <cylinderGeometry args={[0.04, 0.12, 1.6, 12]} />
@@ -489,39 +404,78 @@ function CorporateDataTower() {
           <meshBasicMaterial color="#e11d48" />
         </mesh>
       </group>
-
       <pointLight position={[0, 6.5, 0]} color="#e11d48" intensity={0.6} distance={4} />
     </group>
   );
 }
 
 // ---------------------------------------------------------------------------
-// 7. Interactive Sensor Dock (Peripheral Anchor)
+// 6. Glowing Fiber-Optic Data Cables
+// ---------------------------------------------------------------------------
+function GlowingDataConduits({ pulseActive }: { pulseActive: boolean }) {
+  const pulsePacketRef = useRef<THREE.Mesh>(null);
+
+  const curve = useMemo(() => {
+    return new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-4.2, 0.1, -1.2),
+      new THREE.Vector3(-2.0, 0.1, 0.2),
+      new THREE.Vector3(0.5, 0.1, 1.8),
+      new THREE.Vector3(1.4, 0.1, 0.2),
+      new THREE.Vector3(3.6, 0.1, -2.6),
+    ]);
+  }, []);
+
+  const tubeGeometry = useMemo(() => {
+    return new THREE.TubeGeometry(curve, 64, 0.05, 12, false);
+  }, [curve]);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    const speed = pulseActive ? 1.2 : 0.4;
+    const prog = (t * speed) % 1;
+
+    if (pulsePacketRef.current) {
+      const pos = curve.getPoint(prog);
+      pulsePacketRef.current.position.copy(pos);
+    }
+  });
+
+  return (
+    <group>
+      <mesh geometry={tubeGeometry}>
+        <meshStandardMaterial color="#1e2536" roughness={0.3} metalness={0.7} />
+      </mesh>
+      <mesh geometry={tubeGeometry} scale={[0.98, 0.98, 0.98]}>
+        <meshBasicMaterial color="#38bdf8" transparent opacity={0.45} />
+      </mesh>
+      <mesh ref={pulsePacketRef}>
+        <sphereGeometry args={[0.16, 16, 16]} />
+        <meshBasicMaterial color="#f43f5e" />
+      </mesh>
+    </group>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 7. Interactive Sensor Dock
 // ---------------------------------------------------------------------------
 function InteractiveSensorDock() {
   const radarRef = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
-    if (radarRef.current) {
-      radarRef.current.rotation.y += delta * 1.2;
-    }
+    if (radarRef.current) radarRef.current.rotation.y += delta * 1.2;
   });
 
   return (
     <group position={[-1.8, 0, -3.6]}>
-      {/* Base Octagonal Platform */}
       <mesh position={[0, 0.25, 0]}>
         <cylinderGeometry args={[1.4, 1.6, 0.5, 8]} />
         <meshStandardMaterial color="#ffffff" roughness={0.25} metalness={0.3} />
       </mesh>
-
-      {/* Sensor Mast */}
       <mesh position={[0, 1.1, 0]}>
         <cylinderGeometry args={[0.1, 0.14, 1.2, 14]} />
         <meshStandardMaterial color="#64748b" roughness={0.3} metalness={0.8} />
       </mesh>
-
-      {/* Rotating Radar Array */}
       <group ref={radarRef} position={[0, 1.8, 0]}>
         <mesh position={[0, 0, 0.35]}>
           <boxGeometry args={[1.1, 0.32, 0.08]} />
@@ -537,18 +491,16 @@ function InteractiveSensorDock() {
 }
 
 // ---------------------------------------------------------------------------
-// 8. Ground Studio Floor
+// 8. Ground Isometric Floor with Precision Blueprint Grid
 // ---------------------------------------------------------------------------
 function IsometricStudioFloor() {
   return (
     <group position={[0, -0.01, 0]}>
-      {/* Precision Ground Plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[44, 44]} />
         <meshStandardMaterial color="#f8fafc" roughness={0.8} metalness={0.05} />
       </mesh>
-
-      {/* Concentric Coordinate Rings */}
+      <gridHelper args={[24, 24, '#6366f1', '#cbd5e1']} position={[0, 0.01, 0]} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0]}>
         <ringGeometry args={[6.8, 6.84, 64]} />
         <meshBasicMaterial color="#e2e8f0" />
@@ -562,32 +514,76 @@ function IsometricStudioFloor() {
 }
 
 // ---------------------------------------------------------------------------
-// 9. Camera Fly Controller with Time-Delta Exponential Damping
+// 9. Floating Dust Ambient Particles
+// ---------------------------------------------------------------------------
+function FloatingDustParticles() {
+  const pointsRef = useRef<THREE.Points>(null);
+  const count = 120;
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 1] = Math.random() * 8 + 0.5;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 18;
+    }
+    return pos;
+  }, []);
+
+  useFrame((state, delta) => {
+    if (pointsRef.current) pointsRef.current.rotation.y += delta * 0.02;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+      </bufferGeometry>
+      <pointsMaterial size={0.08} color="#6366f1" transparent opacity={0.6} />
+    </points>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 10. Camera Fly Controller with Time-Delta Exponential Damping
 // ---------------------------------------------------------------------------
 interface CameraFlyControllerProps {
   currentPath: string;
 }
 
-const ROUTE_CAMERA_TARGETS: Record<string, { pos: [number, number, number]; lookAt: [number, number, number] }> = {
+// ROUTE CAMERA TARGETS:
+// '/' reveals the FULL 3D HERO FACILITY in spectacular isometric perspective!
+// Other pages fly into focused figures in the upper stage!
+const ROUTE_CAMERA_TARGETS: Record<string, { pos: [number, number, number]; lookAt: [number, number, number]; fov: number }> = {
   '/': {
-    pos: [-1.2, 2.6, 6.0],
-    lookAt: [-2.2, 0.4, 1.2],
+    // Full Isometric Hero Facility View (Everything visible: turntable, conveyor, data tower, monitor desk, floor)
+    pos: [9.5, 8.5, 9.5],
+    lookAt: [0, 1.2, 0],
+    fov: 36,
   },
   '/projects': {
-    pos: [-4.2, 3.0, 4.4],
-    lookAt: [-4.2, 0.4, -1.0],
+    // Zoomed into CAD Turntable Tower platform & slabs
+    pos: [-4.2, 3.2, 4.4],
+    lookAt: [-4.2, 0.6, -1.0],
+    fov: 40,
   },
   '/skills': {
-    pos: [0.2, 3.2, 5.2],
-    lookAt: [0.2, 0.5, 0.6],
+    // Zoomed into Conveyor Processing & Scanner Chamber
+    pos: [-0.6, 3.4, 4.8],
+    lookAt: [-0.6, 0.6, 0.6],
+    fov: 40,
   },
   '/credentials': {
+    // Zoomed into Corporate Data Skyscraper Spire
     pos: [4.2, 4.0, 2.2],
     lookAt: [4.0, 1.0, -2.8],
+    fov: 40,
   },
   '/contact': {
+    // Zoomed into Command Telemetry Monitor & Workstation Desk
     pos: [1.4, 2.4, 3.8],
     lookAt: [1.4, 0.3, -0.2],
+    fov: 40,
   },
 };
 
@@ -596,19 +592,29 @@ function CameraFlyController({ currentPath }: CameraFlyControllerProps) {
 
   const targetPos = useMemo(() => new THREE.Vector3(...targetConfig.pos), [targetConfig.pos]);
   const targetLook = useMemo(() => new THREE.Vector3(...targetConfig.lookAt), [targetConfig.lookAt]);
-  const currentLook = useRef(new THREE.Vector3(0, 1.4, 0));
+  const currentLook = useRef(new THREE.Vector3(0, 1.2, 0));
+  const mouseCoord = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      mouseCoord.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseCoord.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
 
   useFrame((state, delta) => {
-    const { pointer } = state;
-    // Gentle mouse parallax
-    const parallaxX = pointer.x * 0.4;
-    const parallaxY = pointer.y * 0.25;
+    // Parallax using window coordinates
+    const px = mouseCoord.current.x;
+    const py = mouseCoord.current.y;
+    const parallaxX = px * (currentPath === '/' ? 1.6 : 0.4);
+    const parallaxY = py * (currentPath === '/' ? 1.2 : 0.25);
 
     const desiredX = targetPos.x + parallaxX;
     const desiredY = targetPos.y + parallaxY;
     const desiredZ = targetPos.z;
 
-    // Frame-rate-independent exponential lerp for silky smooth 60-144 FPS
     const factor = 1 - Math.exp(-5.5 * Math.min(delta, 0.1));
     state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, desiredX, factor);
     state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, desiredY, factor);
@@ -622,45 +628,53 @@ function CameraFlyController({ currentPath }: CameraFlyControllerProps) {
 }
 
 // ---------------------------------------------------------------------------
-// 10. Main GlobalScene3D Component
+// 11. Main GlobalScene3D Component
 // ---------------------------------------------------------------------------
 interface GlobalScene3DProps {
   currentPath: string;
 }
 
 export const GlobalScene3D: React.FC<GlobalScene3DProps> = ({ currentPath }) => {
-  // Texture is created once in memo - 0 CPU draw calls per frame
   const telemetryTexture = useMemo(() => createTelemetryTexture(), []);
+  const [pulseActive, setPulseActive] = useState(false);
+
+  useEffect(() => {
+    const handlePulse = () => {
+      setPulseActive(true);
+      setTimeout(() => setPulseActive(false), 2400);
+    };
+    window.addEventListener('pipeline-pulse', handlePulse);
+    return () => window.removeEventListener('pipeline-pulse', handlePulse);
+  }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
       <Canvas
         dpr={[1, 1.5]}
-        camera={{ position: [-0.6, 3.8, 6.8], fov: 42, near: 0.1, far: 80 }}
+        camera={{ position: [9.5, 8.5, 9.5], fov: 36, near: 0.1, far: 80 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
           alpha: true,
         }}
       >
-        {/* Crisp Studio Lighting (Clean, no expensive shadow map recalculation) */}
         <ambientLight intensity={1.2} />
-        <directionalLight position={[10, 16, 12]} intensity={1.4} />
-        <directionalLight position={[-10, 12, -8]} intensity={0.6} color="#e0e7ff" />
+        <directionalLight position={[10, 16, 8]} intensity={1.6} />
+        <directionalLight position={[-12, 10, -10]} intensity={0.8} color="#38bdf8" />
 
-        {/* Multi-Chromatic Accent Point Lights */}
-        <pointLight position={[-4, 3, 2]} color="#e11d48" intensity={1.0} distance={8} />
-        <pointLight position={[3, 4, 3]} color="#0284c7" intensity={0.9} distance={8} />
-        <pointLight position={[0, 5, 0]} color="#7c3aed" intensity={0.8} distance={9} />
+        {/* Multi-Chromatic Point Lights */}
+        <pointLight position={[-4.2, 4.0, -1.2]} intensity={1.4} color="#f43f5e" distance={8} />
+        <pointLight position={[2.0, 3.0, 1.5]} intensity={1.4} color="#6366f1" distance={9} />
 
-        {/* 3D Realistic Figures & Zones */}
-        <SurveillanceDrone />
-        <OrbitalSatelliteNode />
+        {/* Complete 3D Architectural Facility System */}
         <SortingTurntableTower />
+        <ConveyorBeltSystem pulseActive={pulseActive} />
         <CommandTelemetryCenter telemetryTexture={telemetryTexture} />
-        <CorporateDataTower />
         <InteractiveSensorDock />
+        <CorporateDataTower />
+        <GlowingDataConduits pulseActive={pulseActive} />
         <IsometricStudioFloor />
+        <FloatingDustParticles />
 
         {/* Spatial Camera Controller */}
         <CameraFlyController currentPath={currentPath} />
