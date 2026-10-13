@@ -28,17 +28,17 @@ export const Competitive: React.FC = () => {
     <section id="competitive" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center mb-16 text-center">
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-400 font-mono text-xs mb-3 shadow-md shadow-amber-950/20">
-          <Award className="w-3.5 h-3.5 text-amber-400" />
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-mono text-xs mb-3 shadow-sm">
+          <Award className="w-3.5 h-3.5 text-amber-600" />
           <span>LAYER_04 // ALGORITHMIC_BENCHMARKS</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
           Competitive Programming &amp; Problem Solving
         </h2>
-        <p className="max-w-2xl text-slate-400 text-sm sm:text-base mt-3">
+        <p className="max-w-2xl text-slate-600 text-sm sm:text-base mt-3">
           Continuous algorithmic optimization across data structures, graph theory, dynamic programming, and computational complexity reduction.
         </p>
-        <div className="h-1 w-20 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full mt-4" />
+        <div className="h-1 w-24 bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 rounded-full mt-4" />
       </div>
 
       {/* Competitive Cards Grid */}
@@ -49,7 +49,7 @@ export const Competitive: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-amber-500/30 relative overflow-hidden group hover:border-amber-400 bg-[#121826]/85 shadow-lg transition-all"
+          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-amber-200/90 relative overflow-hidden group hover:border-amber-400 bg-white/90 shadow-xl transition-all"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -57,37 +57,37 @@ export const Competitive: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-xl bg-amber-950/50 text-amber-400 border border-amber-500/30 shadow-sm">
+                <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 shadow-sm">
                   <Code className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-lg text-white">LeetCode</h3>
-                  <span className="font-mono text-xs text-amber-400 font-semibold">@AVIRAL_17</span>
+                  <h3 className="font-display font-bold text-lg text-slate-900">LeetCode</h3>
+                  <span className="font-mono text-xs text-amber-600 font-semibold">@AVIRAL_17</span>
                 </div>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-300 font-mono text-xs font-bold shadow-sm">
+              <span className="px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-mono text-xs font-bold shadow-xs">
                 ACTIVE
               </span>
             </div>
 
             {/* Counter */}
             <div className="py-4">
-              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400">
+              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500">
                 {leetcodeCount}+
               </div>
-              <div className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-1 font-semibold">
+              <div className="font-mono text-xs text-slate-600 uppercase tracking-widest mt-1 font-semibold">
                 Problems Solved (DSA Mastery)
               </div>
             </div>
 
-            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-slate-900/80 p-3.5 rounded-xl border border-white/10">
+            <p className="text-xs font-sans text-slate-700 leading-relaxed mt-2 bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/70 shadow-xs">
               Extensive focus on graph traversals (BFS/DFS), dynamic programming, binary search, tree manipulation, and algorithmic optimization.
             </p>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
-            <span className="font-mono text-xs text-slate-400 font-semibold">VERIFIED PROFILE</span>
+          <div className="mt-8 pt-4 border-t border-slate-200/80 flex items-center justify-between">
+            <span className="font-mono text-xs text-slate-500 font-semibold">VERIFIED PROFILE</span>
             <a
               href="https://leetcode.com/u/AVIRAL_17/"
               target="_blank"
@@ -106,7 +106,7 @@ export const Competitive: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-emerald-500/30 relative overflow-hidden group hover:border-emerald-400 bg-[#121826]/85 shadow-lg transition-all"
+          className="hud-panel rounded-2xl p-7 flex flex-col justify-between border-emerald-200/90 relative overflow-hidden group hover:border-emerald-400 bg-white/90 shadow-xl transition-all"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -114,37 +114,37 @@ export const Competitive: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-xl bg-emerald-950/50 text-emerald-400 border border-emerald-500/30 shadow-sm">
-                  <Star className="w-5 h-5 fill-emerald-400/20" />
+                <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-sm">
+                  <Star className="w-5 h-5 fill-emerald-500/30" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-lg text-white">HackerRank</h3>
-                  <span className="font-mono text-xs text-emerald-400 font-semibold">@AIML1B_059</span>
+                  <h3 className="font-display font-bold text-lg text-slate-900">HackerRank</h3>
+                  <span className="font-mono text-xs text-emerald-600 font-semibold">@AIML1B_059</span>
                 </div>
               </div>
 
-              <span className="px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 font-mono text-xs font-bold shadow-sm">
+              <span className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono text-xs font-bold shadow-xs">
                 4-STAR CODER
               </span>
             </div>
 
             {/* Counter */}
             <div className="py-4">
-              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-green-400">
+              <div className="text-5xl sm:text-6xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-green-600">
                 ★★★★
               </div>
-              <div className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-1 font-semibold">
+              <div className="font-mono text-xs text-slate-600 uppercase tracking-widest mt-1 font-semibold">
                 Problem Solving &amp; Algorithms Badge
               </div>
             </div>
 
-            <p className="text-xs font-sans text-slate-300 leading-relaxed mt-2 bg-slate-900/80 p-3.5 rounded-xl border border-white/10">
+            <p className="text-xs font-sans text-slate-700 leading-relaxed mt-2 bg-emerald-50/50 p-3.5 rounded-xl border border-emerald-200/70 shadow-xs">
               Verified Gold Badge in Problem Solving &amp; Algorithms across advanced data structures, sorting algorithms, and computational complexity.
             </p>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
-            <span className="font-mono text-xs text-slate-400 font-semibold">VERIFIED PROFILE</span>
+          <div className="mt-8 pt-4 border-t border-slate-200/80 flex items-center justify-between">
+            <span className="font-mono text-xs text-slate-500 font-semibold">VERIFIED PROFILE</span>
             <a
               href="https://www.hackerrank.com/profile/AIML1B_059"
               target="_blank"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export const CustomCursor: React.FC = () => {
@@ -16,6 +16,8 @@ export const CustomCursor: React.FC = () => {
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
 
+  const isVisibleRef = useRef(false);
+
   useEffect(() => {
     // Disable on touch devices
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -31,15 +33,27 @@ export const CustomCursor: React.FC = () => {
       smoothX.set(e.clientX);
       smoothY.set(e.clientY);
 
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
     const handleMouseDown = () => setIsClicked(true);
     const handleMouseUp = () => setIsClicked(false);
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => {
+      isVisibleRef.current = false;
+      setIsVisible(false);
+    };
+    const handleMouseEnter = () => {
+      isVisibleRef.current = true;
+      setIsVisible(true);
+    };
 
+    let lastTarget: EventTarget | null = null;
     const handleInteractiveOver = (e: MouseEvent) => {
+      if (e.target === lastTarget) return;
+      lastTarget = e.target;
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
@@ -55,11 +69,11 @@ export const CustomCursor: React.FC = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mousedown', handleMouseDown, { passive: true });
+    window.addEventListener('mouseup', handleMouseUp, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseover', handleInteractiveOver);
+    document.addEventListener('mouseover', handleInteractiveOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -69,7 +83,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseover', handleInteractiveOver);
     };
-  }, [isVisible, rawX, rawY, smoothX, smoothY]);
+  }, [rawX, rawY, smoothX, smoothY]);
 
   if (!isVisible) return null;
 
@@ -77,10 +91,12 @@ export const CustomCursor: React.FC = () => {
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden select-none">
       {/* Outer Spring-Damped Fluid Ring / Aura */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 rounded-full pointer-events-none"
         style={{
           x: smoothX,
           y: smoothY,
+          translateX: '-50%',
+          translateY: '-50%',
           width: isHovered ? 56 : 32,
           height: isHovered ? 56 : 32,
           backgroundColor: isHovered
@@ -94,7 +110,8 @@ export const CustomCursor: React.FC = () => {
             ? '0 0 25px rgba(255, 59, 92, 0.45), inset 0 0 15px rgba(255, 59, 92, 0.2)'
             : '0 0 12px rgba(255, 59, 92, 0.2)',
           scale: isClicked ? 0.85 : 1,
-          transition: 'width 0.22s cubic-bezier(0.16, 1, 0.3, 1), height 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
+          willChange: 'transform',
+          transition: 'width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
         }}
       >
         {/* Subtle holographic orbit accent on hover */}
@@ -109,13 +126,16 @@ export const CustomCursor: React.FC = () => {
 
       {/* Center Precision Focal Dot - Instant tracking */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-rose-500 via-rose-600 to-red-500 shadow-[0_0_10px_rgba(255,59,92,0.9)]"
+        className="fixed top-0 left-0 rounded-full pointer-events-none bg-gradient-to-tr from-rose-500 via-rose-600 to-red-500 shadow-[0_0_10px_rgba(255,59,92,0.9)]"
         style={{
           x: rawX,
           y: rawY,
+          translateX: '-50%',
+          translateY: '-50%',
           width: isHovered ? 5 : 7,
           height: isHovered ? 5 : 7,
           opacity: isClicked ? 0.6 : 1,
+          willChange: 'transform',
           transition: 'width 0.15s ease, height 0.15s ease, opacity 0.15s ease',
         }}
       />
@@ -126,8 +146,8 @@ export const CustomCursor: React.FC = () => {
           initial={{ opacity: 0, scale: 0.8, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed top-0 left-0 ml-7 mt-4 px-2.5 py-1 rounded-full bg-[#121826]/95 backdrop-blur-md border border-white/10 shadow-xl text-[10px] font-mono font-bold text-rose-300 tracking-wider uppercase whitespace-nowrap flex items-center gap-1.5"
-          style={{ x: smoothX, y: smoothY }}
+          className="fixed top-0 left-0 ml-7 mt-4 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl text-[10px] font-mono font-bold text-rose-700 tracking-wider uppercase whitespace-nowrap flex items-center gap-1.5"
+          style={{ x: smoothX, y: smoothY, willChange: 'transform' }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
           <span>{cursorText}</span>

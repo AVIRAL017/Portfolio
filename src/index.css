@@ -3,15 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #0b0e14;
-  --color-bg-secondary: #101520;
-  --color-panel: rgba(18, 23, 34, 0.75);
-  --color-panel-border: rgba(255, 255, 255, 0.08);
-  --color-crimson: #ff3b5c;
-  --color-crimson-glow: rgba(255, 59, 92, 0.4);
-  --color-cyan: #38bdf8;
-  --color-cyan-glow: rgba(56, 189, 248, 0.3);
-  --color-slate-light: #94a3b8;
+  --color-bg: #f8fafc;
+  --color-bg-secondary: #ffffff;
+  --color-panel: rgba(255, 255, 255, 0.88);
+  --color-panel-border: rgba(226, 232, 240, 0.85);
+  --color-crimson: #f43f5e;
+  --color-crimson-glow: rgba(244, 63, 94, 0.25);
+  --color-cyan: #0284c7;
+  --color-cyan-glow: rgba(2, 132, 199, 0.25);
+  --color-indigo: #6366f1;
+  --color-emerald: #10b981;
+  --color-amber: #f59e0b;
+  --color-violet: #8b5cf6;
+  --color-slate-light: #475569;
 }
 
 * {
@@ -19,93 +23,104 @@
 }
 
 html, body {
-  background-color: #0b0e14;
-  background-image: 
-    radial-gradient(at 10% 15%, rgba(255, 59, 92, 0.07) 0px, transparent 45%),
-    radial-gradient(at 90% 20%, rgba(56, 189, 248, 0.06) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(255, 59, 92, 0.03) 0px, transparent 55%),
-    radial-gradient(at 80% 85%, rgba(255, 59, 92, 0.06) 0px, transparent 50%),
-    radial-gradient(at 15% 85%, rgba(56, 189, 248, 0.05) 0px, transparent 50%);
-  background-attachment: fixed;
-  color: #f1f5f9;
+  background-color: #f8fafc;
+  color: #0f172a;
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
 }
 
-/* Precision Dark Scrollbar */
+/* Dedicated hardware-composited ambient background (zero scroll repaints) - Multi Bright Chromatic */
+.bg-ambient-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    radial-gradient(at 10% 12%, rgba(244, 63, 94, 0.12) 0px, transparent 48%),
+    radial-gradient(at 90% 15%, rgba(14, 165, 233, 0.14) 0px, transparent 50%),
+    radial-gradient(at 50% 45%, rgba(139, 92, 246, 0.09) 0px, transparent 55%),
+    radial-gradient(at 85% 82%, rgba(16, 185, 129, 0.11) 0px, transparent 50%),
+    radial-gradient(at 15% 85%, rgba(245, 158, 11, 0.10) 0px, transparent 50%);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Precision Light Studio Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0e14;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff3b5c 0%, #3b82f6 100%);
+  background: linear-gradient(180deg, #f43f5e 0%, #6366f1 50%, #0284c7 100%);
   border-radius: 9999px;
-  border: 1.5px solid #0b0e14;
+  border: 1.5px solid #f1f5f9;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff5978 0%, #60a5fa 100%);
-  box-shadow: 0 0 12px rgba(255, 59, 92, 0.6);
+  background: linear-gradient(180deg, #fb7185 0%, #818cf8 50%, #38bdf8 100%);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
 }
 
-/* CAD & Isometric Blueprint Grids */
+/* CAD & Isometric Blueprint Grids (Light Bright Architectural Studio) */
 .blueprint-grid {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 
 .blueprint-grid-dense {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
   background-size: 18px 18px;
 }
 
 .isometric-dot-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .blueprint-radial {
-  background: radial-gradient(circle at 50% 30%, rgba(255, 59, 92, 0.12) 0%, rgba(56, 189, 248, 0.05) 45%, transparent 75%);
+  background: radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.08) 0%, rgba(244, 63, 94, 0.06) 45%, transparent 75%);
 }
 
-/* High-Tech Frosted Glassmorphism Panels (Biss GmbH Style) */
+/* High-Tech Frosted Glassmorphism Panels (Light Professional Studio Style) */
 .hud-panel {
-  background: rgba(17, 22, 33, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 2px 8px -2px rgba(0, 0, 0, 0.02);
+  transform: translateZ(0);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .hud-panel:hover {
-  border-color: rgba(255, 59, 92, 0.35);
-  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 59, 92, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 0 18px 40px -8px rgba(99, 102, 241, 0.14), 0 0 20px rgba(244, 63, 94, 0.06);
 }
 
 .hud-card {
   position: relative;
-  background: rgba(18, 24, 36, 0.8);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+  transform: translateZ(0);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
 
 .hud-card:hover {
-  border-color: rgba(255, 59, 92, 0.45);
-  background: rgba(22, 29, 44, 0.9);
-  box-shadow: 0 22px 50px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 59, 92, 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+  border-color: rgba(14, 165, 233, 0.5);
+  background: #ffffff;
+  box-shadow: 0 20px 45px -8px rgba(14, 165, 233, 0.14), 0 0 25px rgba(139, 92, 246, 0.08);
 }
 
-/* Laser-Cut Corner Ticks */
+/* Multi-Chromatic Laser-Cut Corner Ticks */
 .hud-card::before {
   content: '';
   position: absolute;
@@ -113,8 +128,8 @@ html, body {
   left: 14px;
   width: 28px;
   height: 2px;
-  background: linear-gradient(90deg, #ff3b5c, #ff758f);
-  box-shadow: 0 0 10px rgba(255, 59, 92, 0.8);
+  background: linear-gradient(90deg, #f43f5e, #ec4899);
+  box-shadow: 0 0 8px rgba(244, 63, 94, 0.5);
   border-radius: 9999px;
 }
 
@@ -125,40 +140,40 @@ html, body {
   right: 14px;
   width: 28px;
   height: 2px;
-  background: linear-gradient(90deg, #38bdf8, #818cf8);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+  background: linear-gradient(90deg, #0284c7, #8b5cf6);
+  box-shadow: 0 0 8px rgba(2, 132, 199, 0.5);
   border-radius: 9999px;
 }
 
 /* Luminous Glow & Telemetry Utilities */
 .glow-crimson {
-  text-shadow: 0 0 18px rgba(255, 59, 92, 0.55);
+  text-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
 }
 
 .glow-cyan {
-  text-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+  text-shadow: 0 0 16px rgba(2, 132, 199, 0.35);
 }
 
 .box-glow-crimson {
-  box-shadow: 0 8px 30px -4px rgba(255, 59, 92, 0.35);
+  box-shadow: 0 8px 30px -4px rgba(244, 63, 94, 0.18);
 }
 
 .box-glow-cyan {
-  box-shadow: 0 8px 30px -4px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 8px 30px -4px rgba(2, 132, 199, 0.18);
 }
 
-/* Section divider with gradient flow */
+/* Section divider with multi-color gradient flow */
 .tensor-divider {
   position: relative;
   height: 1px;
   width: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 59, 92, 0.5), rgba(56, 189, 248, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(244, 63, 94, 0.4), rgba(99, 102, 241, 0.5), rgba(2, 132, 199, 0.4), transparent);
 }
 
 /* Custom selection */
 ::selection {
-  background: rgba(255, 59, 92, 0.3);
-  color: #ffffff;
+  background: rgba(99, 102, 241, 0.18);
+  color: #1e1b4b;
 }
 
 /* 3D Card Hover Perspective */

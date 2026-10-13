@@ -7,19 +7,23 @@ interface Skill3DSymbolProps {
 }
 
 export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = false }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
-    let animId: number;
+    let animId: number = 0;
+    let isVisible = false;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const size = 56;
-    canvas.width = size * window.devicePixelRatio;
-    canvas.height = size * window.devicePixelRatio;
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
 
     let angleX = 0.4;
     let angleY = 0;
@@ -271,48 +275,73 @@ export const Skill3DSymbol: React.FC<Skill3DSymbolProps> = ({ type, isHovered = 
         };
       });
 
-      // Draw Edges with rich color
+      // Draw Edges with crisp GPU-ready lines (no CPU shadowBlur)
+      ctx.strokeStyle = geom.primaryColor;
+      ctx.lineWidth = isHovered ? 2.0 : 1.5;
       geom.edges.forEach(([i, j]) => {
         const p1 = projected[i];
         const p2 = projected[j];
-
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = geom.primaryColor;
-        ctx.lineWidth = isHovered ? 2.2 : 1.6;
-        ctx.shadowColor = geom.primaryColor;
-        ctx.shadowBlur = isHovered ? 8 : 3;
         ctx.stroke();
       });
 
       // Draw Glowing Vertices
+      ctx.fillStyle = geom.secondaryColor;
+      const pointRadius = isHovered ? 2.4 : 1.8;
       projected.forEach((p) => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, isHovered ? 2.6 : 1.8, 0, Math.PI * 2);
-        ctx.fillStyle = geom.secondaryColor;
-        ctx.shadowColor = geom.secondaryColor;
-        ctx.shadowBlur = isHovered ? 6 : 2;
+        ctx.arc(p.x, p.y, pointRadius, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      ctx.shadowBlur = 0;
-      animId = requestAnimationFrame(render);
+      if (isVisible) {
+        animId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    // Only animate when visible in the viewport
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          cancelAnimationFrame(animId);
+          animId = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(animId);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animId);
     };
   }, [type, isHovered]);
 
   return (
-    <div className="relative w-14 h-14 rounded-xl bg-[#0e131d] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-rose-500/50 group-hover:shadow-lg group-hover:shadow-rose-950/40 transition-all">
-      <canvas ref={canvasRef} className="w-14 h-14 block" />
+    <div
+      ref={containerRef}
+      className="relative w-14 h-14 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-rose-500/60 group-hover:shadow-md group-hover:shadow-rose-500/20 shadow-sm transition-all"
+    >
+      <canvas
+        ref={canvasRef}
+        className="w-14 h-14 block"
+        style={{
+          filter: isHovered
+            ? 'drop-shadow(0 0 6px rgba(244, 63, 94, 0.6))'
+            : 'drop-shadow(0 0 2px rgba(99, 102, 241, 0.25))',
+          transform: 'translateZ(0)',
+          willChange: 'filter',
+        }}
+      />
       {/* Corner subtle color accents */}
-      <div className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l border-rose-500/40" />
-      <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-sky-400/40" />
+      <div className="absolute top-1 left-1 w-1.5 h-1.5 border-t border-l border-rose-500/50" />
+      <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-sky-500/50" />
     </div>
   );
 };

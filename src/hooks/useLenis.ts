@@ -11,9 +11,11 @@ export function useLenis() {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.5,
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.2,
       infinite: false,
     });
     lenisRef.current = lenis;
@@ -34,7 +36,7 @@ export function useLenis() {
 
   const scrollTo = (target: string | HTMLElement) => {
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(target, { offset: -60, duration: 1.4 });
+      lenisRef.current.scrollTo(target, { offset: -60, duration: 1.0 });
     } else {
       const el = typeof target === 'string' ? document.querySelector(target) : target;
       if (el) {

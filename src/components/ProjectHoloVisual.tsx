@@ -5,36 +5,39 @@ interface ProjectHoloVisualProps {
 }
 
 export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
 
-    let animId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || 360);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 220);
+    let animId: number = 0;
+    let isVisible = false;
+    let width = (canvas.width = container.clientWidth || 360);
+    let height = (canvas.height = container.clientHeight || 220);
 
     const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
+      if (!canvas || !container) return;
+      width = canvas.width = container.clientWidth;
+      height = canvas.height = container.clientHeight;
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     let frame = 0;
 
     const render = () => {
       frame++;
-      ctx.fillStyle = '#0d111a';
+      ctx.fillStyle = '#f8fafc';
       ctx.fillRect(0, 0, width, height);
 
       // --- AERION: Satellite/Drone Imagery with YOLO Bounding Boxes + Heatmap ---
       if (type === 'aerion') {
         // Grid background
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.strokeStyle = 'rgba(99, 102, 241, 0.1)';
         ctx.lineWidth = 1;
         const step = 24;
         for (let x = 0; x < width; x += step) {
@@ -59,8 +62,8 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
           height * 0.45,
           75
         );
-        heatGrad.addColorStop(0, 'rgba(255, 59, 92, 0.55)');
-        heatGrad.addColorStop(0.5, 'rgba(244, 63, 94, 0.25)');
+        heatGrad.addColorStop(0, 'rgba(244, 63, 94, 0.45)');
+        heatGrad.addColorStop(0.5, 'rgba(244, 63, 94, 0.18)');
         heatGrad.addColorStop(1, 'transparent');
         ctx.fillStyle = heatGrad;
         ctx.beginPath();
@@ -71,16 +74,16 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         const scanY = (frame * 1.5) % height;
         const scanGrad = ctx.createLinearGradient(0, scanY - 15, 0, scanY + 15);
         scanGrad.addColorStop(0, 'transparent');
-        scanGrad.addColorStop(0.5, 'rgba(255, 59, 92, 0.5)');
+        scanGrad.addColorStop(0.5, 'rgba(225, 29, 72, 0.35)');
         scanGrad.addColorStop(1, 'transparent');
         ctx.fillStyle = scanGrad;
         ctx.fillRect(0, scanY - 15, width, 30);
 
         // YOLO Bounding Boxes
         const boxes = [
-          { x: width * 0.18, y: height * 0.22, w: 85, h: 52, label: 'DRONE_TGT 98.4%', color: '#38bdf8' },
-          { x: width * 0.54, y: height * 0.38, w: 76, h: 68, label: 'DAMAGE_SSIM 94.1%', color: '#ff3b5c' },
-          { x: width * 0.32, y: height * 0.62, w: 98, h: 44, label: 'OBB_MIL_VEH 96.8%', color: '#10b981' },
+          { x: width * 0.18, y: height * 0.22, w: 85, h: 52, label: 'DRONE_TGT 98.4%', color: '#0284c7' },
+          { x: width * 0.54, y: height * 0.38, w: 76, h: 68, label: 'DAMAGE_SSIM 94.1%', color: '#e11d48' },
+          { x: width * 0.32, y: height * 0.62, w: 98, h: 44, label: 'OBB_MIL_VEH 96.8%', color: '#059669' },
         ];
 
         boxes.forEach((b) => {
@@ -95,10 +98,10 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
           ctx.fillRect(b.x + b.w - 6, b.y - 2, 8, 2.5);
           ctx.fillRect(b.x + b.w - 0.5, b.y - 2, 2.5, 8);
 
-          // Label badge in dark slate with neon text
+          // Label badge in white with neon/vibrant text
           ctx.font = 'bold 9px monospace';
           const textWidth = ctx.measureText(b.label).width;
-          ctx.fillStyle = 'rgba(15, 20, 30, 0.9)';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
           ctx.fillRect(b.x, b.y - 15, textWidth + 10, 14);
           ctx.strokeStyle = b.color;
           ctx.strokeRect(b.x, b.y - 15, textWidth + 10, 14);
@@ -107,10 +110,10 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         });
 
         // Top-right telemetry
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.font = '9px monospace';
+        ctx.fillStyle = '#334155';
+        ctx.font = 'bold 9px monospace';
         ctx.fillText('DUAL_OP: RESCUE // BORDER_PERIMETER', 12, 18);
-        ctx.fillStyle = '#ff3b5c';
+        ctx.fillStyle = '#e11d48';
         ctx.fillText('TRIAGE: CRITICAL', width - 110, 18);
       }
 
@@ -120,7 +123,7 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         const cy = height * 0.5;
 
         // Wireframe Earth Sphere
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        ctx.strokeStyle = 'rgba(2, 132, 199, 0.25)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(cx, cy, 42, 0, Math.PI * 2);
@@ -133,14 +136,14 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         }
 
         // Orbit 1: Primary Satellite (Cyan)
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+        ctx.strokeStyle = 'rgba(2, 132, 199, 0.7)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.ellipse(cx, cy, 115, 45, Math.PI * 0.25, 0, Math.PI * 2);
         ctx.stroke();
 
         // Orbit 2: Secondary Chaser Object (Crimson)
-        ctx.strokeStyle = 'rgba(255, 59, 92, 0.6)';
+        ctx.strokeStyle = 'rgba(225, 29, 72, 0.7)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.ellipse(cx, cy, 105, 55, -Math.PI * 0.35, 0, Math.PI * 2);
@@ -151,9 +154,9 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         const s1x = cx + Math.cos(sat1Angle) * 115 * Math.cos(Math.PI * 0.25) - Math.sin(sat1Angle) * 45 * Math.sin(Math.PI * 0.25);
         const s1y = cy + Math.cos(sat1Angle) * 115 * Math.sin(Math.PI * 0.25) + Math.sin(sat1Angle) * 45 * Math.cos(Math.PI * 0.25);
 
-        ctx.fillStyle = '#38bdf8';
-        ctx.shadowColor = '#38bdf8';
-        ctx.shadowBlur = 10;
+        ctx.fillStyle = '#0284c7';
+        ctx.shadowColor = '#0284c7';
+        ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.arc(s1x, s1y, 4.5, 0, Math.PI * 2);
         ctx.fill();
@@ -164,16 +167,16 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         const s2x = cx + Math.cos(sat2Angle) * 105 * Math.cos(-Math.PI * 0.35) - Math.sin(sat2Angle) * 55 * Math.sin(-Math.PI * 0.35);
         const s2y = cy + Math.cos(sat2Angle) * 105 * Math.sin(-Math.PI * 0.35) + Math.sin(sat2Angle) * 55 * Math.cos(-Math.PI * 0.35);
 
-        ctx.fillStyle = '#ff3b5c';
-        ctx.shadowColor = '#ff3b5c';
-        ctx.shadowBlur = 10;
+        ctx.fillStyle = '#e11d48';
+        ctx.shadowColor = '#e11d48';
+        ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.arc(s2x, s2y, 4.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
 
         // Conjunction Vector line
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.strokeStyle = 'rgba(100, 116, 139, 0.5)';
         ctx.setLineDash([3, 3]);
         ctx.beginPath();
         ctx.moveTo(s1x, s1y);
@@ -182,10 +185,10 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         ctx.setLineDash([]);
 
         // Delta vector labels
-        ctx.font = '9px monospace';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 9px monospace';
+        ctx.fillStyle = '#1e293b';
         ctx.fillText(`ΔU, ΔV, ΔW: [0.12, -0.45, 0.08] km/s`, 12, 18);
-        ctx.fillStyle = '#ff3b5c';
+        ctx.fillStyle = '#e11d48';
         ctx.fillText(`MISS_DIST: 184m // CARA HAZARD`, 12, 32);
       }
 
@@ -194,7 +197,7 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         // Radar circular arcs
         const cx = width * 0.5;
         const cy = height * 0.5;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+        ctx.strokeStyle = 'rgba(99, 102, 241, 0.12)';
         for (let r = 30; r < 140; r += 30) {
           ctx.beginPath();
           ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -203,7 +206,7 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
 
         // Radar sweep line
         const sweepAngle = frame * 0.03;
-        ctx.strokeStyle = 'rgba(255, 59, 92, 0.4)';
+        ctx.strokeStyle = 'rgba(225, 29, 72, 0.35)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
@@ -212,11 +215,11 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
 
         // City nodes with hazard severity
         const cities = [
-          { x: cx - 50, y: cy - 25, label: 'KANPUR', risk: 'HIGH', col: '#ff3b5c' },
-          { x: cx + 45, y: cy - 40, label: 'LUCKNOW', risk: 'MED', col: '#f59e0b' },
-          { x: cx - 20, y: cy + 45, label: 'DELHI_NCR', risk: 'HIGH', col: '#ff3b5c' },
-          { x: cx + 70, y: cy + 30, label: 'VARANASI', risk: 'LOW', col: '#10b981' },
-          { x: cx - 75, y: cy + 20, label: 'AGRA', risk: 'MED', col: '#f59e0b' },
+          { x: cx - 50, y: cy - 25, label: 'KANPUR', risk: 'HIGH', col: '#e11d48' },
+          { x: cx + 45, y: cy - 40, label: 'LUCKNOW', risk: 'MED', col: '#d97706' },
+          { x: cx - 20, y: cy + 45, label: 'DELHI_NCR', risk: 'HIGH', col: '#e11d48' },
+          { x: cx + 70, y: cy + 30, label: 'VARANASI', risk: 'LOW', col: '#059669' },
+          { x: cx - 75, y: cy + 20, label: 'AGRA', risk: 'MED', col: '#d97706' },
         ];
 
         cities.forEach((c) => {
@@ -230,15 +233,15 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
           ctx.arc(c.x, c.y, 8 + Math.sin(frame * 0.08) * 3, 0, Math.PI * 2);
           ctx.stroke();
 
-          ctx.font = '8px monospace';
-          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 8px monospace';
+          ctx.fillStyle = '#0f172a';
           ctx.fillText(c.label, c.x + 8, c.y + 3);
         });
 
-        ctx.font = '9px monospace';
-        ctx.fillStyle = '#ff3b5c';
+        ctx.font = 'bold 9px monospace';
+        ctx.fillStyle = '#e11d48';
         ctx.fillText('SENSOR FUSION: WEATHER + SEISMIC + TRAFFIC', 12, 18);
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#0284c7';
         ctx.fillText('149 CITIES // DISPATCH DISPATCH LATENCY: -34%', 12, 32);
       }
 
@@ -250,7 +253,7 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
         // Plume dispersion contour
         for (let i = 4; i >= 1; i--) {
           const pGrad = ctx.createRadialGradient(cx + i * 35, cy, 10, cx + i * 35, cy, i * 40);
-          pGrad.addColorStop(0, i === 1 ? 'rgba(255, 59, 92, 0.7)' : 'rgba(245, 158, 11, 0.4)');
+          pGrad.addColorStop(0, i === 1 ? 'rgba(225, 29, 72, 0.65)' : 'rgba(217, 119, 6, 0.35)');
           pGrad.addColorStop(1, 'transparent');
           ctx.fillStyle = pGrad;
           ctx.beginPath();
@@ -258,31 +261,51 @@ export const ProjectHoloVisual: React.FC<ProjectHoloVisualProps> = ({ type }) =>
           ctx.fill();
         }
 
-        ctx.font = '9px monospace';
-        ctx.fillStyle = '#ff3b5c';
+        ctx.font = 'bold 9px monospace';
+        ctx.fillStyle = '#e11d48';
         ctx.fillText('GAUSSIAN PLUME DISPERSION // SIH1505', 12, 18);
       }
 
       // --- CIVIC: Service Node Matrix ---
       else {
-        ctx.font = '9px monospace';
-        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 9px monospace';
+        ctx.fillStyle = '#0284c7';
         ctx.fillText('CIVIC TELEMETRY: REAL-TIME GRIEVANCE PIPELINE', 12, 18);
       }
 
-      animId = requestAnimationFrame(render);
+      if (isVisible) {
+        animId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          cancelAnimationFrame(animId);
+          animId = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(animId);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
     };
   }, [type]);
 
   return (
-    <div className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-white/10 bg-[#0d111a] shadow-inner">
+    <div
+      ref={containerRef}
+      className="relative w-full h-48 sm:h-52 rounded-xl overflow-hidden border border-slate-200/90 bg-slate-50 shadow-inner"
+      style={{ transform: 'translateZ(0)' }}
+    >
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>
   );

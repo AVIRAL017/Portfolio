@@ -21,24 +21,21 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const sections = ['hero', 'about', 'projects', 'skills', 'competitive', 'achievements', 'education', 'contact'];
-    
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
-    };
+    const elements = sections.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find visible section with highest intersection ratio
+        const visibleEntry = entries.find((e) => e.isIntersecting);
+        if (visibleEntry) {
+          setActiveSection(visibleEntry.target.id);
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   const handleNavigate = (targetId: string) => {
@@ -46,7 +43,10 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0e14] text-slate-100 font-sans relative selection:bg-rose-500/30 selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 font-sans relative selection:bg-indigo-500/20 selection:text-indigo-900 overflow-x-hidden">
+      {/* Hardware-Composited Ambient Gradients Layer */}
+      <div className="bg-ambient-canvas" />
+
       {/* Interactive Cyber Cursor */}
       <CustomCursor />
 

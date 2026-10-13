@@ -1,6 +1,6 @@
-import React, { useRef, useMemo, useEffect } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 // --- Dynamic Telemetry Canvas Texture for the Command Screen ---
@@ -27,29 +27,29 @@ function useTelemetryTexture() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Background: dark slate terminal
-    ctx.fillStyle = '#0f141d';
+    // Background: crisp light architectural terminal
+    ctx.fillStyle = '#f8fafc';
     ctx.fillRect(0, 0, 512, 340);
 
     // Header bar
-    ctx.fillStyle = '#18202e';
+    ctx.fillStyle = '#e2e8f0';
     ctx.fillRect(0, 0, 512, 32);
 
-    ctx.fillStyle = '#ff3b5c';
+    ctx.fillStyle = '#e11d48';
     ctx.beginPath();
     ctx.arc(18, 16, 5, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 12px monospace';
     ctx.fillText('MISSION_TELEMETRY // CONVERGENCE_LIVE', 34, 20);
 
-    ctx.fillStyle = '#64748b';
-    ctx.font = '10px monospace';
+    ctx.fillStyle = '#475569';
+    ctx.font = 'bold 10px monospace';
     ctx.fillText('SGP4_ACC: 99.4%', 390, 20);
 
     // Grid lines
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.strokeStyle = 'rgba(99, 102, 241, 0.08)';
     ctx.lineWidth = 1;
     for (let x = 20; x < 500; x += 30) {
       ctx.beginPath();
@@ -70,29 +70,29 @@ function useTelemetryTexture() {
     const r = 45;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.strokeStyle = '#222d3d';
+    ctx.strokeStyle = '#e2e8f0';
     ctx.lineWidth = 8;
     ctx.stroke();
 
     const gaugeAngle = (Math.sin(f * 0.03) * 0.5 + 0.5) * Math.PI * 1.5;
     ctx.beginPath();
     ctx.arc(cx, cy, r, -Math.PI * 0.5, -Math.PI * 0.5 + gaugeAngle);
-    ctx.strokeStyle = '#ff3b5c';
+    ctx.strokeStyle = '#e11d48';
     ctx.lineWidth = 8;
     ctx.stroke();
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'center';
     ctx.fillText(`${Math.round((gaugeAngle / (Math.PI * 1.5)) * 100)}%`, cx, cy + 5);
-    ctx.font = '9px monospace';
-    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 9px monospace';
+    ctx.fillStyle = '#64748b';
     ctx.fillText('INFERENCE', cx, cy + 20);
     ctx.textAlign = 'left';
 
     // Right: Live loss & convergence waveform
     ctx.beginPath();
-    ctx.strokeStyle = '#ff3b5c';
+    ctx.strokeStyle = '#e11d48';
     ctx.lineWidth = 2.5;
     const waveStart = 170;
     for (let x = waveStart; x < 480; x += 3) {
@@ -107,9 +107,9 @@ function useTelemetryTexture() {
     }
     ctx.stroke();
 
-    // Secondary cyan comparison wave
+    // Secondary sky-blue comparison wave
     ctx.beginPath();
-    ctx.strokeStyle = '#38bdf8';
+    ctx.strokeStyle = '#0284c7';
     ctx.lineWidth = 1.8;
     for (let x = waveStart; x < 480; x += 3) {
       const prog = (x - waveStart) / 310;
@@ -122,20 +122,20 @@ function useTelemetryTexture() {
     // Bottom telemetry bar meters
     const barY = 220;
     const bars = [
-      { label: 'YOLOv8-OBB', val: 0.92, col: '#ff3b5c' },
-      { label: 'SIAMESE_NET', val: 0.88, col: '#38bdf8' },
-      { label: 'SGP4_CARA', val: 0.96, col: '#ffffff' },
-      { label: 'MISTRAL_RAG', val: 0.84, col: '#ff3b5c' },
+      { label: 'YOLOv8-OBB', val: 0.92, col: '#e11d48' },
+      { label: 'SIAMESE_NET', val: 0.88, col: '#0284c7' },
+      { label: 'SGP4_CARA', val: 0.96, col: '#059669' },
+      { label: 'MISTRAL_RAG', val: 0.84, col: '#7c3aed' },
     ];
 
     bars.forEach((b, i) => {
       const bx = 30 + i * 115;
-      ctx.fillStyle = '#64748b';
-      ctx.font = '9px monospace';
+      ctx.fillStyle = '#334155';
+      ctx.font = 'bold 9px monospace';
       ctx.fillText(b.label, bx, barY);
 
       // Track
-      ctx.fillStyle = '#1e2638';
+      ctx.fillStyle = '#e2e8f0';
       ctx.fillRect(bx, barY + 6, 95, 8);
 
       // Dynamic fill
@@ -145,17 +145,17 @@ function useTelemetryTexture() {
     });
 
     // Bottom alert status strip
-    ctx.fillStyle = '#161d2a';
+    ctx.fillStyle = '#f1f5f9';
     ctx.fillRect(20, 270, 470, 45);
-    ctx.strokeStyle = '#273347';
+    ctx.strokeStyle = '#cbd5e1';
     ctx.strokeRect(20, 270, 470, 45);
 
-    ctx.fillStyle = (f % 40 < 20) ? '#ff3b5c' : '#38bdf8';
+    ctx.fillStyle = (f % 40 < 20) ? '#e11d48' : '#0284c7';
     ctx.beginPath();
     ctx.arc(42, 292, 4, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 11px monospace';
     ctx.fillText('TACTICAL PIPELINE NOMINAL // COORDINATES: [26.4499° N, 80.3319° E]', 58, 296);
 
@@ -182,28 +182,28 @@ function SortingTurntableTower() {
 
   return (
     <group position={[-4.2, 0, -1.2]}>
-      {/* Cylindrical Base Podiums */}
+      {/* Cylindrical Base Podiums - Satin Studio White */}
       <mesh position={[0, 0.4, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[2.0, 2.2, 0.8, 36]} />
-        <meshStandardMaterial color="#1a212d" roughness={0.3} metalness={0.7} />
+        <meshStandardMaterial color="#ffffff" roughness={0.25} metalness={0.25} />
       </mesh>
 
       {/* Middle Stepped Rim with Laser Ticks */}
       <mesh position={[0, 0.95, 0]}>
         <cylinderGeometry args={[1.7, 1.9, 0.3, 36]} />
-        <meshStandardMaterial color="#111620" roughness={0.4} metalness={0.8} />
+        <meshStandardMaterial color="#f8fafc" roughness={0.3} metalness={0.35} />
       </mesh>
 
       {/* Glowing Crimson Trim Ring */}
       <mesh position={[0, 1.15, 0]}>
         <torusGeometry args={[1.72, 0.035, 16, 64]} />
-        <meshBasicMaterial color="#ff3b5c" />
+        <meshBasicMaterial color="#f43f5e" />
       </mesh>
 
       {/* Center Pillar */}
       <mesh position={[0, 2.0, 0]}>
         <cylinderGeometry args={[0.5, 0.6, 1.8, 24]} />
-        <meshStandardMaterial color="#222b3a" roughness={0.2} metalness={0.85} />
+        <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.7} />
       </mesh>
 
       {/* Top Turntable Platform */}
@@ -211,7 +211,7 @@ function SortingTurntableTower() {
         {/* Disc platform */}
         <mesh castShadow receiveShadow>
           <cylinderGeometry args={[2.2, 2.2, 0.25, 36]} />
-          <meshStandardMaterial color="#18202c" roughness={0.2} metalness={0.8} />
+          <meshStandardMaterial color="#ffffff" roughness={0.2} metalness={0.3} />
         </mesh>
 
         {/* 3 Floating Wedge Slabs representing Data, Physics/Balance, and Legal/Code */}
@@ -219,13 +219,12 @@ function SortingTurntableTower() {
         <group position={[-0.9, 0.8, 0.7]} rotation={[0, 0.3, 0]}>
           <mesh castShadow>
             <boxGeometry args={[1.0, 1.3, 0.12]} />
-            <meshPhysicalMaterial
+            <meshStandardMaterial
               color="#ffffff"
-              roughness={0.1}
-              metalness={0.1}
-              transmission={0.4}
+              roughness={0.2}
+              metalness={0.25}
               transparent
-              opacity={0.9}
+              opacity={0.88}
             />
           </mesh>
           {/* Subtle text lines on slab */}
@@ -247,11 +246,10 @@ function SortingTurntableTower() {
         <group position={[1.1, 0.8, 0]} rotation={[0, -0.8, 0]}>
           <mesh castShadow>
             <boxGeometry args={[1.0, 1.3, 0.12]} />
-            <meshPhysicalMaterial
+            <meshStandardMaterial
               color="#e2e8f0"
-              roughness={0.15}
-              metalness={0.2}
-              transmission={0.35}
+              roughness={0.2}
+              metalness={0.3}
               transparent
               opacity={0.88}
             />
@@ -275,13 +273,12 @@ function SortingTurntableTower() {
         <group position={[-0.2, 0.8, -1.1]} rotation={[0, 1.4, 0]}>
           <mesh castShadow>
             <boxGeometry args={[1.0, 1.3, 0.12]} />
-            <meshPhysicalMaterial
+            <meshStandardMaterial
               color="#f8fafc"
-              roughness={0.12}
-              metalness={0.15}
-              transmission={0.4}
+              roughness={0.2}
+              metalness={0.25}
               transparent
-              opacity={0.92}
+              opacity={0.88}
             />
           </mesh>
           {/* Section § icon representation */}
@@ -345,8 +342,8 @@ function ConveyorBeltSystem({ pulseActive }: ConveyorProps) {
             (innerCore.material as THREE.MeshBasicMaterial).color.set('#ff3b5c');
           }
           if (outerShell && outerShell.material) {
-            (outerShell.material as THREE.MeshPhysicalMaterial).emissive.set('#ff2244');
-            (outerShell.material as THREE.MeshPhysicalMaterial).emissiveIntensity = 0.6;
+            (outerShell.material as THREE.MeshStandardMaterial).emissive.set('#ff2244');
+            (outerShell.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.6;
           }
         } else {
           // Pre-processed raw data state
@@ -354,8 +351,8 @@ function ConveyorBeltSystem({ pulseActive }: ConveyorProps) {
             (innerCore.material as THREE.MeshBasicMaterial).color.set('#475569');
           }
           if (outerShell && outerShell.material) {
-            (outerShell.material as THREE.MeshPhysicalMaterial).emissive.set('#000000');
-            (outerShell.material as THREE.MeshPhysicalMaterial).emissiveIntensity = 0;
+            (outerShell.material as THREE.MeshStandardMaterial).emissive.set('#000000');
+            (outerShell.material as THREE.MeshStandardMaterial).emissiveIntensity = 0;
           }
         }
       });
@@ -373,45 +370,45 @@ function ConveyorBeltSystem({ pulseActive }: ConveyorProps) {
         {/* Main ramp slab */}
         <mesh castShadow receiveShadow>
           <boxGeometry args={[4.4, 0.18, 0.9]} />
-          <meshStandardMaterial color="#151b26" roughness={0.3} metalness={0.7} />
+          <meshStandardMaterial color="#ffffff" roughness={0.25} metalness={0.3} />
         </mesh>
 
         {/* Side Rail Left */}
         <mesh position={[0, 0.18, 0.42]}>
           <boxGeometry args={[4.4, 0.22, 0.06]} />
-          <meshStandardMaterial color="#283244" roughness={0.2} metalness={0.85} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.6} />
         </mesh>
 
         {/* Side Rail Right */}
         <mesh position={[0, 0.18, -0.42]}>
           <boxGeometry args={[4.4, 0.22, 0.06]} />
-          <meshStandardMaterial color="#283244" roughness={0.2} metalness={0.85} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.2} metalness={0.6} />
         </mesh>
 
         {/* Glowing Guide Laser Strip */}
         <mesh position={[0, 0.12, 0]}>
           <boxGeometry args={[4.2, 0.02, 0.04]} />
-          <meshBasicMaterial color="#ff3b5c" />
+          <meshBasicMaterial color="#0284c7" />
         </mesh>
 
         {/* Rollers under track */}
         {[-1.6, -0.8, 0, 0.8, 1.6].map((rx, idx) => (
           <mesh key={idx} position={[rx, -0.16, 0]} rotation={[0, 0, Math.PI * 0.5]}>
             <cylinderGeometry args={[0.09, 0.09, 0.85, 16]} />
-            <meshStandardMaterial color="#334155" metalness={0.8} roughness={0.3} />
+            <meshStandardMaterial color="#cbd5e1" metalness={0.8} roughness={0.2} />
           </mesh>
         ))}
 
         {/* Support Leg Front */}
         <mesh position={[1.4, -0.4, 0]} rotation={[0, 0, 0.25]}>
           <boxGeometry args={[0.2, 0.8, 0.8]} />
-          <meshStandardMaterial color="#1a2230" roughness={0.3} metalness={0.7} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.3} metalness={0.5} />
         </mesh>
 
         {/* Support Leg Back */}
         <mesh position={[-1.4, -0.7, 0]} rotation={[0, 0, -0.2]}>
           <boxGeometry args={[0.25, 1.4, 0.8]} />
-          <meshStandardMaterial color="#1a2230" roughness={0.3} metalness={0.7} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.3} metalness={0.5} />
         </mesh>
       </group>
 
@@ -419,15 +416,15 @@ function ConveyorBeltSystem({ pulseActive }: ConveyorProps) {
       <group position={[-0.8, 0.9, 0.65]} rotation={[0.22, -0.68, 0]}>
         <mesh position={[0, 0.6, 0]}>
           <boxGeometry args={[0.65, 0.16, 1.25]} />
-          <meshStandardMaterial color="#212a39" roughness={0.3} metalness={0.8} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
         </mesh>
         <mesh position={[0, 0.3, 0.55]}>
           <boxGeometry args={[0.45, 0.7, 0.14]} />
-          <meshStandardMaterial color="#212a39" roughness={0.3} metalness={0.8} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
         </mesh>
         <mesh position={[0, 0.3, -0.55]}>
           <boxGeometry args={[0.45, 0.7, 0.14]} />
-          <meshStandardMaterial color="#212a39" roughness={0.3} metalness={0.8} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.25} metalness={0.5} />
         </mesh>
 
         {/* Scanner Laser Sheet */}
@@ -447,11 +444,10 @@ function ConveyorBeltSystem({ pulseActive }: ConveyorProps) {
             {/* Outer Translucent Shell */}
             <mesh castShadow>
               <boxGeometry args={[0.42, 0.42, 0.42]} />
-              <meshPhysicalMaterial
+              <meshStandardMaterial
                 color="#e2e8f0"
                 roughness={0.2}
                 metalness={0.3}
-                transmission={0.4}
                 transparent
                 opacity={0.85}
               />
@@ -486,13 +482,13 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
       {/* Sturdy Desk Podium */}
       <mesh position={[0, 0.4, 0]} castShadow receiveShadow>
         <boxGeometry args={[3.2, 0.8, 2.2]} />
-        <meshStandardMaterial color="#151b25" roughness={0.3} metalness={0.7} />
+        <meshStandardMaterial color="#f1f5f9" roughness={0.3} metalness={0.4} />
       </mesh>
 
       {/* Desk Top Trim */}
       <mesh position={[0, 0.82, 0]}>
         <boxGeometry args={[3.3, 0.05, 2.3]} />
-        <meshStandardMaterial color="#252f40" roughness={0.2} metalness={0.8} />
+        <meshStandardMaterial color="#cbd5e1" roughness={0.2} metalness={0.6} />
       </mesh>
 
       {/* 3.1 Primary Vertical Telemetry Monitor */}
@@ -500,17 +496,17 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
         {/* Monitor Base Stand */}
         <mesh position={[0, 0.04, 0]}>
           <cylinderGeometry args={[0.4, 0.45, 0.08, 24]} />
-          <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
+          <meshStandardMaterial color="#94a3b8" metalness={0.7} roughness={0.2} />
         </mesh>
         <mesh position={[0, 0.6, 0]}>
           <cylinderGeometry args={[0.07, 0.07, 1.1, 16]} />
-          <meshStandardMaterial color="#475569" metalness={0.9} roughness={0.1} />
+          <meshStandardMaterial color="#64748b" metalness={0.9} roughness={0.1} />
         </mesh>
 
         {/* Monitor Bezel Frame */}
         <mesh position={[0, 1.45, 0]} castShadow>
           <boxGeometry args={[2.5, 1.7, 0.12]} />
-          <meshStandardMaterial color="#0b0e14" roughness={0.3} metalness={0.8} />
+          <meshStandardMaterial color="#1e293b" roughness={0.3} metalness={0.8} />
         </mesh>
 
         {/* Active Telemetry Screen Canvas Texture */}
@@ -520,7 +516,7 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
         </mesh>
 
         {/* Ambient Screen Glow Light */}
-        <pointLight position={[0, 1.5, 0.6]} color="#ff3b5c" intensity={1.2} distance={3.2} />
+        <pointLight position={[0, 1.5, 0.6]} color="#e11d48" intensity={0.9} distance={3.2} />
       </group>
 
       {/* 3.2 Sleek Laptop Workstation on Desk (Right) */}
@@ -528,16 +524,16 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
         {/* Base chassis */}
         <mesh position={[0, 0.02, 0]} castShadow>
           <boxGeometry args={[1.1, 0.04, 0.8]} />
-          <meshStandardMaterial color="#222b38" metalness={0.8} roughness={0.2} />
+          <meshStandardMaterial color="#cbd5e1" metalness={0.7} roughness={0.3} />
         </mesh>
 
         {/* Keyboard area with subtle glow grid */}
         <mesh position={[0, 0.045, 0.08]}>
           <boxGeometry args={[0.95, 0.01, 0.45]} />
           <meshStandardMaterial
-            color="#0f172a"
-            emissive="#ff3b5c"
-            emissiveIntensity={0.2}
+            color="#f8fafc"
+            emissive="#e11d48"
+            emissiveIntensity={0.15}
             roughness={0.3}
           />
         </mesh>
@@ -547,15 +543,15 @@ function CommandTelemetryCenter({ telemetryTexture }: { telemetryTexture: THREE.
           {/* Back Lid */}
           <mesh position={[0, 0.4, 0]} castShadow>
             <boxGeometry args={[1.1, 0.75, 0.03]} />
-            <meshStandardMaterial color="#1a222e" metalness={0.8} roughness={0.2} />
+            <meshStandardMaterial color="#94a3b8" metalness={0.8} roughness={0.2} />
           </mesh>
           {/* Display Surface */}
           <mesh ref={laptopScreenRef} position={[0, 0.4, 0.02]}>
             <planeGeometry args={[1.02, 0.68]} />
             <meshStandardMaterial
-              color="#0f141d"
-              emissive="#38bdf8"
-              emissiveIntensity={0.6}
+              color="#f8fafc"
+              emissive="#0284c7"
+              emissiveIntensity={0.5}
               roughness={0.2}
             />
           </mesh>
@@ -667,19 +663,19 @@ function CorporateDataTower() {
       {/* Tower Main Architectural Massing */}
       <mesh position={[0, 3.4, 0]} castShadow receiveShadow>
         <boxGeometry args={[2.8, 6.8, 2.2]} />
-        <meshStandardMaterial color="#121722" roughness={0.35} metalness={0.7} />
+        <meshStandardMaterial color="#f1f5f9" roughness={0.35} metalness={0.4} />
       </mesh>
 
       {/* Architectural Roof Penthouse */}
       <mesh position={[0, 6.9, 0]} castShadow>
         <boxGeometry args={[2.2, 0.4, 1.8]} />
-        <meshStandardMaterial color="#1e2536" roughness={0.2} metalness={0.85} />
+        <meshStandardMaterial color="#cbd5e1" roughness={0.2} metalness={0.7} />
       </mesh>
 
       {/* Illuminated Roof Logo Badge "AVIRAL" / "BISS" */}
       <mesh position={[0, 6.4, 1.12]}>
         <planeGeometry args={[1.8, 0.35]} />
-        <meshBasicMaterial color="#ff3b5c" />
+        <meshBasicMaterial color="#e11d48" />
       </mesh>
 
       {/* Lit Window Slits on Front Facade */}
@@ -754,59 +750,74 @@ function GlowingDataConduits({ pulseActive }: { pulseActive: boolean }) {
 function IsometricFloor() {
   return (
     <group position={[0, -0.01, 0]}>
-      {/* Ground plane */}
+      {/* Ground plane - Crisp Light Architectural Studio */}
       <mesh rotation={[-Math.PI * 0.5, 0, 0]} receiveShadow>
         <planeGeometry args={[26, 26]} />
-        <meshStandardMaterial color="#0c1017" roughness={0.4} metalness={0.5} />
+        <meshStandardMaterial color="#f1f5f9" roughness={0.35} metalness={0.15} />
       </mesh>
 
-      {/* Fine isometric grid lines */}
-      <gridHelper args={[24, 24, '#ff3b5c', '#1b2230']} position={[0, 0.01, 0]} />
+      {/* Multi-Chromatic Blueprint grid lines */}
+      <gridHelper args={[24, 24, '#6366f1', '#cbd5e1']} position={[0, 0.01, 0]} />
     </group>
   );
 }
 
-// --- 8. Floating Ambient Cyber Dust ---
+// --- 8. Floating Ambient Cyber Dust (Single Draw Call Points) ---
 function FloatingDustParticles() {
   const count = 48;
-  const particles = useMemo(() => {
-    const arr = [];
-    for (let i = 0; i < count; i++) {
-      arr.push({
-        pos: new THREE.Vector3(
-          (Math.random() - 0.5) * 16,
-          Math.random() * 6 + 0.5,
-          (Math.random() - 0.5) * 16
-        ),
-        speed: Math.random() * 0.5 + 0.3,
-        color: Math.random() > 0.4 ? '#ff3b5c' : '#38bdf8',
-        size: Math.random() * 0.05 + 0.03,
-      });
-    }
-    return arr;
-  }, []);
+  const pointsRef = useRef<THREE.Points>(null);
 
-  const groupRef = useRef<THREE.Group>(null);
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
+    const cRed = new THREE.Color('#ff3b5c');
+    const cBlue = new THREE.Color('#38bdf8');
+
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 16;
+      pos[i * 3 + 1] = Math.random() * 5.5 + 0.5;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 16;
+
+      const chosen = Math.random() > 0.4 ? cRed : cBlue;
+      col[i * 3] = chosen.r;
+      col[i * 3 + 1] = chosen.g;
+      col[i * 3 + 2] = chosen.b;
+    }
+    return [pos, col];
+  }, []);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    if (groupRef.current) {
-      groupRef.current.children.forEach((child, i) => {
-        const p = particles[i];
-        child.position.y = p.pos.y + Math.sin(t * p.speed + i) * 0.3;
-      });
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = t * 0.03;
+      pointsRef.current.position.y = Math.sin(t * 0.4) * 0.12;
     }
   });
 
   return (
-    <group ref={groupRef}>
-      {particles.map((p, i) => (
-        <mesh key={i} position={p.pos}>
-          <sphereGeometry args={[p.size, 8, 8]} />
-          <meshBasicMaterial color={p.color} transparent opacity={0.65} />
-        </mesh>
-      ))}
-    </group>
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={count}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.16}
+        vertexColors
+        transparent
+        opacity={0.7}
+        sizeAttenuation
+      />
+    </points>
   );
 }
 
@@ -832,21 +843,39 @@ export const Hero3DScene: React.FC<Hero3DSceneProps> = ({
   pulseActive = false,
   onTriggerPulse = () => {},
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(true);
   const { texture: telemetryTexture, update: updateTelemetry } = useTelemetryTexture();
 
-  // Update canvas texture at 30fps
+  // Viewport intersection observer to freeze 3D scene when scrolled away
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Update canvas texture at 10fps ONLY when visible in viewport
+  useEffect(() => {
+    if (!isInView) return;
     const interval = setInterval(() => {
       updateTelemetry();
-    }, 33);
+    }, 100);
     return () => clearInterval(interval);
-  }, [updateTelemetry]);
+  }, [updateTelemetry, isInView]);
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto">
+    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-auto">
       <Canvas
         shadows
-        dpr={[1, 2]}
+        frameloop={isInView ? 'always' : 'never'}
+        dpr={[1, 1.5]}
         gl={{
           antialias: true,
           alpha: true,
@@ -856,8 +885,8 @@ export const Hero3DScene: React.FC<Hero3DSceneProps> = ({
         {/* Isometric Perspective Camera */}
         <PerspectiveCamera makeDefault position={[9.5, 8.5, 9.5]} fov={36} />
 
-        {/* Studio Lighting System */}
-        <ambientLight intensity={0.65} color="#c2d1e8" />
+        {/* Studio Daylight Lighting System */}
+        <ambientLight intensity={1.1} color="#ffffff" />
         <directionalLight
           position={[10, 16, 8]}
           intensity={1.8}
@@ -866,11 +895,11 @@ export const Hero3DScene: React.FC<Hero3DSceneProps> = ({
           shadow-mapSize={[1024, 1024]}
         />
         {/* Cool Rim Lighting from Rear */}
-        <directionalLight position={[-12, 10, -10]} intensity={0.8} color="#38bdf8" />
+        <directionalLight position={[-12, 10, -10]} intensity={0.9} color="#38bdf8" />
 
-        {/* Biss GmbH Signature Color Fill Lights */}
-        <pointLight position={[-4.2, 4.0, -1.2]} intensity={2.0} color="#ff3b5c" distance={8} />
-        <pointLight position={[2.0, 3.0, 1.5]} intensity={2.2} color="#ff3b5c" distance={9} />
+        {/* Multi-Color Fill Lights */}
+        <pointLight position={[-4.2, 4.0, -1.2]} intensity={1.8} color="#f43f5e" distance={8} />
+        <pointLight position={[2.0, 3.0, 1.5]} intensity={1.8} color="#6366f1" distance={9} />
 
         {/* 3D Scene Nodes */}
         <SortingTurntableTower />

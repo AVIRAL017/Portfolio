@@ -28,17 +28,17 @@ export const Skills: React.FC = () => {
     <section id="skills" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="flex flex-col items-center mb-16 text-center">
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-500/30 text-rose-400 font-mono text-xs mb-3 shadow-md shadow-rose-950/20">
-          <Cpu className="w-3.5 h-3.5 text-rose-400" />
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs mb-3 shadow-sm">
+          <Cpu className="w-3.5 h-3.5 text-rose-600" />
           <span>LAYER_03 // NEURAL_CAPABILITIES</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
+        <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
           Technical Skills &amp; 3D Matrix
         </h2>
-        <p className="max-w-2xl text-slate-400 text-sm sm:text-base mt-3">
+        <p className="max-w-2xl text-slate-600 text-sm sm:text-base mt-3">
           Interactive 3D geometry symbols representing verified capabilities in deep learning, computer vision, astrodynamics, and high-performance backend systems.
         </p>
-        <div className="h-1 w-20 bg-gradient-to-r from-rose-500 to-red-600 rounded-full mt-4" />
+        <div className="h-1 w-24 bg-gradient-to-r from-rose-500 via-indigo-500 to-sky-500 rounded-full mt-4" />
       </div>
 
       {/* Domain Filter Tabs */}
@@ -47,8 +47,8 @@ export const Skills: React.FC = () => {
           onClick={() => setActiveCategory('all')}
           className={`px-4 py-2.5 rounded-xl transition-all ${
             activeCategory === 'all'
-              ? 'bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 text-white font-bold shadow-lg shadow-rose-600/30 border border-rose-400/30'
-              : 'hud-panel text-slate-300 hover:text-white hover:border-rose-500/30 bg-[#121826]/70'
+              ? 'bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white font-bold shadow-md shadow-rose-500/25'
+              : 'text-slate-700 hover:text-slate-900 border border-slate-200/90 bg-white/90 hover:bg-slate-100 shadow-sm font-semibold'
           }`}
         >
           ALL_DOMAINS ({totalSkillCount})
@@ -59,8 +59,8 @@ export const Skills: React.FC = () => {
             onClick={() => setActiveCategory(cat.categoryKey)}
             className={`px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all ${
               activeCategory === cat.categoryKey
-                ? 'bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 text-white font-bold shadow-lg shadow-rose-600/30 border border-rose-400/30'
-                : 'hud-panel text-slate-300 hover:text-white hover:border-rose-500/30 bg-[#121826]/70'
+                ? 'bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white font-bold shadow-md shadow-rose-500/25'
+                : 'text-slate-700 hover:text-slate-900 border border-slate-200/90 bg-white/90 hover:bg-slate-100 shadow-sm font-semibold'
             }`}
           >
             {CATEGORY_ICONS[cat.categoryKey]}
@@ -74,22 +74,22 @@ export const Skills: React.FC = () => {
         {filteredCategories.map((cat) => (
           <div key={cat.categoryKey} className="space-y-5">
             {/* Category Subheader */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 shadow-sm">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-sm">
                   {CATEGORY_ICONS[cat.categoryKey]}
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-white text-lg sm:text-xl">
+                  <h3 className="font-display font-bold text-slate-900 text-lg sm:text-xl">
                     {cat.name}
                   </h3>
-                  <p className="text-xs font-mono text-slate-400 mt-0.5">
+                  <p className="text-xs font-mono text-slate-500 mt-0.5">
                     {cat.description}
                   </p>
                 </div>
               </div>
 
-              <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-rose-400 font-semibold bg-rose-950/40 px-2.5 py-1 rounded-full border border-rose-500/30">
+              <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-rose-700 font-semibold bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200 shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
                 <span>{cat.skills.length} VERIFIED MODULES</span>
               </div>
@@ -106,7 +106,7 @@ export const Skills: React.FC = () => {
                     onMouseEnter={() => setHoveredSkill(skill.name)}
                     onMouseLeave={() => setHoveredSkill(null)}
                     whileHover={{ y: -4, transition: { duration: 0.15 } }}
-                    className="hud-card rounded-2xl p-4 sm:p-5 flex items-start gap-4 group cursor-pointer border border-white/10 hover:border-rose-500/40 bg-[#121826]/80 transition-all shadow-md"
+                    className="hud-card rounded-2xl p-4 sm:p-5 flex items-start gap-4 group cursor-pointer border border-slate-200/80 hover:border-indigo-400 bg-white/85 hover:bg-white transition-all shadow-md hover:shadow-lg"
                   >
                     {/* Interactive 3D Wireframe Symbol */}
                     <Skill3DSymbol type={skill.iconType} isHovered={isHovered} />
@@ -114,15 +114,15 @@ export const Skills: React.FC = () => {
                     {/* Skill Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-1">
-                        <h4 className="font-display font-bold text-white text-base group-hover:text-rose-400 transition-colors truncate">
+                        <h4 className="font-display font-bold text-slate-900 text-base group-hover:text-rose-600 transition-colors truncate">
                           {skill.name}
                         </h4>
-                        <span className="px-2 py-0.5 rounded-md bg-rose-950/40 border border-rose-500/30 text-[10px] font-mono text-rose-300 shrink-0">
+                        <span className="px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200 text-[10px] font-mono text-rose-700 font-semibold shrink-0 shadow-xs">
                           {skill.tag}
                         </span>
                       </div>
 
-                      <p className="text-xs font-mono text-slate-400 leading-relaxed line-clamp-2 mt-1">
+                      <p className="text-xs font-mono text-slate-600 leading-relaxed line-clamp-2 mt-1">
                         {skill.highlights}
                       </p>
                     </div>

@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'py-3 bg-[#0b0e14]/85 backdrop-blur-xl border-b border-white/10 shadow-xl shadow-black/60'
+          ? 'py-3 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-sm'
           : 'py-5 bg-transparent'
       }`}
     >
@@ -50,17 +50,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="flex items-center space-x-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 rounded-lg"
+            className="flex items-center space-x-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg"
             aria-label="Aviral Home"
           >
-            <div className="w-8 h-8 rounded-lg bg-rose-950/40 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:border-rose-400 group-hover:shadow-[0_0_15px_rgba(255,59,92,0.4)] transition-all">
+            <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600 group-hover:border-rose-400 group-hover:shadow-[0_0_12px_rgba(244,63,94,0.3)] transition-all">
               <Terminal className="w-4 h-4" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display font-bold text-sm tracking-wider text-white group-hover:text-rose-400 transition-colors">
+              <span className="font-display font-bold text-sm tracking-wider text-slate-900 group-hover:text-indigo-600 transition-colors">
                 AVIRAL<span className="text-rose-500">.AI</span>
               </span>
-              <span className="font-mono text-[9px] text-slate-400 tracking-widest hidden sm:inline">
+              <span className="font-mono text-[9px] text-slate-500 tracking-widest hidden sm:inline">
                 SYS: 3D_PIPELINE
               </span>
             </div>
@@ -75,17 +75,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-3 py-1.5 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 ${
+                  className={`relative px-3 py-1.5 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
                     isActive
-                      ? 'text-rose-400 font-bold bg-rose-500/10'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      ? 'text-indigo-700 font-bold bg-indigo-50 border border-indigo-200/60 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
                   {item.label}
                   {isActive && (
                     <motion.div
                       layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-rose-500 shadow-[0_0_8px_rgba(255,59,92,0.8)]"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-rose-500 via-indigo-500 to-sky-500 shadow-[0_0_6px_rgba(99,102,241,0.5)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -101,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-white/20 transition-colors"
+              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 shadow-xs transition-colors"
             >
               <Github className="w-4 h-4" />
             </a>
@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
-              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-sky-400 hover:border-sky-500/30 transition-colors"
+              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-sky-600 hover:border-sky-300 shadow-xs transition-colors"
             >
               <Linkedin className="w-4 h-4" />
             </a>
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               href={portfolioContent.personal.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-mono text-xs font-bold transition-all shadow-md shadow-rose-600/30 border border-rose-400/30"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-mono text-xs font-bold transition-all shadow-md shadow-indigo-600/20 border border-indigo-400/30"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Resume (PDF)</span>
@@ -134,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               href={portfolioContent.personal.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-rose-600 text-white text-xs font-mono font-bold"
+              className="p-2 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold"
               aria-label="Resume"
             >
               <FileText className="w-4 h-4" />
@@ -142,7 +142,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-200 hover:text-white"
+              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:text-slate-900 shadow-xs"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -159,26 +159,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden bg-[#0b0e14]/95 backdrop-blur-2xl border-b border-white/10 px-4 pt-3 pb-6 space-y-2 font-mono text-sm shadow-2xl"
+            className="md:hidden bg-white/95 backdrop-blur-2xl border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 font-mono text-sm shadow-xl"
           >
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="block px-3 py-2 rounded-lg text-slate-200 hover:text-rose-400 hover:bg-white/5 transition-colors"
+                className="block px-3 py-2 rounded-lg text-slate-700 hover:text-indigo-600 hover:bg-slate-50 transition-colors"
               >
                 › {item.label}
               </a>
             ))}
 
-            <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+            <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
               <div className="flex space-x-3">
                 <a
                   href={portfolioContent.personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-white/5 text-slate-300"
+                  className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600"
                 >
                   <Github className="w-4 h-4" />
                 </a>
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                   href={portfolioContent.personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-white/5 text-slate-300"
+                  className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600"
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
@@ -196,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                 href={portfolioContent.personal.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-rose-600/30"
+                className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-600/20"
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span>Resume (PDF)</span>
